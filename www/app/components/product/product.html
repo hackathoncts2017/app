@@ -1,12 +1,12 @@
 <div class="product-container">
-	<div class="listbox">
-		<div class ="image-box" style="background: url(https://www.w3schools.com/angular/pic_angular.jpg);background-size: 100% 100%;">
+	<div class="listbox" ng-repeat="prod in product">
+		<div class ="image-box" style="background: url({{prod.productBaseInfo.productAttributes.imageUrls['200x200']}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
 		</div>
 		<div  class="product-desc">
-			<div style="width:{{productWidth}}px" class="truncate">Nokia Lumia 800 zxcvxcvxc xcvxcv xcvxcv xcvxcvxcv cxvxc</div>
-			<div class="product-price"><i class="icon-inr"></i>&nbsp;700</div>
+			<div style="width:{{productWidth}}px" class="truncate">{{prod.productBaseInfo.productAttributes.title}}</div>
+			<div class="product-price"><i class="icon-inr"></i>&nbsp;{{prod.productBaseInfo.productAttributes.maximumRetailPrice.amount}}</div>
 			<div class="product-cnt-or-id">
-				3
+				{{$index + 1}}
 			</div>
 		</div>
 	</div>

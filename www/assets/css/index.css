@@ -103,7 +103,8 @@ md-tabs[md-align-tabs=bottom] md-tabs-wrapper{
     background: #eaeaea;
 }
 .product-container {
-    padding: 10px
+    padding: 10px;
+	margin-bottom: 56px;
 }
 .listbox .image-box{
     width: 70px;
