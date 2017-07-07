@@ -1,7 +1,9 @@
 "use strict";
 hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope) {
-    $scope.selectedIndex = 0;
-    
+    $scope.selectedIndex = 2;
+    $scope.audiocall = function() {
+		//alert("ff");
+	}
     $scope.selectCb = function(component,index) {
         $rootScope.selectedComponent = component;
         var componentName = "";
@@ -25,6 +27,7 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
     }
     $rootScope.$on("TabChange", function(controller,data){
           $scope.selectedIndex = data.tab;
+		  document.getElementById("fff").click();
     });
     $rootScope.tabChange = function(no) {
         $rootScope.$emit("TabChange", {"tab":no});        
