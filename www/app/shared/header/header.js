@@ -1,5 +1,5 @@
 "use strict";
-hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry) {
+hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope) {
 
     var ctrl = this;
 
@@ -7,7 +7,7 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
 
     this.toggle = angular.noop;
 
-    this.title = "HACKATHON";
+    $scope.title = "";
 
     this.isOpen = function() {
         return false
@@ -28,4 +28,11 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
         $mdSidenav("right").close()
             .then(function() {});
     };
+    $rootScope.$on("headedText", function(controller,data){
+           $scope.title = data.header
+    });
+
+    $scope.tabclick =function(no) {
+       $rootScope.tabChange(no);
+    }
 });

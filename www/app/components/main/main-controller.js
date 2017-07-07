@@ -1,31 +1,29 @@
 "use strict";
-hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry) {
-    $scope.selectedIndex = 1;
-    var ctrl = this;
-
-    this.auth = shared.info.auth;
-
-    this.toggle = angular.noop;
-
-    this.title = $state.current.title;
-
-    this.isOpen = function() {
-        return false
-    };
-    $mdComponentRegistry
-        .when("left")
-        .then(function(sideNav) {
-            ctrl.isOpen = angular.bind(sideNav, sideNav.isOpen);
-            ctrl.toggle = angular.bind(sideNav, sideNav.toggle);
-        });
-
-    this.toggleRight = function() {
-        $mdSidenav("left").toggle()
-            .then(function() {});
-    };
-
-    this.close = function() {
-        $mdSidenav("right").close()
-            .then(function() {});
-    };
+hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope) {
+    $scope.selectedIndex = 0;
+    
+    $scope.selectCb = function(component,index) {
+        $rootScope.selectedComponent = component;
+        var componentName = "";
+        if(index === 1){
+            componentName = "Dashboard";
+            $rootScope.$emit("headedText", {"header":componentName});
+        } else if(index === 2) {
+            componentName = "Map";
+             $rootScope.$emit("headedText", {"header":componentName});
+         } else if(index === 3) {
+            componentName = "Product";
+             $rootScope.$emit("headedText", {"header":componentName});
+         }else {
+            componentName = "Hackathon";
+             $rootScope.$emit("headedText", {"header":componentName});
+         }
+        $rootScope.speeckToUser({"text":"welcome to " + componentName})     
+    }
+    $rootScope.$on("TabChange", function(controller,data){
+          $scope.selectedIndex = data.tab;
+    });
+    $rootScope.tabChange = function(no) {
+        $rootScope.$emit("TabChange", {"tab":no});        
+    }
 });

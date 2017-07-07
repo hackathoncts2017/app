@@ -43,3 +43,11 @@ hackathon.directive('mapcomponent', function () {
         controllerAs: 'mapctrl',
     }
 });
+hackathon.directive('speech', function () {
+    return {
+        replace: true,
+        templateUrl: "app/shared/speech/speech.html",
+        controller:"SpeechController",
+        controllerAs: 'speechctrl',
+    }
+});
