@@ -7,7 +7,10 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
            console.log(data);
            $scope.searchText("lenova k6");
     });
-
+	$rootScope.$on("resetProduct", function(controller,data){
+           $scope.product = [];
+           $scope.onStart = true;
+    });
     $scope.searchText = function(text){
     	$scope.productName = text;
 		$scope.onStart = false;

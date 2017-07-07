@@ -176,5 +176,22 @@ md-tabs[md-align-tabs=bottom] md-tabs-wrapper{
         margin-top: 3px;
 }
 .dashboard-home{
-    
+    height: 160px;
+    background: url(../img/background.jpg);
+}
+.dashboard-box{
+    height: 100px;
+}
+.date-time
+{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 21px;
+    color: white;
+}
+.date-container {
+        display: table;
+    width: 100%;
+    height: 100%;
 }

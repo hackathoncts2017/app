@@ -20,7 +20,8 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
          }
         if($rootScope.speeckToUser){
              $rootScope.speeckToUser({"text":"welcome to " + componentName})  
-        }  
+        } 
+        $rootScope.$emit("resetProduct", {});    
     }
     $rootScope.$on("TabChange", function(controller,data){
           $scope.selectedIndex = data.tab;
