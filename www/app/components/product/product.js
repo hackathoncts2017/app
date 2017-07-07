@@ -3,10 +3,20 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	$scope.product = [];	
 	//console.log(asyn);
 	$scope.onStart = true;
-	$rootScope.$on("ProductSpeech", function(controller,data){
-           console.log(data);
-           $scope.searchText("lenova k6");
+	$rootScope.$on("ProductSpeech", function(controller,data){           
+		   $scope.audioSplit(data.text);
     });
+	$scope.audioSplit = function(audiotext) {
+		if(audiotext.indexOf("search") > -1){
+			audiotext = audiotext.split("search");
+			if(audiotext.length > 1 && audiotext[1] != "") {
+				audiotext = audiotext[1];
+				$scope.searchText(audiotext);
+			} else {
+				$rootScope.speeckToUser({"text":"please search some product"})
+			}
+		}
+	}
 	$rootScope.$on("resetProduct", function(controller,data){
            $scope.product = [];
            $scope.onStart = true;
@@ -17,7 +27,12 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     	$scope.isLoading = true;
     	ProductService.getProduct({"product": text ,"limit": 10}).then(function(res){
 			$scope.isLoading = false;
-			$scope.product = res.data;
+			if(!res.error) {				
+				$scope.isLoading = false;
+				$scope.product = res.data;
+			} else {
+				$scope.product = [];
+			}
 		}); 
 	}
 

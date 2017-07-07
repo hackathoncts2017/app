@@ -6,11 +6,15 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		$scope.speechReg();
 	}
 
-	$scope.callcomponent = function(){
+	$scope.callcomponent = function(audiotext){
 		//console.log($rootScope.selectedComponent)
-		$rootScope.$emit($rootScope.selectedComponent, {"text":"Hi"});
+		$rootScope.$emit($rootScope.selectedComponent, {"text":audiotext});
 	}
-	
+	$scope.navigatePage ={
+		"dashboard":0,
+		"map":1,
+		"product":2
+	}
 	$rootScope.speeckToUser = function(data) {
 		if(typeof TTS != "undefined") {
 			TTS.speak(data.text, function () {
@@ -52,8 +56,30 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 			}
 			$scope.successCb = function(data) {
 				var result= data[0];
-				$rootScope.speeckToUser({"text":result})
+				result = result.toLowerCase();
+				$scope.splitText(result);
 				
+				//$rootScope.speeckToUser({"text":result})
+				
+			}
+			$scope.splitText = function(audioTxt) {
+				if(audioTxt.indexOf("navigate") > -1) {
+					var navigateKeys = Object.keys($scope.navigatePage);
+					var navIndex = null;
+					for(var nav = 0 ;nav < navigateKeys.length;nav++) {
+						if(audioTxt.indexOf(navigateKeys[nav]) > -1){
+							navIndex = $scope.navigatePage[navigateKeys[nav]]
+							break;
+						}
+					}
+					if(navIndex != null) {
+						$rootScope.tabChange(navIndex);
+					} else {
+						$rootScope.speeckToUser({"text":"please check your page name"})
+					}
+				} else {
+					$scope.callcomponent(audioTxt);
+				}					
 			}
 			$scope.makePermission = function() {
 				$scope.speechRecognition.requestPermission(function(){
