@@ -1,12 +1,21 @@
 hackathon.controller("ProductController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,ProductService,$rootScope) {
 	$scope.productWidth = screen.width - (167);
-	$scope.product = [];
+	$scope.product = [];	
 	//console.log(asyn);
-	ProductService.getProduct({"product": "lenova k6","limit": 10}).then(function(res){
-		$scope.product = res.data;
-	});
+	$scope.onStart = true;
 	$rootScope.$on("ProductSpeech", function(controller,data){
-           console.log(data)
+           console.log(data);
+           $scope.searchText("lenova k6");
     });
-	
+
+    $scope.searchText = function(text){
+    	$scope.productName = text;
+		$scope.onStart = false;
+    	$scope.isLoading = true;
+    	ProductService.getProduct({"product": text ,"limit": 10}).then(function(res){
+			$scope.isLoading = false;
+			$scope.product = res.data;
+		}); 
+	}
+
 })

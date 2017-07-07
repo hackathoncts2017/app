@@ -9,7 +9,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 	}
 
 	$rootScope.speeckToUser = function(data) {
-		if(TTS) {
+		if(typeof TTS != "undefined") {
 			TTS.speak(data.text, function () {
 	           // alert('success');
 	        }, function (reason) {

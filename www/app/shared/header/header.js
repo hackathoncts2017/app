@@ -34,5 +34,6 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
 
     $scope.tabclick =function(no) {
        $rootScope.tabChange(no);
+       $mdSidenav("left").toggle()
     }
 });

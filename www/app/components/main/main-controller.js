@@ -18,7 +18,9 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
             componentName = "Hackathon";
              $rootScope.$emit("headedText", {"header":componentName});
          }
-        $rootScope.speeckToUser({"text":"welcome to " + componentName})     
+        if($rootScope.speeckToUser){
+             $rootScope.speeckToUser({"text":"welcome to " + componentName})  
+        }  
     }
     $rootScope.$on("TabChange", function(controller,data){
           $scope.selectedIndex = data.tab;

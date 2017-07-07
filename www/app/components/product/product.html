@@ -1,14 +1,32 @@
-<div class="product-container">
-	<div class="listbox" ng-repeat="prod in product">
-		<div class ="image-box" style="background: url({{prod.productBaseInfo.productAttributes.imageUrls['200x200']}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
-		</div>
-		<div  class="product-desc">
-			<div style="width:{{productWidth}}px" class="truncate">{{prod.productBaseInfo.productAttributes.title}}</div>
-			<div class="product-price"><i class="icon-inr"></i>&nbsp;{{prod.productBaseInfo.productAttributes.maximumRetailPrice.amount}}</div>
-			<div class="product-cnt-or-id">
-				{{$index + 1}}
+<div>
+	<div class="product-container" ng-if="!onStart && product.length > 0">
+		<div ng-if="product.length > 0">
+			<div ng-if="!isLoading" class="listbox" ng-repeat="prod in product">
+				<div class ="image-box" style="background: url({{prod.productBaseInfo.productAttributes.imageUrls['200x200']}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
+				</div>
+				<div  class="product-desc">
+					<div style="width:{{productWidth}}px" class="truncate">{{prod.productBaseInfo.productAttributes.title}}</div>
+					<div class="product-price"><i class="icon-inr"></i>&nbsp;{{prod.productBaseInfo.productAttributes.maximumRetailPrice.amount}}</div>
+					<div class="product-cnt-or-id">
+						{{$index + 1}}
+					</div>
+				</div>
 			</div>
-		</div>
+		</div>		
 	</div>
-
+	<div class="flexbox-parent" ng-if="onStart">
+		  <div layout="row" layout-align="center center"  style="min-height: 500px">
+		        <p style="font-size: 30px;">Press <i class="icon-microphone"> </i> to search for a product</p>
+		  </div>
+	</div>
+	<div class="flexbox-parent"  ng-if="!isLoading && product.length == 0">
+		<div layout="row" layout-align="center center"  style="min-height: 500px">
+		        <p style="font-size: 22px;text-align: center;">No product(s) available for {{productName}}</p>
+		 </div>
+	</div>
+	<div class="flexbox-parent" ng-if="isLoading">
+		  <div layout="row" layout-align="center center"  style="min-height: 500px">
+		  <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+		  </div>
+	</div>	
 </div>
