@@ -35,11 +35,11 @@ hackathon.directive('product', function () {
     }
 });
 
-hackathon.directive('map', function () {
+hackathon.directive('mapcomponent', function () {
     return {
         replace: true,
         templateUrl: "app/components/map/maps.html",
         controller: 'MapController',
-        controllerAs: 'map',
+        controllerAs: 'mapctrl',
     }
 });
