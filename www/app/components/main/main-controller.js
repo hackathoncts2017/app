@@ -21,7 +21,7 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
              $rootScope.$emit("headedText", {"header":componentName});
          }
         if($rootScope.speeckToUser){
-             $rootScope.speeckToUser({"text":"welcome to " + componentName})  
+            // $rootScope.speeckToUser({"text":"welcome to " + componentName})  
         } 
         $rootScope.$emit("resetProduct", {});    
     }
