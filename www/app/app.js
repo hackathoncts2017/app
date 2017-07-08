@@ -7,7 +7,15 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
     $cordovaStatusbar.styleHex('#E53935'); // Status Bar With Red Color, Using Angular-Material Style
     //window.plugins.orientationLock.lock("portrait");
 	if(typeof device != "undefined") {
-		localStorage.deviceDetails = JSON.stringify(device);
+		localStorage.deviceDetails = JSON.stringify(device);		
+		cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
+			console.log("Location is " + (enabled ? "enabled" : "disabled"));
+			if(!enabled){
+				cordova.plugins.diagnostic.switchToLocationSettings();
+			}
+		 }, function(error){
+			console.error("The following error occurred: "+error);
+		});
 	}
   }, false);
   /* Hijack Android Back Button (You Can Set Different Functions for Each View by Checking the $state.current)
