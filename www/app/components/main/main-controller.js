@@ -4,6 +4,14 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
     $scope.audiocall = function() {
 		//alert("ff");
 	}
+	cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
+		console.log("Location is " + (enabled ? "enabled" : "disabled"));
+		if(!enabled){
+			cordova.plugins.diagnostic.switchToLocationSettings();
+		}
+     }, function(error){
+		console.error("The following error occurred: "+error);
+	});
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
 		mainService.deviceDetails(deviceDetails).then(function(res) {
