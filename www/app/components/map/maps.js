@@ -1,5 +1,8 @@
 hackathon.controller("MapController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,NgMap,$rootScope) {
-	NgMap.getMap().then(function(map) {
+	$scope.locations = ["CTS CKC","Thiruvanmiyur","Nungambakam"];
+    NgMap.getMap().then(function(map) {
+
+        
 		$rootScope.mapDirections = map.directionsRenderers[0];
 	  });
 
@@ -10,9 +13,9 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     	if(data.header == "Map") {
             console.log("inside map");
     		if($rootScope.speeckToUser){
-                console.log("inside speech");
-                 $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.mapDirections.directions.routes[0].legs[0].distance.text + 
-                 	" and total time takes is " + $rootScope.mapDirections.directions.routes[0].legs[0].duration.text})  
+                console.log("inside speech", $rootScope.mapDirections);
+                // $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.mapDirections.directions.routes[0].legs[0].distance.text + 
+                 //	" and total time takes is " + $rootScope.mapDirections.directions.routes[0].legs[0].duration.text})  
             }
     	}
 		console.log(data);
