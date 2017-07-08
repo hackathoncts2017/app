@@ -1,8 +1,16 @@
 "use strict";
-hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope) {
+hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope,mainService) {
     $scope.selectedIndex = 2;
     $scope.audiocall = function() {
 		//alert("ff");
+	}
+	if(localStorage.deviceDetails) {
+		var deviceDetails =JSON.parse(localStorage.deviceDetails);
+		mainService.deviceDetails(deviceDetails).then(function(res) {
+			if(!res.error) {
+				localStorage.userDetails = JSON.stringify(res.data[0]);
+			}
+		});
 	}
     $scope.selectCb = function(component,index) {
         $rootScope.selectedComponent = component;
