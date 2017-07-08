@@ -7,8 +7,8 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		   $scope.audioSplit(data.text);
     });
 	$scope.audioSplit = function(audiotext) {
-		if(audiotext.indexOf("search") > -1){
-			audiotext = audiotext.split("search");
+		if(audiotext.indexOf("search for") > -1){
+			audiotext = audiotext.split("search for");
 			if(audiotext.length > 1 && audiotext[1] != "") {
 				audiotext = audiotext[1];
 				$scope.searchText(audiotext);
