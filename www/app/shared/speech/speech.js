@@ -16,6 +16,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		"product":2
 	}
 	$rootScope.speeckToUser = function(data) {
+		console.log("inside speak to");
 		if(typeof TTS != "undefined") {
 			TTS.speak(data.text, function () {
 	           // alert('success');
