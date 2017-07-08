@@ -3,11 +3,16 @@
 	  <ng-map center="current-location" style="height: 550px">
 		  <div ng-if="locations.length > 0">
 		  	<div ng-repeat="loc in locations">
-			  	<directions
+		  		<div ng-if="indexVal == $index">
+		  			<directions
 		          travel-mode="DRIVING"
 		          origin="current-location"
 		          destination={{loc}}>
 		          </directions>
+		  		</div>
+		  		<div ng-if="indexVal != $index">
+		  			<marker position={{loc}}></marker>
+		  		</div>
 		      </div>
 			</div>
 		</ng-map>
