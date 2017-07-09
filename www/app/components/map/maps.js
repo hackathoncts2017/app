@@ -1,5 +1,28 @@
-hackathon.controller("MapController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,NgMap,$rootScope,$http) {
-	$scope.locations = ["CTS CKC","Thiruvanmiyur","Nungambakam"];
+hackathon.controller("MapController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,NgMap,$rootScope,$http,MapService) {
+	$scope.locations = [];
+    NgMap.getMap().then(function(map) {
+        $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
+        $rootScope.mapDetails = map; 
+        MapService.setMyLocation($rootScope.myLoc,function(data) {
+            console.log(data);
+        });
+        MapService.getJob().then(function(res){
+               console.log(res);
+               for(var i = 0; i<res.data.length;i++) {
+                $scope.locations.push(res.data[i].Location);
+               }
+              // document.getElementById("fff").click();
+               console.log($scope.locations);
+               setTimeout(function(){
+                        //$rootScope.myLoc = $rootScope.mapDetails.center.lat() + ',' + $rootScope.mapDetails.center.lng();
+                        $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+                        console.log("My loc", $rootScope.myLoc);
+               },2000);
+               
+        }); 
+    });
+    
     $rootScope.$on("MapSpeech", function(controller,data){           
            $scope.mapAudioSplit(data.text);
     });
@@ -10,7 +33,12 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             if(audiotext.length > 1 && audiotext[1] != "") {
                 audiotext = audiotext[1].trim();
                 $scope.indexVal = +audiotext - 1;
-                $scope.searchMapText(+audiotext);
+                document.getElementById("fff").click();
+                //$rootScope.$emit("locChange", {"indexVal":+audiotext - 1});  
+                setTimeout(function(){
+                    $scope.searchMapText(+audiotext);
+                },1000);
+                
             } else {
                 $rootScope.speeckToUser({"text":"Location not available"})
             }
@@ -19,7 +47,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             if(audiotext.length > 1 && audiotext[1] != "") {
                 audiotext = audiotext[1].trim();
                 $scope.indexVal = +audiotext - 1;
-                $scope.searchRouteText(+audiotext);
+                document.getElementById("fff").click();
+                setTimeout(function(){
+                    $scope.searchRouteText(+audiotext);
+                },1000);
             } else {
                 $rootScope.speeckToUser({"text":"directions not available"})
             }
@@ -28,15 +59,11 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             $rootScope.speeckToUser({"text":"Audio text"})
         }
     }
-    NgMap.getMap().then(function(map) {
-    	$rootScope.mapDirections = map.directionsRenderers[0];
-        $rootScope.allDirections = map.directionsRenderers;
-        console.log("All directions", map.directionsRenderers);
-      });
+    
     $scope.searchRouteText = function(text) {
         var matchIndex = 1000;
         if(!isNaN(text)) {
-            matchIndex = text - 1;
+            matchIndex = +Object.keys($rootScope.allDirections)[0];
         }
         if($rootScope.allDirections[matchIndex]) {
             var directions = $rootScope.allDirections[matchIndex].directions.routes[0].legs[0].steps,
@@ -53,7 +80,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $scope.searchMapText = function(text) {
         var matchIndex = 1000;
         if(!isNaN(text)) {
-            matchIndex = text - 1;
+            matchIndex = +Object.keys($rootScope.allDirections)[0];
         }
         if($rootScope.allDirections[matchIndex]) {
             $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[matchIndex].directions.routes[0].legs[0].distance.text + 
@@ -61,44 +88,14 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         } else {
             $rootScope.speeckToUser({"text":"Chosen destination is not available"});
         }
-        
     }
     $rootScope.$on("headedText", function(controller,data){
     	if(data.header == "Map") {
-  //           var dummyText = {
-  //             "productId": "1",
-  //             "productName": "test",
-  //             "productUrl": "test",
-  //             "productCount": 1,
-  //             "orderBy": "me",
-  //             "orderFor": "tu",
-  //             "Location": "123"
-  //           };
-  //           $http({
-  //               method: 'POST',
-  //               url: "https://hackathoncts.herokuapp.com/product/save",
-  //               data: JSON.stringify({
-  //                 "productId": "1",
-  //                 "productName": "test",
-  //                 "productUrl": "test",
-  //                 "productCount": 1,
-  //                 "orderBy": "me",
-  //                 "orderFor": "tu",
-  //                 "Location": "123"
-  //               }),
-  //               headers: {'Content-Type': 'application/json'}
-  //           }).then(function successCallback(response) {
-  //   console.log("success ", reponse);
-  // }, function errorCallback(response) {
-  //     console.log("failure ", reponse);
-  // });
     		if($rootScope.speeckToUser){
-                console.log("inside speech", $rootScope.mapDirections);
-                 $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.mapDirections.directions.routes[0].legs[0].distance.text + 
-                 	" and total time to reach is " + $rootScope.mapDirections.directions.routes[0].legs[0].duration.text})  
+                console.log("inside speech", $rootScope.allDirections[0]);
+                 $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[0].directions.routes[0].legs[0].distance.text + 
+                 	" and total time to reach is " + $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text})  
             }
     	}
    });
-    //$rootScope.$emit("headedText", {"header":"Map"});
-
 })
