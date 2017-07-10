@@ -45,7 +45,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		  "productUrl": selPro.productBaseInfo.productAttributes.productUrl,
 		  "productCount": Number($scope.productCnt),
 		  "orderBy": JSON.parse(localStorage.userDetails).id.toString(),
-		  "orderFor": "USER_NAME",
+		  "orderFor": "" + $rootScope.jobId,
 		  "Location": "LOCATION"
 		};
 		ProductService.saveProduct(productDesc,function() {

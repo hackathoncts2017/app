@@ -11,6 +11,18 @@ hackathon.service('MapService', function($http){
 		return {error:true};
 	  });
    }
+   this.sendSMS = function(data,cb) {   
+	  $http({
+			method: 'POST',
+			url: 'https://hackathoncts.herokuapp.com/SMS',
+			data: JSON.stringify(request),
+			headers: {'Content-Type': 'application/json'}
+		}).success(function(res){
+			cb(res.data);
+		}, function(res){
+		   cb(true);
+		});
+   }
    this.setMyLocation = function(data,cb) {
 	   	var userDetails = JSON.parse(localStorage.userDetails),
 	   		request = {
@@ -47,17 +59,17 @@ hackathon.service('MapService', function($http){
 		});
    }
    this.getUserLocation = function(data,cb) {
-		 $http({
-			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/product/save',
-			data: JSON.stringify(data),
-			headers: {'Content-Type': 'application/json'}
-	      }).success(function(res){
-			  console.log("dd",res)
-				cb(res.data)
-		  }, function(res){
-			  console.log("dd")
-			   cb(true);
-		  });
+		$http({
+		method: 'POST',
+		url: 'https://hackathoncts.herokuapp.com/product/save',
+		data: JSON.stringify(data),
+		headers: {'Content-Type': 'application/json'}
+		}).success(function(res){
+		  console.log("dd",res)
+			cb(res.data)
+		}, function(res){
+		  console.log("dd")
+		   cb(true);
+		});
    }
 });
