@@ -22,4 +22,14 @@ hackathon.service('ProductService', function($http){
 			   cb(true);
 		  });
    }
+   this.getAdminProduct = function(cb) {
+		 $http({
+			method: 'GET',
+			url: 'http://hackathoncts.herokuapp.com/product/admin'
+	      }).success(function(res){
+				cb(null,res.data)
+		  }, function(res){
+			   cb(true);
+		  });
+   }
 });

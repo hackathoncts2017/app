@@ -18,6 +18,8 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
 		});
 	}
   }, false);
+
+  localStorage.deviceDetails = JSON.stringify({uuid:2});    
   /* Hijack Android Back Button (You Can Set Different Functions for Each View by Checking the $state.current)
   document.addEventListener("backbutton", function (e) {
       if($state.is('init')){
