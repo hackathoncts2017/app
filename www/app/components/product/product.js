@@ -20,11 +20,11 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     		$scope.isAdminLoad = false;
     	})
     }
-    $scope.productPopURL = "";
+    //$scope.productPopURL = "";
     $scope.showPopUp = false;
     $scope.productShow =function(url){
     	document.getElementById("product-frame").src = url;
-    	$scope.productPopURL = url;
+    	//$scope.productPopURL = url;
     	$scope.showPopUp = true;
     }
     $scope.closePopup =function() {
