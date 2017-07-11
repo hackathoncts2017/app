@@ -10,6 +10,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.isLoading = true;
     $scope.pendingjobs =[];
      $scope.completedjobs =[];
+	 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change", "weather"];
