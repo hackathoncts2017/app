@@ -21,31 +21,34 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         "ten" : 10
     };
     $scope.indexVal = 0;
-    NgMap.getMap().then(function(map) {
-        $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
-        $rootScope.mapDetails = map; 
-        MapService.setMyLocation($rootScope.myLoc,function(data) {
-            console.log(data);
-        });
-        MapService.getJob().then(function(res){
-            console.log(res);
-            var indexValue = 0;
-            for(var i = 0; i<res.data.length;i++) {
-                if(res.data[i].status == "I") {
-                    indexValue += 1; 
-                    $scope.locations.push(res.data[i].Location);
-                    $scope.jobIdMapping[indexValue] = res.data[i].id;
-                    $scope.jobMapping[indexValue] = res.data[i];
+    $rootScope.loadMap = function() {
+       NgMap.getMap().then(function(map) {
+            $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
+            $rootScope.mapDetails = map; 
+            MapService.setMyLocation($rootScope.myLoc,function(data) {
+                console.log(data);
+            });
+            MapService.getJob().then(function(res){
+                console.log(res);
+                var indexValue = 0;
+                for(var i = 0; i<res.data.length;i++) {
+                    if(res.data[i].status == "I") {
+                        indexValue += 1; 
+                        $scope.locations.push(res.data[i].Location);
+                        $scope.jobIdMapping[indexValue] = res.data[i].id;
+                        $scope.jobMapping[indexValue] = res.data[i];
+                    }
                 }
-            }
-            console.log($scope.locations);
-            setTimeout(function(){
-                $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
-                console.log("All directions", $rootScope.mapDetails.directionsRenderers);
-                console.log("My loc", $rootScope.myLoc);
-            },2000);
+                console.log($scope.locations);
+                setTimeout(function(){
+                    $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                    console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+                    console.log("My loc", $rootScope.myLoc);
+                },2000);
+            }); 
         }); 
-    });
+    }
+    
     
     $rootScope.$on("MapSpeech", function(controller,data){           
            $scope.mapAudioSplit(data.text);
@@ -251,7 +254,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         }
     }
     $rootScope.$on("headedText", function(controller,data){
-    	if(data.header == "Map") {
+    	if(data.header == "Map1") {
     		if($rootScope.speeckToUser &&  $rootScope.allDirections[0] &&  $rootScope.allDirections[0].directions){
                 console.log("inside speech", $rootScope.allDirections[0]);
                  $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[0].directions.routes[0].legs[0].distance.text + 

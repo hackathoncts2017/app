@@ -8,6 +8,7 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
 		mainService.deviceDetails(deviceDetails).then(function(res) {
 			if(!res.error) {
+                console.log("resposnes",res);
 				localStorage.userDetails = JSON.stringify(res.data[0]);
 			}
 		});

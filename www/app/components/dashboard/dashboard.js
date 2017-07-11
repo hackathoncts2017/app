@@ -1,6 +1,5 @@
 hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
-        console.log(data);
         $scope.dashboardAudio(data.text);
     });
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
@@ -62,7 +61,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.getDetails = function() {
         $scope.userdetails = null;
         DashboardService.getDetails().then(function(res) {
-            console.log(res);
             $scope.isLoading = false;
             if (!res.error && res.data.data.length > 0) {
                 $scope.userdetails = res.data.data[0];
@@ -87,7 +85,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
       DashboardService.getJob().then(function(res){
                     //debugger;              
                     for(var i = 0; i<res.data.length;i++) {
-                       console.log(res.data[i]);
                         if(res.data[i].status == "I") {
                             $scope.pendingjobs.push(res.data[i]);                            
                         }
@@ -95,14 +92,11 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                          $scope.completedjobs.push(res.data[i]);
                         }
                     }
-                    console.log(" $scope.pendingjobs", $scope.pendingjobs);
-                    console.log(" $scope.completedjobs", $scope.completedjobs);
-                   
+                       $rootScope.loadMap();
                 });
     }
     $scope.locationMap = function() {
         NgMap.getMap().then(function(map) {
-            console.log(map)
         });
     }
     $scope.weatherReports = function() {
@@ -110,7 +104,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             "lon": "13",
             "lat": "80"
         }).then(function(res) {
-            console.log("weather", res);
             if (!res.error) {
                 $scope.Weatherdata = res.data.data;
                 $scope.WeatherIcon = "http://openweathermap.org/img/w/" + $scope.Weatherdata.weather.weather[0].icon + ".png";
