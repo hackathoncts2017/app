@@ -43,6 +43,15 @@ hackathon.directive('mapcomponent', function () {
         controllerAs: 'mapctrl',
     }
 });
+
+hackathon.directive('searchcomponent', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/search/search.html",
+        controller: 'searchController',
+        controllerAs: 'searchctrl',
+    }
+});
 hackathon.directive('speech', function () {
     return {
         replace: true,

@@ -1,6 +1,6 @@
 "use strict";
 hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope,mainService) {
-    $scope.selectedIndex = 2;
+    $scope.selectedIndex = 3;
     $scope.audiocall = function() {
 		//alert("ff");
 	}
@@ -24,7 +24,10 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
          } else if(index === 3) {
             componentName = "Product";
              $rootScope.$emit("headedText", {"header":componentName});
-         }else {
+         } else if(index === 4) {
+            componentName = "Search";
+             $rootScope.$emit("headedText", {"header":componentName});
+         } else {
             componentName = "Hackathon";
              $rootScope.$emit("headedText", {"header":componentName});
          }

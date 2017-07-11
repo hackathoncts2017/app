@@ -224,3 +224,12 @@ highchart {
     margin-bottom: 5px;
     color: white;
 }
+.title-youtube{
+        padding: 5px;
+    font-size: 17px;
+    font-weight: bold;
+}
+.desc-youtube{
+        padding: 5px;
+    font-size: 14px;
+}
