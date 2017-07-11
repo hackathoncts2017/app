@@ -17,7 +17,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if (audiotext.indexOf(keyWords[0]) > -1) {
             audiotext = audiotext.split(keyWords[0]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[0];
+                audiotext = audiotext[1].trim();
                 if(audiotext == 'bar'){
                   audiotext = 'column'
                 }
@@ -141,7 +141,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $scope.charttype = $rootScope.chartType;
         }
         if (type == 'daily') {
-            $scope.dchartConfig = {
+            window.dchartConfig = $scope.dchartConfig = {
                 chart: {
                     type: $scope.charttype
                 },
