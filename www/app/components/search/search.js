@@ -6,7 +6,7 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
     $scope.audioSplitQuestionSpeech = function(audiotext) {
     	var keyWords = ["search for"]
 		if(audiotext.indexOf(keyWords[0]) > -1) {
-			audiotext = audiotext.split(keyWords[2]);
+			audiotext = audiotext.split(keyWords[0]);
 			audiotext = audiotext[1].trim();
 			$scope.callSearch(audiotext);
 		} else {
@@ -14,7 +14,7 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
 		}
     }
     setTimeout(function() {
-    	$scope.callSearch();
+    	//$scope.callSearch();
     },100);
 
     $scope.urlData =function() {
