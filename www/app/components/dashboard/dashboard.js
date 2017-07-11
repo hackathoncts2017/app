@@ -31,7 +31,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         } else if (audiotext.indexOf(keyWords[1]) > -1) {
             audiotext = audiotext.split(keyWords[1]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[0];
+                audiotext = audiotext[1].trim();
                 $rootScope.chartType = audiotext;
                 var chartStatus;
                 if (!$rootScope.chartStatus) {
@@ -45,20 +45,23 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     "text": "Invalid Status"
                 });
             }
-        }
-        if (audiotext.indexOf(keyWords[2]) > -1) {
+        } else  if (audiotext.indexOf(keyWords[2]) > -1) {
             audiotext = audiotext.split(keyWords[2]);
-            if (audiotext.length > 1 && audiotext[1] != "") {
+            //if (audiotext.length > 1 && audiotext[1] != "") {
                 $rootScope.speeckToUser({
                     "text": "Description" + $scope.Weatherdata.weather.weather[0].description + "and" + "Humidity" + $scope.Weatherdata.weather.main.humidity + "and" + "Temperature" + $scope.Weatherdata.weather.main.temp
                 });
-                $scope.chartReports(audiotext);
-            } else {
+                //$scope.chartReports(audiotext);
+            //} else {
+                //$rootScope.speeckToUser({
+                 //   "text": "Invalid Command"
+                //})
+            //}
+        } else {
                 $rootScope.speeckToUser({
-                    "text": "Invalid Command"
-                })
+                    "text": "Please check your keyword"
+                });
             }
-        }
     };
     $scope.getDetails = function() {
         $scope.userdetails = null;
