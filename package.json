@@ -34,7 +34,6 @@
             "cordova-plugin-splashscreen": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-device": {},
-            "Geolocation": {},
             "cordova-plugin-geolocation": {},
             "cordova.plugins.diagnostic.api-22": {}
         },
