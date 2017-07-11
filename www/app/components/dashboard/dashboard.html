@@ -1,60 +1,73 @@
 <div ng-init="getDetails()" ng-controller="DashboardController">
-<div  ng-if="!isLoading">
-	<div    class="dashboard-home" style="position:relative;height:120px;">
-	<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;">
-          <img ng-src="assets/img/{{userdetails.image}}.jpg" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" alt="{{userdetails.engineerName}}" />
-          <div class="md-list-item-text">
-            <h3 style="color:#fff;font-size:16px;">{{userdetails.engineerName}}</h3>
-            <p style="color:#fff;font-size:16px;">{{userdetails.designation}}</p>
-            <p style="color:#fff;font-size:16px;">{{userdetails.rating}} <img src="assets/img/star.png" style="height:16px;width:16px;top: 2px;position: relative;"/></p>
-          </div>
-        </md-list-item>
-	</div>
-	<div  layout="row" class="dashboard-box" style="height:80px;">
-			<!--<div flex="30" class="dashboard-tile" style="background: #8b5820;">
-					<div class="date-container">
-						<div class="date-time">19 <br/> Monday</div>
-					</div>
-			</div>-->
+	<div  ng-if="!isLoading">
+		<div class="dashboard-home" style="position:relative;height:120px;">
+			<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;">
+				<img ng-src="assets/img/{{userdetails.image}}.jpg" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" alt="{{userdetails.engineerName}}" />
+				<div class="md-list-item-text">
+					<h3 style="color:#fff;font-size:16px;">{{userdetails.engineerName}}</h3>
+					<p style="color:#fff;font-size:16px;">{{userdetails.designation}}</p>
+					<p style="color:#fff;font-size:16px;">{{userdetails.rating}} 
+						
+						
+						<img src="assets/img/star.png" style="height:16px;width:16px;top: 2px;position: relative;"/>
+					</p>
+				</div>
+			</md-list-item>
+		</div>
+		<div layout="row" ng-init="getjob()" class="dashboard-box" style="height:80px;">
+			<!--<div flex="30" class="dashboard-tile" style="background: #8b5820;"><div class="date-container"><div class="date-time">19 <br/> Monday</div></div></div>-->
 			<div flex="40" class="dashboard-tile"  ng-init="weatherReports()" style="background: #e4b237;">
-			<div class="date-container">
-			<div class="date-time" style="text-align:center;font-size:16px;position: relative;">
-			
-				<img src="{{WeatherIcon}}" style="height:50px;width:50px;"/>
-				</br>
-				<span style="cursor: pointer;position: relative;bottom: 16px;margin: 0 auto;" ng-if="Weatherdata" ng-click="showAlert($event)">Weather</span>
-				
-			</div>
-			</div>
-			</div>
-			<div flex="40" class="dashboard-tile" style="background: #f6a500;">
 				<div class="date-container">
-						<div class="date-time" style="font-size:16px;">Current call <br/>15:33:45</div>
+					<div class="date-time" style="text-align:center;font-size:16px;position: relative;">
+						<img src="{{WeatherIcon}}" style="height:50px;width:50px;position: relative;top: 3px;"/>
+						<br/>
+						<span style="cursor: pointer;position: relative;bottom: 16px;margin: 0 auto;" ng-if="Weatherdata" ng-click="showAlert($event)">Weather</span>
+					</div>
+				</div>
+			</div>
+				<div flex="40" class="dashboard-tile" style="background: #f6a500;">
+				<div class="date-container">
+						<div class="date-time" style="font-size:16px;"><span style="font-size:25px;">{{pendingjobs.length}}</span> <br/><span style="position: relative;bottom: 0px;margin: 0 auto;">Pending</span></div>
 				</div>
 			</div>
 			<div flex="40" class="dashboard-tile" style="background: #c43a35;">
 				<div class="date-container">
 						<div class="date-time" style="font-size:16px;">
-								Next call <br/>15 KM <br/>
-								03:45 PM
+								<span style="font-size:24px;">{{completedjobs.length}}</span> <br/><span style="position: relative;bottom: 0px;margin: 0 auto;">Completed</span>
 						</div>
 				</div>
 			</div>
+		</div>
+		<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '0'">
+			<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
+			<highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
+			<highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>
+			<highchart id="chart3" config="mchartConfig" ng-if="monthlychart" style="height:{{chartHeight}}px;"></highchart>
+			<highchart id="chart4" config="ychartConfig" ng-if="yearlychart" style="height:{{chartHeight}}px;"></highchart>
+		</md-card>
+		<md-card>
+			<div style="padding: 10px;">
+				<div>
+					<div style="text-align: center;width: 100%;margin-top: 18px;">
+						<flip-clock countdown="true" clockFace="HourCounter" time="2017-07-11T15:44:43.000Z" ></flip-clock>
+					</div>
+				</div>
+			</div>
+		</md-card>
+		<md-card class="md-padding" layout-xs="column" layout="row">
+		    <div flex-xs flex-gt-xs="50" layout="column">
+		     	<div style="height: 120px;background: red">
+		     	</div>
+				<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
+			     	<div style="text-align: left;margin-bottom: 9px;">Raja - 8903639221</div> 
+			     	<div style="text-align: left;">Velacherry</div> 
+		     	</div>
+		     </div>
+		</md-card>
+		<div class="flexbox-parent" ng-if="isLoading">
+			<div layout="row" layout-align="center center"  style="min-height: 500px">
+				<md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+			</div>
+		</div>
 	</div>
-	 <md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'">
-        
-        
-        <!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
-        <highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
-         <highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>
-          <highchart id="chart3" config="mchartConfig" ng-if="monthlychart" style="height:{{chartHeight}}px;"></highchart>
-           <highchart id="chart4" config="ychartConfig" ng-if="yearlychart" style="height:{{chartHeight}}px;"></highchart>
-      </md-card>
-	</div>
-	<div class="flexbox-parent" ng-if="isLoading">
-		  <div layout="row" layout-align="center center"  style="min-height: 500px">
-		  <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
-		  </div>
-	</div>	
-	
 </div>

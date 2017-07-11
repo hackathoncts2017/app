@@ -8,24 +8,29 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.chartHeight = h - 310;
     $scope.Weatherdata = null;
     $scope.isLoading = true;
+    $scope.pendingjobs =[];
+     $scope.completedjobs =[];
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change", "weather"];
         if (audiotext.indexOf(keyWords[0]) > -1) {
             audiotext = audiotext.split(keyWords[0]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[1];
+                audiotext = audiotext[0];
+                if(audiotext == 'bar'){
+                  audiotext = 'column'
+                }
                 $rootScope.chartStatus = audiotext;
                 $scope.chartReports(audiotext);
             } else {
                 $rootScope.speeckToUser({
-                    "text": "Invalid Command"
+                    "text": "Invalid chart type"
                 })
             }
         } else if (audiotext.indexOf(keyWords[1]) > -1) {
             audiotext = audiotext.split(keyWords[1]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[1];
+                audiotext = audiotext[0];
                 $rootScope.chartType = audiotext;
                 var chartStatus;
                 if (!$rootScope.chartStatus) {
@@ -36,7 +41,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $scope.chartReports(chartStatus);
             } else {
                 $rootScope.speeckToUser({
-                    "text": "Invalid Command"
+                    "text": "Invalid Status"
                 });
             }
         }
@@ -76,6 +81,29 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
         });
     };
+   
+     $scope.getjob = function() {
+     
+
+      DashboardService.getJob().then(function(res){
+                   
+                    for(var i = 0; i<res.data.length;i++) {
+                       console.log(res.data[i]);
+                        if(res.data[i].status == "I") {
+                            $scope.pendingjobs.push(res.data[i]);
+                            
+                        }
+                        else if(res.data[i].status == "C"){
+                         $scope.completedjobs.push(res.data[i]);
+
+                        }
+                    }
+                    console.log(" $scope.pendingjobs", $scope.pendingjobs);
+                    console.log(" $scope.completedjobs", $scope.completedjobs);
+                   
+                });
+    }
+
     $scope.weatherReports = function() {
         DashboardService.getWeather({
             "lon": "13",

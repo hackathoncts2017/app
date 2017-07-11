@@ -19,6 +19,16 @@ hackathon.service('DashboardService', function($http){
 	  });
    }
 
+   this.getJob = function(data) {   
+	  var userId = JSON.parse(localStorage.deviceDetails).id || 1;
+	  console.log("userID", userId);
+      return $http.get('https://hackathoncts.herokuapp.com/job/list/'+userId).then(function(res){
+		return res.data;
+	  }, function(res){
+		return {error:true};
+	  });
+   }
+
    
   
 });
