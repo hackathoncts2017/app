@@ -6,6 +6,7 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
 	}
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
+        console.log(deviceDetails);
 		mainService.deviceDetails(deviceDetails).then(function(res) {
 			if(!res.error) {
                 console.log("resposnes",res);

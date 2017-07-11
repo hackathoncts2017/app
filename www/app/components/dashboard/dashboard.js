@@ -9,13 +9,14 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.isLoading = true;
     $scope.pendingjobs =[];
      $scope.completedjobs =[];
+	 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change", "weather"];
         if (audiotext.indexOf(keyWords[0]) > -1) {
             audiotext = audiotext.split(keyWords[0]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[0];
+                audiotext = audiotext[1].trim();
                 if(audiotext == 'bar'){
                   audiotext = 'column'
                 }
@@ -29,7 +30,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         } else if (audiotext.indexOf(keyWords[1]) > -1) {
             audiotext = audiotext.split(keyWords[1]);
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[0];
+                audiotext = audiotext[1].trim();
                 $rootScope.chartType = audiotext;
                 var chartStatus;
                 if (!$rootScope.chartStatus) {
@@ -43,23 +44,27 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     "text": "Invalid Status"
                 });
             }
-        }
-        if (audiotext.indexOf(keyWords[2]) > -1) {
+        } else  if (audiotext.indexOf(keyWords[2]) > -1) {
             audiotext = audiotext.split(keyWords[2]);
-            if (audiotext.length > 1 && audiotext[1] != "") {
+            //if (audiotext.length > 1 && audiotext[1] != "") {
                 $rootScope.speeckToUser({
                     "text": "Description" + $scope.Weatherdata.weather.weather[0].description + "and" + "Humidity" + $scope.Weatherdata.weather.main.humidity + "and" + "Temperature" + $scope.Weatherdata.weather.main.temp
                 });
-                $scope.chartReports(audiotext);
-            } else {
+                //$scope.chartReports(audiotext);
+            //} else {
+                //$rootScope.speeckToUser({
+                 //   "text": "Invalid Command"
+                //})
+            //}
+        } else {
                 $rootScope.speeckToUser({
-                    "text": "Invalid Command"
-                })
+                    "text": "Please check your keyword"
+                });
             }
-        }
     };
     $scope.getDetails = function() {
         $scope.userdetails = null;
+		alert(JSON.parse(localStorage.deviceDetails).uuid)
         DashboardService.getDetails().then(function(res) {
             $scope.isLoading = false;
             if (!res.error && res.data.data.length > 0) {
@@ -130,7 +135,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $scope.charttype = $rootScope.chartType;
         }
         if (type == 'daily') {
-            $scope.dchartConfig = {
+            window.dchartConfig = $scope.dchartConfig = {
                 chart: {
                     type: $scope.charttype
                 },

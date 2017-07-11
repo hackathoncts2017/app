@@ -3,7 +3,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	$scope.product = [];
 	$scope.productAdmin = [];
 	$scope.isAdminLoad = true;
-	$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin	
+	$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
 	//console.log(asyn);
 	$scope.onStart = true;
 	$rootScope.$on("ProductSpeech", function(controller,data){           
