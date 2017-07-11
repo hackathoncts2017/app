@@ -1,4 +1,4 @@
-hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http) {
+hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
         console.log(data);
         $scope.dashboardAudio(data.text);
@@ -82,20 +82,17 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         });
     };
    
-     $scope.getjob = function() {
-     
+     $scope.getjob = function() { 
 
       DashboardService.getJob().then(function(res){
-                   
+                    //debugger;              
                     for(var i = 0; i<res.data.length;i++) {
                        console.log(res.data[i]);
                         if(res.data[i].status == "I") {
-                            $scope.pendingjobs.push(res.data[i]);
-                            
+                            $scope.pendingjobs.push(res.data[i]);                            
                         }
                         else if(res.data[i].status == "C"){
                          $scope.completedjobs.push(res.data[i]);
-
                         }
                     }
                     console.log(" $scope.pendingjobs", $scope.pendingjobs);
@@ -103,7 +100,11 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                    
                 });
     }
-
+    $scope.locationMap = function() {
+        NgMap.getMap().then(function(map) {
+            console.log(map)
+        });
+    }
     $scope.weatherReports = function() {
         DashboardService.getWeather({
             "lon": "13",
