@@ -20,7 +20,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     		$scope.isAdminLoad = false;
     	})
     }
-    $scope.productPopURL = "http://dl.flipkart.com/dl/lenovo-k6-power-gold-32-gb/p/itmezenfghddrfmc?pid=MOBEZENFSZGTQGWF&affid=sarvon77h";
+    $scope.productPopURL = "";
     $scope.showPopUp = false;
     $scope.productShow =function(url){
     	document.getElementById("product-frame").src = url;
