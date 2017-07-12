@@ -5,7 +5,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
     var h = window.innerHeight;
     $scope.chartHeight = h - 310;
-    $scope.Weatherdata = null;
+    $scope.dashboardData = null;
     $scope.isLoading = true;
     $scope.pendingjobs =[];
      $scope.completedjobs =[];
@@ -21,7 +21,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                   audiotext = 'column'
                 }
                 $rootScope.chartStatus = audiotext;
-                $scope.chartReports(audiotext);
+                $scope.chartReportChange(audiotext);
             } else {
                 $rootScope.speeckToUser({
                     "text": "Invalid chart type"
@@ -38,7 +38,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 } else {
                     chartStatus = $rootScope.chartStatus
                 }
-                $scope.chartReports(chartStatus);
+                $scope.drawChart(chartStatus);
             } else {
                 $rootScope.speeckToUser({
                     "text": "Invalid Status"
@@ -48,7 +48,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             audiotext = audiotext.split(keyWords[2]);
             //if (audiotext.length > 1 && audiotext[1] != "") {
                 $rootScope.speeckToUser({
-                    "text": "Description" + $scope.Weatherdata.weather.weather[0].description + "and" + "Humidity" + $scope.Weatherdata.weather.main.humidity + "and" + "Temperature" + $scope.Weatherdata.weather.main.temp
+                    "text": "Description" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity" + $scope.dashboardData.weather.main.humidity + "and" + "Temperature" + $scope.dashboardData.weather.main.temp
                 });
                 //$scope.chartReports(audiotext);
             //} else {
@@ -107,11 +107,22 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.weatherReports = function() {
         DashboardService.getWeather({
             "lon": "13",
-            "lat": "80"
+            "lat": "80",
+            "isAdmin": $scope.userdetails.isAdmin == "1" ? true : false
         }).then(function(res) {
             if (!res.error) {
-                $scope.Weatherdata = res.data.data;
-                $scope.WeatherIcon = "http://openweathermap.org/img/w/" + $scope.Weatherdata.weather.weather[0].icon + ".png";
+                $scope.dashboardData = res.data.data;
+
+                if($scope.dashboardData.jobdetails) {
+                    $scope.dashboardData.panelBox = {completed:0,inprogress:0};
+                    $.each($scope.dashboardData.jobdetails,function(index,val){
+                         $scope.dashboardData.panelBox.completed += val.JobsCnt;
+                         if(val.status = "I"){
+                            $scope.dashboardData.panelBox.inprogress = val.JobsCnt;
+                         }
+                    })
+                }
+                $scope.WeatherIcon = "http://openweathermap.org/img/w/" + $scope.dashboardData.weather.weather[0].icon + ".png";
                 console.log("$scope.WeatherIcon", $scope.WeatherIcon);
             }
         });
@@ -120,11 +131,56 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         // Appending dialog to document.body to cover sidenav in docs app
         // Modal dialogs should fully cover application
         // to prevent interaction outside of dialog
-        $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('#popupContainer'))).clickOutsideToClose(true).title('Weather Report').textContent("Description: " + $scope.Weatherdata.weather.weather[0].description + ", " + "Humidity: " + $scope.Weatherdata.weather.main.humidity + ", " + "Temperature: " + $scope.Weatherdata.weather.main.temp).ariaLabel('Alert Dialog Demo').ok('Close').targetEvent(ev));
+        $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('#popupContainer'))).clickOutsideToClose(true).title('Weather Report').textContent("Description: " + $scope.dashboardData.weather.weather[0].description + ", " + "Humidity: " + $scope.dashboardData.weather.main.humidity + ", " + "Temperature: " + $scope.dashboardData.weather.main.temp).ariaLabel('Alert Dialog Demo').ok('Close').targetEvent(ev));
     };
     $scope.chartConfig = '';
     $scope.charttype = 'column';
     $scope.chartsection = true;
+    $scope.drawChart = function(type) {
+        var chartType = ['line','spline','area','areaspline','column','pie'];
+        if(chartType.indexOf(type) > -1){
+            $("#chart1").highcharts().update({"chart":{"type":type}})
+        } else {
+            $rootScope.speeckToUser({
+                    "text": "Chart type not allowed"
+                });
+        }
+        
+    }
+    window.chartReportChange = $scope.chartReportChange = function(report) {
+        var isChange = false,
+            chartRef = $("#chart1").highcharts(),
+            xAxis = [];
+        if(report == 'daily') {
+            chartRef.series[0].update({"data": [72.9, 99.5, 76.4]},false);
+            chartRef.setTitle({text: "Daily Report"});
+            xAxis = ['Morning', 'Afternoon', 'Evening'];
+            isChange = true;
+        } else if (report == 'weekly')  {
+            chartRef.series[0].update({"data": [72.9, 9.5, 76.4, 33.5, 12, 85]},false);
+            chartRef.setTitle({text: "Weekly Report"});
+            xAxis = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            isChange = true;
+        } else if (report == 'monthly') {
+            chartRef.series[0].update({"data":[72.9, 99.5, 6.4, 64.3]},false);
+            chartRef.setTitle({text: "Monthly Report"});
+            isChange = true;
+            xAxis = ['Week1', 'Week2', 'week3', 'week4'];
+        } else if (report == 'yearly') {
+            chartRef.series[0].update({"data":[72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]},false);
+            chartRef.setTitle({text: "Yearly Report"});
+            isChange = true;
+            xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec'];
+        }
+
+        if(isChange) {
+            $("#chart1").highcharts().xAxis[0].setCategories(xAxis);
+        } else {
+            $rootScope.speeckToUser({
+                    "text": "please check your report type"
+                });
+        }
+    }
     $scope.chartReports = function(type) {
         if (!$rootScope.chartStatus) {
             type = type;
@@ -134,114 +190,40 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if ($rootScope.chartType) {
             $scope.charttype = $rootScope.chartType;
         }
-        if (type == 'daily') {
-            window.dchartConfig = $scope.dchartConfig = {
-                chart: {
-                    type: $scope.charttype
-                },
-                title: {
-                    text: 'Daily Reports'
-                },
-                xAxis: {
-                    categories: ['Morning(9 am-11.45am)', 'Afternoon(11.46pm - 3.00pm)', 'Evening(3.00pm - 6.00pm)']
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        events: {
-                            click: function(event) {
-                                $scope.$apply();
-                            }
+        $scope.dchartConfig = {
+            chart: {
+                type: $scope.charttype
+            },
+             credits: {
+                enabled: false
+            },
+            legend: {
+                enabled: false
+            },
+            title: {
+                text: 'Daily Reports'
+            },
+            xAxis: {
+                categories: ['Morning', 'Afternoon', 'Evening']
+            },
+            "yAxis":{
+                "title":{
+                    "text":""
+                }
+            },
+            plotOptions: {
+                series: {
+                    cursor: 'pointer',
+                    events: {
+                        click: function(event) {
+                            $scope.$apply();
                         }
                     }
-                },
-                series: [{
-                    data: [72.9, 99.5, 76.4]
-                }]
-            };
-            $scope.dailychart = true;
-            $scope.weeklychart = false;
-            $scope.monthlychart = false;
-            $scope.yearlychart = false;
-        } else if (type == 'weekly') {
-            $scope.wchartConfig = {
-                chart: {
-                    type: $scope.charttype,
-                },
-                title: {
-                    text: 'Weekly Reports'
-                },
-                xAxis: {
-                    categories: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
-                },
-                plotOptions: {
-                    series: {
-                        cursor: 'pointer',
-                        events: {
-                            click: function(event) {
-                                $scope.$apply();
-                            }
-                        }
-                    }
-                },
-                series: [{
-                    data: [72.9, 9.5, 76.4, 33.5, 12, 85]
-                }]
-            };
-            $scope.dailychart = false;
-            $scope.weeklychart = true;
-            $scope.monthlychart = false;
-            $scope.yearlychart = false;
-        } else if (type == 'monthly') {
-            $scope.mchartConfig = {
-                chart: {
-                    type: $scope.charttype,
-                },
-                title: {
-                    text: 'Montly Reports'
-                },
-                xAxis: {
-                    categories: ['Week1', 'Week2', 'week3', 'week4']
-                },
-                series: [{
-                    data: [72.9, 99.5, 6.4, 64.3]
-                }]
-            };
-            $scope.dailyclass = '';
-            $scope.dailychart = false;
-            $scope.weeklychart = false;
-            $scope.monthlychart = true;
-            $scope.yearlychart = false;
-        } else if (type == 'yearly') {
-            $scope.ychartConfig = {
-                chart: {
-                    type: $scope.charttype,
-                },
-                credits: {
-                    enabled: false
-                },
-                title: {
-                    text: 'Yearly Reports'
-                },
-                legend: {
-                    enabled: false
-                },
-                xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec']
-                },
-                yAxis: {
-                    title: {
-                        text: ''
-                    },
-                },
-                series: [{
-                    data: [72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]
-                }]
-            };
-            $scope.dailychart = false;
-            $scope.weeklychart = false;
-            $scope.monthlychart = false;
-            $scope.yearlychart = true;
-        }
+                }
+            },
+            series: [{
+                data: [72.9, 99.5, 76.4]
+            }]
+        };
     };
 })
