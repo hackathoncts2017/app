@@ -64,7 +64,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     };
     $scope.getDetails = function() {
         $scope.userdetails = null;
-		alert(JSON.parse(localStorage.deviceDetails).uuid)
         DashboardService.getDetails().then(function(res) {
             $scope.isLoading = false;
             if (!res.error && res.data.data.length > 0) {

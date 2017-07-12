@@ -5,10 +5,10 @@
 		  	<div ng-repeat="loc in locations">
 		  		<div ng-if="indexVal == $index">
 		  			<directions
-		          travel-mode="DRIVING"
-		          origin="current-location"
-		          destination={{loc}}>
-		          </directions>
+			          travel-mode="DRIVING"
+			          origin="current-location"
+			          destination={{loc}}>
+			        </directions>
 		  		</div>
 		  		<div ng-if="indexVal != $index">
 		  			<marker position={{loc}}></marker>

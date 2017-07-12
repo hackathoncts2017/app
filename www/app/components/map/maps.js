@@ -28,16 +28,31 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             MapService.setMyLocation($rootScope.myLoc,function(data) {
                 console.log(data);
             });
-            MapService.getJob().then(function(res){
+            // MapService.getJob().then(function(res){
+            //     console.log(res);
+            //     var indexValue = 0;
+            //     for(var i = 0; i<res.data.length;i++) {
+            //         if(res.data[i].status == "I") {
+            //             indexValue += 1; 
+            //             $scope.locations.push(res.data[i].Location);
+            //             $scope.jobIdMapping[indexValue] = res.data[i].id;
+            //             $scope.jobMapping[indexValue] = res.data[i];
+            //         }
+            //     }
+            //     console.log($scope.locations);
+            //     setTimeout(function(){
+            //         $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+            //         console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+            //         console.log("My loc", $rootScope.myLoc);
+            //     },2000);
+            // }); 
+MapService.getEngLocation().then(function(res){
                 console.log(res);
                 var indexValue = 0;
+                 $scope.indexVal = -1;
                 for(var i = 0; i<res.data.length;i++) {
-                    if(res.data[i].status == "I") {
                         indexValue += 1; 
-                        $scope.locations.push(res.data[i].Location);
-                        $scope.jobIdMapping[indexValue] = res.data[i].id;
-                        $scope.jobMapping[indexValue] = res.data[i];
-                    }
+                        $scope.locations.push(res.data[i].location);
                 }
                 console.log($scope.locations);
                 setTimeout(function(){
@@ -45,7 +60,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                     console.log("All directions", $rootScope.mapDetails.directionsRenderers);
                     console.log("My loc", $rootScope.myLoc);
                 },2000);
-            }); 
+            });
         }); 
     }
     
@@ -97,15 +112,9 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 $rootScope.speeckToUser({"text":"Job not available"})
             }
         } else if (audiotext.indexOf("reached") > -1) {
-            audiotext = audiotext.split("reached");
-            if(audiotext.length > 1 && audiotext[0] != "") {
-                audiotext = audiotext[0];
-                setTimeout(function(){
+             setTimeout(function(){
                     $scope.jobProgressText(audiotext, "reached");
                 },1000);
-            } else {
-                $rootScope.speeckToUser({"text":"Job not available"})
-            }
         } else if (audiotext.indexOf("completed") > -1) {
             audiotext = audiotext.split("completed");
             if(audiotext.length > 1 && audiotext[0] != "") {
@@ -167,9 +176,9 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             msg : ""
         };
         if(condition == "started") {
-            request.msg = "Engineer " + localStorage.userDetails.engineerName + " has started to your location. He/She will be reaching in approximately " + $scope.currentTimeTaken;
+            request.msg = "Engineer " + JSON.parse(localStorage.userDetails).engineerName + " has started to your location. He/She will be reaching in approximately " + $scope.currentTimeTaken;
         } else {
-            request.msg = "Engineer " + localStorage.userDetails.engineerName + " has almost reached your location. He/She will be reaching in approximately 5 minutes";
+            request.msg = "Engineer " + JSON.parse(localStorage.userDetails).engineerName + " has almost reached your location. He/She will be reaching in approximately 5 minutes";
         }
         MapService.sendSMS(request, function() {
             if(condition == "started") {
