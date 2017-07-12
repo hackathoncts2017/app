@@ -86,24 +86,50 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     };
    
      $scope.getjob = function() { 
-
-      DashboardService.getJob().then(function(res){
-                    //debugger;              
-                    for(var i = 0; i<res.data.length;i++) {
-                        if(res.data[i].status == "I") {
-                            $scope.pendingjobs.push(res.data[i]);                            
-                        }
-                        else if(res.data[i].status == "C"){
-                         $scope.completedjobs.push(res.data[i]);
-                        }
-                    }
-                       $rootScope.loadMap();
-                });
+        if($scope.userdetails.isAdmin == "0") {
+            DashboardService.getJob().then(function(res){
+            //debugger;              
+            for(var i = 0; i<res.data.length;i++) {
+                if(res.data[i].status == "I") {
+                    $scope.pendingjobs.push(res.data[i]);                            
+                }
+                else if(res.data[i].status == "C"){
+                 $scope.completedjobs.push(res.data[i]);
+                }
+                }
+               $rootScope.loadMap();
+               $scope.afterRender()
+            });
+        }
     }
     $scope.locationMap = function() {
         NgMap.getMap().then(function(map) {
         });
     }
+    $scope.afterRender = function() {
+        var WelcomeText = "Good ",
+            hour = moment().format("HH");
+        if(hour < 12) {
+            WelcomeText += "Morning";
+        } else if(hour < 16) {
+            WelcomeText += "Afternoon";
+        }  else {
+            WelcomeText += "Evening";
+        }
+
+        WelcomeText += " " + $scope.userdetails.engineerName;
+        
+        if($scope.userdetails.isAdmin == "1") {
+            WelcomeText += " your Executive has " +$scope.dashboardData.panelBox.inprogress;
+        } else {
+            WelcomeText += " you have " +$scope.pendingjobs.length;
+        }
+        WelcomeText += " Pending Task Today";
+        $rootScope.speeckToUser({
+            "text": WelcomeText
+        })
+        console.log(WelcomeText);
+    };
     $scope.weatherReports = function() {
         DashboardService.getWeather({
             "lon": "13",
@@ -124,6 +150,9 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 }
                 $scope.WeatherIcon = "http://openweathermap.org/img/w/" + $scope.dashboardData.weather.weather[0].icon + ".png";
                 console.log("$scope.WeatherIcon", $scope.WeatherIcon);
+                if($scope.userdetails.isAdmin == "1") {
+                 $scope.afterRender();
+                }
             }
         });
     };
