@@ -12,33 +12,38 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
 	 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
-        var keyWords = ["show", "change", "weather"];
-        if (audiotext.indexOf(keyWords[0]) > -1) {
-            audiotext = audiotext.split(keyWords[0]);
+        var keyWords = ["show", "change to", "weather","change 2","so","change two",];
+        if (audiotext.indexOf(keyWords[0]) > -1 || audiotext.indexOf(keyWords[4]) > -1) {
+			if(audiotext.indexOf(keyWords[0]) > -1){
+				audiotext = audiotext.split(keyWords[0]);
+			} else {
+				audiotext = audiotext.split(keyWords[4]);
+			}            
             if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[1].trim();
-                if(audiotext == 'bar'){
-                  audiotext = 'column'
-                }
-                $rootScope.chartStatus = audiotext;
+                audiotext = audiotext[1].trim();				
+				audiotext = audiotext.split(" ");
+				audiotext = audiotext[0];
                 $scope.chartReportChange(audiotext);
             } else {
                 $rootScope.speeckToUser({
                     "text": "Invalid chart type"
                 })
             }
-        } else if (audiotext.indexOf(keyWords[1]) > -1) {
-            audiotext = audiotext.split(keyWords[1]);
+        } else if (audiotext.indexOf(keyWords[1]) > -1 || audiotext.indexOf(keyWords[3]) > -1 ||  audiotext.indexOf(keyWords[5]) > -1) {
+			if(audiotext.indexOf(keyWords[1]) > -1){
+				audiotext = audiotext.split(keyWords[1]);
+			} else if(audiotext.indexOf(keyWords[3]) > -1) {
+				audiotext = audiotext.split(keyWords[3]);
+			} else {
+				audiotext = audiotext.split(keyWords[5]);
+			}
+            //audiotext = audiotext.split(keyWords[1]);
             if (audiotext.length > 1 && audiotext[1] != "") {
                 audiotext = audiotext[1].trim();
+				audiotext = audiotext.split(" ");
+				audiotext = audiotext[0]
                 $rootScope.chartType = audiotext;
-                var chartStatus;
-                if (!$rootScope.chartStatus) {
-                    chartStatus = 'daily';
-                } else {
-                    chartStatus = $rootScope.chartStatus
-                }
-                $scope.drawChart(chartStatus);
+                $scope.drawChart(audiotext);
             } else {
                 $rootScope.speeckToUser({
                     "text": "Invalid Status"
@@ -128,6 +133,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         $rootScope.speeckToUser({
             "text": WelcomeText
         })
+		$(".audio-btn").trigger("click");
+		$("#fff").trigger("click");
         console.log(WelcomeText);
     };
     $scope.weatherReports = function() {
@@ -166,7 +173,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.charttype = 'column';
     $scope.chartsection = true;
     $scope.drawChart = function(type) {
-        var chartType = ['line','spline','area','areaspline','column','pie'];
+        var chartType = ['line','spline','area','areaspline','column'];
         if(chartType.indexOf(type) > -1){
             $("#chart1").highcharts().update({"chart":{"type":type}})
         } else {
@@ -195,7 +202,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             chartRef.setTitle({text: "Monthly Report"});
             isChange = true;
             xAxis = ['Week1', 'Week2', 'week3', 'week4'];
-        } else if (report == 'yearly') {
+        } else if (report == 'yearly' || report == "early") {
             chartRef.series[0].update({"data":[72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]},false);
             chartRef.setTitle({text: "Yearly Report"});
             isChange = true;
