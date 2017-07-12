@@ -1,9 +1,24 @@
-hackathon.controller("ProductController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,ProductService,$rootScope,$mdDialog) {
+hackathon.controller("ProductController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,ProductService,$rootScope,$mdDialog,mainService) {
 	$scope.productWidth = screen.width - (167);
 	$scope.product = [];
 	$scope.productAdmin = [];
 	$scope.isAdminLoad = true;
-	$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
+	$scope.isAdmin = false;
+	if(localStorage.deviceDetails) {
+		var deviceDetails =JSON.parse(localStorage.deviceDetails);
+        console.log(deviceDetails);
+		mainService.deviceDetails(deviceDetails).then(function(res) {
+			if(!res.error) {
+                console.log("resposnes",res);
+				$scope.isAdmin = res.data[0].isAdmin == "0"?false:true;				
+				if($scope.isAdmin){
+					$scope.getAdminProduct();
+				}
+				//localStorage.userDetails = JSON.stringify(res.data[0]);
+			}
+		});
+	}
+	//$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
 	//console.log(asyn);
 	$scope.onStart = true;
 	$rootScope.$on("ProductSpeech", function(controller,data){           
@@ -26,15 +41,14 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     	document.getElementById("product-frame").src = url;
     	//$scope.productPopURL = url;
     	$scope.showPopUp = true;
+		document.getElementById("fff").click();
     }
     $scope.closePopup =function() {
     	$scope.showPopUp = false;
-    }
-    if($scope.isAdmin){
-    	$scope.getAdminProduct();
+		document.getElementById("fff").click();
     }
 	$scope.audioSplit = function(audiotext) {
-		if($scope.isAdmin) {
+		if(!$scope.isAdmin) {
 			var keyWords = ["search for","select product","order"]
 			if(audiotext.indexOf(keyWords[0]) > -1){
 				audiotext = audiotext.split(keyWords[0]);
@@ -65,7 +79,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				$rootScope.speeckToUser({"text":"please Check your keyword"})
 			}
 		} else {
-			var keyWords = ["order product","close"]
+			var keyWords = ["order product","close","back"]
 			if(audiotext.indexOf(keyWords[0]) > -1){
 				audiotext = audiotext.split(keyWords[0]);
 				if(audiotext.length > 1 && audiotext[1] != "") {
@@ -75,7 +89,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				} else {
 					$rootScope.speeckToUser({"text":"please select some product"})
 				}
-			} else if(audiotext.indexOf(keyWords[1]) > -1){
+			} else if(audiotext.indexOf(keyWords[1]) > -1 || audiotext.indexOf(keyWords[2]) > -1){
 				$scope.closePopup();
 			} else {
 				$rootScope.speeckToUser({"text":"please Check your keyword"})
