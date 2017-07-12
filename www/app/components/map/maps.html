@@ -7,11 +7,22 @@
 		  			<directions
 			          travel-mode="DRIVING"
 			          origin="current-location"
-			          destination={{loc}}>
+			          destination={{loc.locationVal}}>
 			        </directions>
 		  		</div>
-		  		<div ng-if="indexVal != $index">
-		  			<marker position={{loc}}></marker>
+		  		<div ng-if="indexVal != $index && indexVal >= 0">
+		  			<custom-marker position={{loc.locationVal}}>
+				        <div>
+				          <img src="assets/img/marker.png"  style="width:30px;height:30px;"/>
+				        </div>
+			        </custom-marker>
+		  		</div>
+		  		<div ng-if="indexVal == -1">
+		  			<custom-marker position={{loc.locationVal}}>
+				        <div>
+				          <img src="assets/img/{{loc.image}}.jpg"  style="width:30px;height:30px;border:2px solid #f6a500; border-radius: 50px"/>
+				        </div>
+			        </custom-marker>
 		  		</div>
 		      </div>
 			</div>

@@ -28,39 +28,42 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             MapService.setMyLocation($rootScope.myLoc,function(data) {
                 console.log(data);
             });
-            // MapService.getJob().then(function(res){
-            //     console.log(res);
-            //     var indexValue = 0;
-            //     for(var i = 0; i<res.data.length;i++) {
-            //         if(res.data[i].status == "I") {
-            //             indexValue += 1; 
-            //             $scope.locations.push(res.data[i].Location);
-            //             $scope.jobIdMapping[indexValue] = res.data[i].id;
-            //             $scope.jobMapping[indexValue] = res.data[i];
-            //         }
-            //     }
-            //     console.log($scope.locations);
-            //     setTimeout(function(){
-            //         $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
-            //         console.log("All directions", $rootScope.mapDetails.directionsRenderers);
-            //         console.log("My loc", $rootScope.myLoc);
-            //     },2000);
-            // }); 
-MapService.getEngLocation().then(function(res){
-                console.log(res);
-                var indexValue = 0;
-                 $scope.indexVal = -1;
-                for(var i = 0; i<res.data.length;i++) {
+            if($rootScope.isAdmin === "0") {
+                MapService.getEngLocation().then(function(res){
+                    console.log(res);
+                    var indexValue = 0;
+                     $scope.indexVal = -1;
+                    for(var i = 0; i<res.data.length;i++) {
                         indexValue += 1; 
-                        $scope.locations.push(res.data[i].location);
-                }
-                console.log($scope.locations);
-                setTimeout(function(){
-                    $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
-                    console.log("All directions", $rootScope.mapDetails.directionsRenderers);
-                    console.log("My loc", $rootScope.myLoc);
-                },2000);
-            });
+                        $scope.locations.push({"locationVal" : res.data[i].location, "image" : res.data[i].image});
+                    }
+                    console.log($scope.locations);
+                    setTimeout(function(){
+                        $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+                        console.log("My loc", $rootScope.myLoc);
+                    },2000);
+                });
+            } else {
+                MapService.getJob().then(function(res){
+                    console.log(res);
+                    var indexValue = 0;
+                    for(var i = 0; i<res.data.length;i++) {
+                        if(res.data[i].status == "I") {
+                            indexValue += 1; 
+                            $scope.locations.push({"locationVal" : res.data[i].Location});
+                            $scope.jobIdMapping[indexValue] = res.data[i].id;
+                            $scope.jobMapping[indexValue] = res.data[i];
+                        }
+                    }
+                    console.log($scope.locations);
+                    setTimeout(function(){
+                        $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+                        console.log("My loc", $rootScope.myLoc);
+                    },2000);
+                }); 
+            }
         }); 
     }
     
@@ -148,27 +151,47 @@ MapService.getEngLocation().then(function(res){
         }
     }
     $scope.reloadMap = function() {
-        MapService.getJob().then(function(res){
-            console.log(res);
-
-            $scope.jobIdMapping = {};
-            $scope.locations = [];
-            var indexValue = 0;
-            for(var i = 0; i<res.data.length;i++) {
-                if(res.data[i].status == "I") {
-                    indexValue += 1; 
-                    $scope.locations.push(res.data[i].Location);
-                    $scope.jobIdMapping[indexValue] = res.data[i].id;
-                    $scope.jobMapping[indexValue] = res.data[i];
-                }
+        
+        if($rootScope.isAdmin === "0") {
+                MapService.getEngLocation().then(function(res){
+                    console.log(res);
+                    $scope.locations = [];
+                    var indexValue = 0;
+                     $scope.indexVal = -1;
+                    for(var i = 0; i<res.data.length;i++) {
+                        indexValue += 1; 
+                        $scope.locations.push({"locationVal" : res.data[i].location, "image" : res.data[i].image});
+                    }
+                    console.log($scope.locations);
+                    setTimeout(function(){
+                        $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+                        console.log("My loc", $rootScope.myLoc);
+                    },2000);
+                });
+            } else {
+                MapService.getJob().then(function(res){
+                    $scope.jobIdMapping = {};
+                    $scope.jobMapping = {};
+                    $scope.locations = [];
+                    $scope.indexVal = 0;
+                    var indexValue = 0;
+                    for(var i = 0; i<res.data.length;i++) {
+                        if(res.data[i].status == "I") {
+                            indexValue += 1; 
+                            $scope.locations.push({"locationVal" : res.data[i].Location});
+                            $scope.jobIdMapping[indexValue] = res.data[i].id;
+                            $scope.jobMapping[indexValue] = res.data[i];
+                        }
+                    }
+                    setTimeout(function(){
+                        document.getElementById("fff").click(); 
+                        var id = +Object.keys($rootScope.allDirections)[0];
+                        $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                        " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
+                    },2000);
+                });  
             }
-            setTimeout(function(){
-                document.getElementById("fff").click(); 
-                var id = +Object.keys($rootScope.allDirections)[0];
-                $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
-                " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
-            },2000);
-        }); 
     }
     $scope.jobProgressText = function(text, condition) {
         var request = {
@@ -212,12 +235,13 @@ MapService.getEngLocation().then(function(res){
             MapService.completeJob($scope.jobDetails, function(res){
                 console.log(res);
                 $scope.jobIdMapping = {};
+                $scope.jobMapping = {};
                 $scope.locations = [];
                 var indexVAl = 0;
                 for(var i = 0; i<res.length;i++) {
                     if(res[i].status == "I") {
                         indexVAl += 1;
-                        $scope.locations.push(res[i].Location);
+                        $scope.locations.push({"locationVal" : res.data[i].Location});
                         $scope.jobIdMapping[indexVAl] = res[i].id;
                         $scope.jobMapping[indexValue] = res[i];
                     }
@@ -226,6 +250,7 @@ MapService.getEngLocation().then(function(res){
                 setTimeout(function(){
                     document.getElementById("fff").click(); 
                     var id = +Object.keys($rootScope.allDirections)[0];
+                    $scope.currentTimeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text;
                     $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
                     " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
                 },2000);
@@ -243,7 +268,7 @@ MapService.getEngLocation().then(function(res){
             for(var i = 0 ; i< directions.length; i++) {
                 directionText += directions[i].instructions + " for " + directions[i].distance.text.replace("km", "kilometers") + ". ";
             }
-            $rootScope.speeckToUser({"text":directionText.replace(/<(?:.|\n)*?>/gm, ' ').replace('&amp;', '')});
+            $rootScope.speeckToUser({"text":directionText.replace(/<(?:.|\n)*?>/gm, ' ').replace('&amp;', '').replace('&nbsp;', '')});
         } else {
             $rootScope.speeckToUser({"text":"Chosen destination is not available"});
         }

@@ -20,7 +20,7 @@ hackathon.service('DashboardService', function($http){
    }
 
    this.getJob = function(data) {   
-	  var userId = JSON.parse(localStorage.deviceDetails).id;
+	  var userId = JSON.parse(localStorage.userDetails).id;
 	  console.log("userID", userId);
       return $http.get('https://hackathoncts.herokuapp.com/job/list/'+userId).then(function(res){
 		return res.data;
