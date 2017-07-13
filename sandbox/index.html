@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="hackathonApp">
+
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+   <title>Hackathon</title>
+   <meta name="description" content="" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi " />
+   <meta name="format-detection" content="telephone=no" />
+
+
+   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+   <link href="css/main.css" rel="stylesheet">
+</head>
+
+<body id="appScreen" ng-controller="mainController as mc" ng-cloak>
+   
+   <div class="dark header" ng-show="headerShow">Header</div>
+   <div id="mainView" ng-view tabIndex="-1" ></div>
+   <div class="dark footer"  ng-show="footerShow">Footer</div>
+   
+
+   <script src="lib/jquery.js"></script>
+   <script src="lib/angular.js"></script>
+   <script src="lib/angular-route.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+   <script src="modules/app.js"></script>
+
+   <script src="views/template.cache.js"></script>
+   <script src="modules/utilities/services/appService.js"></script>
+   <script src="modules/utilities/directives/splitHeight.js"></script>
+   <script src="modules/utilities/directives/brokenImage.js"></script>
+   
+   <script src="modules/utilities/filters/INRConvertor.js"></script>
+   <script src="modules/utilities/filters/dateFormat.js"></script>
+   <script src="modules/utilities/filters/customSorter.js"></script>
+
+
+   <script src="modules/utilities/factory/httpInterceptor.js"></script>
+
+
+   <script src="modules/home/homeController.js"></script>
+   <script src="modules/home/homeModel.js"></script>
+
+   <script src="modules/dash/dashboardController.js"></script>
+
+   <script src="modules/main/mainController.js"></script>
+
+   <script src="modules/app.config.js"></script>
+   
+   
+</body>
+</html>
