@@ -1,5 +1,5 @@
 <div ng-init="getDetails()">
-	<div  ng-if="!isLoading">
+	<div  ng-if="!isLoading && !registerNewUser">
 		<div class="dashboard-home" style="position:relative;height:100px;">
 			<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;">
 				<img ng-src="assets/img/{{userdetails.image}}.jpg" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" alt="{{userdetails.engineerName}}" />
@@ -89,7 +89,12 @@
 				 </div>
 			</md-card>
 		</div>
-	</div>	
+	</div>
+	<div  ng-if="!isLoading && isCustomer">
+		<div ng-init="registerUser(false)">
+			Welcome to Digital Service Assistance
+		</div>
+	</div>
 	<div class="flexbox-parent" ng-if="isLoading">
 		<div layout="row" layout-align="center center"  style="min-height: 500px">
 			<md-progress-circular md-mode="indeterminate" ></md-progress-circular>

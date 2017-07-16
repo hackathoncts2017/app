@@ -18,7 +18,22 @@ hackathon.service('DashboardService', function($http){
 		return {error:true};
 	  });
    }
-
+    this.registerUser = function(data, cb) {
+    	data.deviceId = JSON.parse(localStorage.deviceDetails).uuid || 1;
+    	data.Location = '';
+    	data.image = '';
+    	
+   		$http({
+			method: 'POST',
+			url: 'https://hackathoncts.herokuapp.com/register',
+			data: JSON.stringify(data),
+			headers: {'Content-Type': 'application/json'}
+		}).success(function(res){
+			cb(res.data);
+		}, function(res){
+		   cb(true);
+		});
+    }
    this.getJob = function(data) {   
 	  var userId = JSON.parse(localStorage.userDetails).id;
 	  console.log("userID", userId);

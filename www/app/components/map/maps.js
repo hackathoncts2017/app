@@ -28,7 +28,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             MapService.setMyLocation($rootScope.myLoc,function(data) {
                 console.log(data);
             });
-            if($rootScope.isAdmin === "0") {
+            if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
                     console.log(res);
                     var indexValue = 0;
@@ -152,7 +152,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     }
     $scope.reloadMap = function() {
         
-        if($rootScope.isAdmin === "0") {
+        if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
                     console.log(res);
                     $scope.locations = [];

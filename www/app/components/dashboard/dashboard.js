@@ -13,68 +13,123 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change to", "weather","change 2","so","change two",];
-        if (audiotext.indexOf(keyWords[0]) > -1 || audiotext.indexOf(keyWords[4]) > -1) {
-			if(audiotext.indexOf(keyWords[0]) > -1){
-				audiotext = audiotext.split(keyWords[0]);
-			} else {
-				audiotext = audiotext.split(keyWords[4]);
-			}            
-            if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[1].trim();				
-				audiotext = audiotext.split(" ");
-				audiotext = audiotext[0];
-                $scope.chartReportChange(audiotext);
+        if(!$scope.isCustomer) {
+            if (audiotext.indexOf(keyWords[0]) > -1 || audiotext.indexOf(keyWords[4]) > -1) {
+                if(audiotext.indexOf(keyWords[0]) > -1){
+                    audiotext = audiotext.split(keyWords[0]);
+                } else {
+                    audiotext = audiotext.split(keyWords[4]);
+                }            
+                if (audiotext.length > 1 && audiotext[1] != "") {
+                    audiotext = audiotext[1].trim();                
+                    audiotext = audiotext.split(" ");
+                    audiotext = audiotext[0];
+                    $scope.chartReportChange(audiotext);
+                } else {
+                    $rootScope.speeckToUser({
+                        "text": "Invalid chart type"
+                    })
+                }
+            } else if (audiotext.indexOf(keyWords[1]) > -1 || audiotext.indexOf(keyWords[3]) > -1 ||  audiotext.indexOf(keyWords[5]) > -1) {
+                if(audiotext.indexOf(keyWords[1]) > -1){
+                    audiotext = audiotext.split(keyWords[1]);
+                } else if(audiotext.indexOf(keyWords[3]) > -1) {
+                    audiotext = audiotext.split(keyWords[3]);
+                } else {
+                    audiotext = audiotext.split(keyWords[5]);
+                }
+                //audiotext = audiotext.split(keyWords[1]);
+                if (audiotext.length > 1 && audiotext[1] != "") {
+                    audiotext = audiotext[1].trim();
+                    audiotext = audiotext.split(" ");
+                    audiotext = audiotext[0]
+                    $rootScope.chartType = audiotext;
+                    $scope.drawChart(audiotext);
+                } else {
+                    $rootScope.speeckToUser({
+                        "text": "Invalid Status"
+                    });
+                }
+            } else  if (audiotext.indexOf(keyWords[2]) > -1) {
+                audiotext = audiotext.split(keyWords[2]);
+                //if (audiotext.length > 1 && audiotext[1] != "") {
+                    $rootScope.speeckToUser({
+                        "text": "Description" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity" + $scope.dashboardData.weather.main.humidity + "and" + "Temperature" + $scope.dashboardData.weather.main.temp
+                    });
+                    //$scope.chartReports(audiotext);
+                //} else {
+                    //$rootScope.speeckToUser({
+                     //   "text": "Invalid Command"
+                    //})
+                //}
             } else {
-                $rootScope.speeckToUser({
-                    "text": "Invalid chart type"
-                })
-            }
-        } else if (audiotext.indexOf(keyWords[1]) > -1 || audiotext.indexOf(keyWords[3]) > -1 ||  audiotext.indexOf(keyWords[5]) > -1) {
-			if(audiotext.indexOf(keyWords[1]) > -1){
-				audiotext = audiotext.split(keyWords[1]);
-			} else if(audiotext.indexOf(keyWords[3]) > -1) {
-				audiotext = audiotext.split(keyWords[3]);
-			} else {
-				audiotext = audiotext.split(keyWords[5]);
-			}
-            //audiotext = audiotext.split(keyWords[1]);
-            if (audiotext.length > 1 && audiotext[1] != "") {
-                audiotext = audiotext[1].trim();
-				audiotext = audiotext.split(" ");
-				audiotext = audiotext[0]
-                $rootScope.chartType = audiotext;
-                $scope.drawChart(audiotext);
-            } else {
-                $rootScope.speeckToUser({
-                    "text": "Invalid Status"
-                });
-            }
-        } else  if (audiotext.indexOf(keyWords[2]) > -1) {
-            audiotext = audiotext.split(keyWords[2]);
-            //if (audiotext.length > 1 && audiotext[1] != "") {
-                $rootScope.speeckToUser({
-                    "text": "Description" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity" + $scope.dashboardData.weather.main.humidity + "and" + "Temperature" + $scope.dashboardData.weather.main.temp
-                });
-                //$scope.chartReports(audiotext);
-            //} else {
-                //$rootScope.speeckToUser({
-                 //   "text": "Invalid Command"
-                //})
-            //}
-        } else {
                 $rootScope.speeckToUser({
                     "text": "Please check your keyword"
                 });
             }
+        } else {
+            if($scope.getName) {
+                $scope.customerName = audiotext;
+                $scope.registerUser(true,"name", audiotext)
+            } else if($scope.getNumber) {
+                $scope.customerNumber = audiotext;
+                $scope.registerUser(true,"number", audiotext)
+            } else if ($scope.newIssue && !$scope.getTime) {
+                $scope.issueDetails = audiotext;
+                $rootScope.speeckToUser({
+                    "text": "When do you want our service personal to visit your location"
+                });
+                $scope.getTime = true;
+            } else if($scope.getTime) {
+                $rootScope.speeckToUser({
+                    "text": "Thank you for providing your details. Ww will be sending you the details of the appointment shortly"
+                });
+                $scope.newIssue = false;
+                $scope.getTime = false;
+                var date = new Date();
+                if(audiotext == "today") {
+                    date.setHours(date.getHours() + 1);
+                } else {
+                    date = date.setDate(date.getDate() + 1); 
+                }
+                var request = {
+                  "userId": "",
+                  "Location": "",
+                  "Address": "",
+                  "customerName": JSON.parse(localStorage.userdetails).engineerName,
+                  "customerContactNo": JSON.parse(localStorage.userdetails).mobileNo,
+                  "jobOn": date.toDateString(),
+                  "reason": $scope.issueDetails
+                }
+
+            } else if(audiotext.indexOf('register') > -1) {
+                $scope.newIssue = true;
+                $scope.getTime = false;
+                $rootScope.speeckToUser({
+                    "text": "Please tell us the issue you are facing"
+                });
+            } 
+        }
     };
     $scope.getDetails = function() {
         $scope.userdetails = null;
         DashboardService.getDetails().then(function(res) {
             $scope.isLoading = false;
             if (!res.error && res.data.data.length > 0) {
-                $scope.userdetails = res.data.data[0];
-                $rootScope.isAdmin = res.data.data[0].isAdmin;
-                $scope.userdetails.designation = "Senior Executive";
+                if(!res.data.data[0].isNewUser && res.data.data[0].isCustomer == 0) {
+                    $scope.userdetails = res.data.data[0];
+                    $rootScope.isAdmin = res.data.data[0].isAdmin;
+                    $scope.userdetails.designation = "Senior Executive";
+                    $scope.registerNewUser = false;
+                    $scope.isCustomer = false;
+                } else if(!res.data.data[0].isNewUser) {
+                    $scope.registerNewUser = true; 
+                    $scope.isCustomer = true;
+                } else if (res.data.data[0].isCustomer == 1){
+                    $scope.registerNewUser = false;
+                    $scope.isCustomer = true;
+                }
+                
             } else {
                 $scope.userdetails = {
                     "id": 1,
@@ -90,18 +145,44 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
         });
     };
-   
+    $scope.registerUser = function(context, action, detail) {
+        if(!context) {
+            $rootScope.speeckToUser({
+                "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."
+            });
+            $scope.getName = true;
+        } else if (action == "name") {
+            $rootScope.speeckToUser({
+                "text": "Thank you " + detail + " . Please provide your mobile number"
+            });
+            $scope.getName = false;
+            $scope.getNumber = true;
+        } else if (action == "number") {
+            $rootScope.speeckToUser({
+                "text": "Thank you for providing your details. Enjoy our service"
+            });
+            $scope.getNumber = false;
+            var requestData = {
+                "userName" : $scope.customerName,
+                "mobileNo" : $scope.customerNumber
+            }
+            DashboardService.registerUser(requestData,function(data) {
+                $scope.getDetails();
+            });
+        }
+        
+    }
      $scope.getjob = function() { 
         if($scope.userdetails.isAdmin == "0") {
             DashboardService.getJob().then(function(res){
             //debugger;              
-            for(var i = 0; i<res.data.length;i++) {
-                if(res.data[i].status == "I") {
-                    $scope.pendingjobs.push(res.data[i]);                            
-                }
-                else if(res.data[i].status == "C"){
-                 $scope.completedjobs.push(res.data[i]);
-                }
+                for(var i = 0; i<res.data.length;i++) {
+                    if(res.data[i].status == "I") {
+                        $scope.pendingjobs.push(res.data[i]);                            
+                    }
+                    else if(res.data[i].status == "C"){
+                     $scope.completedjobs.push(res.data[i]);
+                    }
                 }
                $scope.afterRender()
             });

@@ -32,7 +32,7 @@ hackathon.service('MapService', function($http){
 		});
    }
    this.setMyLocation = function(data,cb) {
-   	localStorage.userDetails = "{\"id\":3,\"location\":\"44,78\",\"updateOn\":\"2017-07-08T11:29:44.000Z\",\"engineerName\":\"Vignesh\",\"deviceId\":\"52c65734ab2b7a54\"}"
+   	//localStorage.userDetails = "{\"id\":3,\"location\":\"44,78\",\"updateOn\":\"2017-07-08T11:29:44.000Z\",\"engineerName\":\"Vignesh\",\"deviceId\":\"52c65734ab2b7a54\"}"
 	
 	   	var userDetails = JSON.parse(localStorage.userDetails),
 	   		request = {
