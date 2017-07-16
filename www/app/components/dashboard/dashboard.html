@@ -1,5 +1,5 @@
 <div ng-init="getDetails()">
-	<div  ng-if="!isLoading && !registerNewUser">
+	<div  ng-if="!isLoading && !isCustomer">
 		<div class="dashboard-home" style="position:relative;height:100px;">
 			<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;">
 				<img ng-src="assets/img/{{userdetails.image}}.jpg" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" alt="{{userdetails.engineerName}}" />
@@ -90,10 +90,22 @@
 			</md-card>
 		</div>
 	</div>
-	<div  ng-if="!isLoading && isCustomer">
+	<div  ng-if="!isLoading && isCustomer && !getLoc && !userRegistered">
 		<div ng-init="registerUser(false)">
 			Welcome to Digital Service Assistance
+			<a href="tel:9884061881">test</a>
 		</div>
+	</div>
+	<div ng-if="!isLoading && isCustomer && getLoc">
+		<div map-lazy-load="https://maps.google.com/maps/api/js" ng-init="locationMap()">
+		  <ng-map center={{defaultLocation}} style="height: 550px">
+	  			<marker position={{defaultLocation}}>
+		        </marker>
+		  </ng-map>
+		</div>
+	</div>
+	<div ng-if="userRegistered && !getLoc">
+		Welcome {{customerName}}
 	</div>
 	<div class="flexbox-parent" ng-if="isLoading">
 		<div layout="row" layout-align="center center"  style="min-height: 500px">

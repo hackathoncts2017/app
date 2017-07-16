@@ -8,8 +8,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.dashboardData = null;
     $scope.isLoading = true;
     $scope.pendingjobs =[];
-     $scope.completedjobs =[];
-	 
+    $scope.completedjobs =[];
+	$scope.defaultLocation = 'current-location'; 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change to", "weather","change 2","so","change two",];
@@ -74,55 +74,120 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             } else if($scope.getNumber) {
                 $scope.customerNumber = audiotext;
                 $scope.registerUser(true,"number", audiotext)
-            } else if ($scope.newIssue && !$scope.getTime) {
+            } else if ($scope.newIssue) {
                 $scope.issueDetails = audiotext;
                 $rootScope.speeckToUser({
                     "text": "When do you want our service personal to visit your location"
                 });
+                $scope.newIssue = false;
                 $scope.getTime = true;
             } else if($scope.getTime) {
-                $rootScope.speeckToUser({
-                    "text": "Thank you for providing your details. Ww will be sending you the details of the appointment shortly"
-                });
-                $scope.newIssue = false;
                 $scope.getTime = false;
                 var date = new Date();
                 if(audiotext == "today") {
                     date.setHours(date.getHours() + 1);
                 } else {
-                    date = date.setDate(date.getDate() + 1); 
+                    date.setDate(date.getDate() + 1); 
                 }
-                var request = {
-                  "userId": "",
-                  "Location": "",
-                  "Address": "",
-                  "customerName": JSON.parse(localStorage.userdetails).engineerName,
-                  "customerContactNo": JSON.parse(localStorage.userdetails).mobileNo,
-                  "jobOn": date.toDateString(),
-                  "reason": $scope.issueDetails
+                $scope.issueDate = date;
+                $rootScope.speeckToUser({
+                    "text": "Please confirm you location."
+                });
+                
+                $scope.getLoc = true;
+                setTimeout(function() {
+                    $("#fff").trigger("click");
+                },2500);
+                $("#fff").trigger("click");
+            } else if ($scope.getLoc && !$scope.confirmLocation) {
+                if(audiotext.indexOf('current') > -1) {
+                    $scope.defaultLocation = 'current-location';
+                } else {
+                    $scope.defaultLocation = audiotext;
                 }
+                $scope.confirmLocation = true;
+                setTimeout(function() {
+                    $("#fff").trigger("click");
+                },2000);
+                $("#fff").trigger("click");
+                setTimeout(function() {
+                    $rootScope.speeckToUser({
+                        "text": "Is the location marked in the map correct?"
+                    });
+                    $scope.locationMap();
+                },3500);
+            } else if($scope.confirmLocation) {
+                $scope.confirmLocation = false;
+                if(audiotext.indexOf('yes') > -1 || audiotext.indexOf('correct') > -1) {
+                    var mapDet = $scope.mapDetailsInfo;
+                    $scope.getLoc = false;
+                    if($scope.defaultLocation !== 'current-location') {
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode( { 'address': $scope.defaultLocation}, function(results, status) {
+                            $scope.myLocation = results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng();
+                            $("#fff").trigger("click");
+                            setTimeout(function() {
+                                $("#fff").trigger("click");
+                                $scope.registerNewComplaint();
+                            },2500);    
+                        });
+                    } else {
+                        $scope.myLocation =  mapDet.center.lat() + ',' + mapDet.center.lng();
+                         $("#fff").trigger("click");
+                        setTimeout(function() {
+                            $("#fff").trigger("click");
+                            $scope.registerNewComplaint();
+                        },2500);
+                    }
 
+                    
+                } else {
+                    $scope.getLoc = true;
+                    $rootScope.speeckToUser({
+                        "text": "Please confirm you location."
+                    });
+                }
             } else if(audiotext.indexOf('register') > -1) {
                 $scope.newIssue = true;
-                $scope.getTime = false;
                 $rootScope.speeckToUser({
                     "text": "Please tell us the issue you are facing"
                 });
             } 
         }
     };
+    $scope.registerNewComplaint = function() {
+        $rootScope.speeckToUser({
+            "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
+        });
+        
+
+        var request = {
+          "userId": "",
+          "Location": $scope.myLocation,
+          "Address": $scope.defaultLocation,
+          "customerName": JSON.parse(localStorage.userDetails).engineerName,
+          "customerContactNo": JSON.parse(localStorage.userDetails).mobileNo,
+          "jobOn": $scope.issueDate.toDateString(),
+          "reason": $scope.issueDetails
+        };
+        console.log(request);
+        DashboardService.registerComplaint(request, function(data){
+        });
+        
+    }
     $scope.getDetails = function() {
         $scope.userdetails = null;
         DashboardService.getDetails().then(function(res) {
             $scope.isLoading = false;
             if (!res.error && res.data.data.length > 0) {
+                localStorage.userDetails = JSON.stringify(res.data.data[0]);
                 if(!res.data.data[0].isNewUser && res.data.data[0].isCustomer == 0) {
                     $scope.userdetails = res.data.data[0];
                     $rootScope.isAdmin = res.data.data[0].isAdmin;
                     $scope.userdetails.designation = "Senior Executive";
                     $scope.registerNewUser = false;
                     $scope.isCustomer = false;
-                } else if(!res.data.data[0].isNewUser) {
+                } else if(res.data.data[0].isNewUser) {
                     $scope.registerNewUser = true; 
                     $scope.isCustomer = true;
                 } else if (res.data.data[0].isCustomer == 1){
@@ -161,10 +226,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. Enjoy our service"
             });
+            $scope.userRegistered = true;
             $scope.getNumber = false;
+            $("#fff").trigger("click");
             var requestData = {
                 "userName" : $scope.customerName,
-                "mobileNo" : $scope.customerNumber
+                "mobileNo" : $scope.customerNumber.trim()
             }
             DashboardService.registerUser(requestData,function(data) {
                 $scope.getDetails();
@@ -190,6 +257,9 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     }
     $scope.locationMap = function() {
         NgMap.getMap().then(function(map) {
+            $scope.mapDetailsInfo = map;
+            $scope.myLocation = map.center.lat() + ',' + map.center.lng();
+            $("#fff").trigger("click");
         });
     }
     $scope.afterRender = function() {
