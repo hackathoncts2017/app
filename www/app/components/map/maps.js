@@ -30,14 +30,22 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             });
             if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
-                    console.log(res);
+                    console.log("res inside",res);
                     var indexValue = 0;
                      $scope.indexVal = -1;
-                    for(var i = 0; i<res.data.length;i++) {
-                        indexValue += 1; 
-                        $scope.locations.push({"locationVal" : res.data[i].location, "image" : res.data[i].image});
+                    for(var j = 0 ;j < res.length; j++) {
+                        for(var i = 0; i<res[j].length;i++) {
+                            if(j == 0) {
+                                indexValue += 1; 
+                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
+                            } else if(res[j][i].status = 'I' && res[j][i].userId === ''){
+                                indexValue += 1; 
+                                $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
+                            }
+                        }
+                        console.log($scope.locations);
+                        
                     }
-                    console.log($scope.locations);
                     setTimeout(function(){
                         $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
                         console.log("All directions", $rootScope.mapDetails.directionsRenderers);

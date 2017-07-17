@@ -1,4 +1,4 @@
-hackathon.service('MapService', function($http){
+hackathon.service('MapService', function($http, $q){
 	//if(localStorage.userDetails == undefined){
 		//localStorage.userDetails = "{\"id\":3,\"location\":\"44,78\",\"updateOn\":\"2017-07-08T11:29:44.000Z\",\"engineerName\":\"Vignesh\",\"deviceId\":\"52c65734ab2b7a54\"}"
 	//}
@@ -11,12 +11,16 @@ hackathon.service('MapService', function($http){
 		return {error:true};
 	  });
    }
-   this.getEngLocation = function(data) {
-      return $http.get('http://hackathoncts.herokuapp.com/engineer-location/get').then(function(res){
-		return res.data;
-	  }, function(res){
-		return {error:true};
-	  });
+   this.getEngLocation = function() {
+   	 return $q.all({
+            eng: $http.get('http://hackathoncts.herokuapp.com/engineer-location/get'),
+            user: $http.get('http://hackathoncts.herokuapp.com/job/list/{userId}')
+          }).then(function(results) {
+          	console.log("sync", results);
+          	return [results.eng.data.data, results.user.data.data];
+            // $scope.github.users = JSON.stringify(results.users.data, null, 2);
+            // $scope.github.repositories = JSON.stringify(results.repos.data, null, 2);
+          });
    }
 
    this.sendSMS = function(data,cb) {   
