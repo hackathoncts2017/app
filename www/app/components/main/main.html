@@ -16,7 +16,7 @@
               <Mapcomponent />
         </md-tab-body> 
     </md-tab>
-     <md-tab label="B" layout-fill md-on-select="selectCb('ProductSpeech',3)">
+     <md-tab label="B" layout-fill md-on-select="selectCb('ProductSpeech',3)" ng-if="isUser">
        <md-tab-label>
            <i class="nav-bar-icon icon-shopping-cart"></i>
         </md-tab-label>
@@ -24,7 +24,7 @@
                <Product />
         </md-tab-body> 
     </md-tab>
-	 <md-tab label="B" layout-fill md-on-select="selectCb('questionSpeech',4)">
+	 <md-tab label="B" layout-fill md-on-select="selectCb('questionSpeech',4)" ng-if="isUser">
        <md-tab-label>
               <i class="nav-bar-icon  icon-youtube-play"></i>
         </md-tab-label>

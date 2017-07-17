@@ -11,11 +11,19 @@ hackathon.service('MapService', function($http){
 		return {error:true};
 	  });
    }
+   this.getEngLocation = function(data) {
+      return $http.get('http://hackathoncts.herokuapp.com/engineer-location/get').then(function(res){
+		return res.data;
+	  }, function(res){
+		return {error:true};
+	  });
+   }
+
    this.sendSMS = function(data,cb) {   
 	  $http({
 			method: 'POST',
 			url: 'https://hackathoncts.herokuapp.com/SMS',
-			data: JSON.stringify(request),
+			data: JSON.stringify(data),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
 			cb(res.data);
@@ -24,6 +32,8 @@ hackathon.service('MapService', function($http){
 		});
    }
    this.setMyLocation = function(data,cb) {
+   	//localStorage.userDetails = "{\"id\":3,\"location\":\"44,78\",\"updateOn\":\"2017-07-08T11:29:44.000Z\",\"engineerName\":\"Vignesh\",\"deviceId\":\"52c65734ab2b7a54\"}"
+	
 	   	var userDetails = JSON.parse(localStorage.userDetails),
 	   		request = {
 			  "id": "" + userDetails.id,

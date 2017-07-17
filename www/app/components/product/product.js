@@ -63,7 +63,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				$scope.selectedProduct  = audiotext[1];
 				$scope.selectedProduct = Number($scope.selectedProduct);
 				if( 0 < $scope.selectedProduct &&  $scope.selectedProduct< 11) {
-					$rootScope.speeckToUser({"text":"can you tell me how many product in product " + $scope.selectedProduct});		
+					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"});		
 				} else {
 					$rootScope.speeckToUser({"text":"Select product from 0 to 10"});	
 				}
@@ -73,7 +73,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				audiotext = audiotext[1].trim();
 				audiotext = audiotext.split(" ")[0];			
 				$scope.productCnt  = audiotext;
-				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " product in product " + $scope.selectedProduct +". we request admin regarding this amd we will get back you soon"});
+				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " product in product " + $scope.selectedProduct +". we request admin regarding this and we will get back you soon"});
 				$scope.apiCall();
 			} else {
 				$rootScope.speeckToUser({"text":"please Check your keyword"})

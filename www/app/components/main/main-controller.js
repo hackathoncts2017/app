@@ -4,6 +4,7 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
     $scope.audiocall = function() {
 		//alert("ff");
 	}
+      $scope.isUser = false;
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
         console.log(deviceDetails);
@@ -11,9 +12,19 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
 			if(!res.error) {
                 console.log("resposnes",res);
 				localStorage.userDetails = JSON.stringify(res.data[0]);
+                $scope.isUser = false;
+                if(localStorage.userDetails) {
+                    if(JSON.parse(localStorage.userDetails).isCustomer){
+                         $scope.isUser = false;
+                     }else {
+                         $scope.isUser = true;
+                     }
+                }
 			}
 		});
 	}
+    
+    
     $scope.selectCb = function(component,index) {
         $rootScope.selectedComponent = component;
         var componentName = "";

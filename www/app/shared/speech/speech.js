@@ -13,7 +13,8 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 	$scope.navigatePage ={
 		"dashboard":0,
 		"map":1,
-		"product":2
+		"product":2,
+		"search":3
 	}
 	$rootScope.speeckToUser = function(data) {
 		console.log("inside speak to");

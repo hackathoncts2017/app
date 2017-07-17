@@ -61,6 +61,14 @@ hackathon.directive('speech', function () {
     }
 });
 
+hackathon.directive('usertab', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/usertab/usertab.html",
+        controller:"UserController",
+        controllerAs: 'userctrl',
+    }
+});
 hackathon.directive('flipClock', ['$parse', function($parse) {
     return {
       replace: true,
