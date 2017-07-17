@@ -107,8 +107,8 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		  "orderBy": JSON.parse(localStorage.userDetails).id.toString(),
 		  "orderFor": "" + $rootScope.jobId,
 		  "Location": "LOCATION",
-		  "image":selPro.productBaseInfo.productAttributes.maximumRetailPrice.amount,
-		  "price":selPro.productBaseInfo.productAttributes.imageUrls['200x200']
+		  "price":selPro.productBaseInfo.productAttributes.maximumRetailPrice.amount.toString(),
+		  "image":selPro.productBaseInfo.productAttributes.imageUrls['200x200'] || selPro.productBaseInfo.productAttributes.imageUrls['unknown']
 		};
 		ProductService.saveProduct(productDesc,function() {
 			$scope.product = [];

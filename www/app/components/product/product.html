@@ -3,7 +3,7 @@
 		<div class="product-container" ng-if="!onStart && product.length > 0">
 			<div ng-if="product.length > 0">
 				<div ng-if="!isLoading" class="listbox" ng-repeat="prod in product">
-					<div class ="image-box" style="background: url({{prod.productBaseInfo.productAttributes.imageUrls['200x200']}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
+					<div class ="image-box" style="background: url({{prod.productBaseInfo.productAttributes.imageUrls['200x200']?prod.productBaseInfo.productAttributes.imageUrls['200x200'] : prod.productBaseInfo.productAttributes.imageUrls['unknown']}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
 					</div>
 					<div  class="product-desc">
 						<div style="width:{{productWidth}}px" class="truncate">{{prod.productBaseInfo.productAttributes.title}}</div>
