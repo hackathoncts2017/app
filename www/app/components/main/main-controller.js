@@ -14,6 +14,15 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
 			}
 		});
 	}
+     $scope.isUser = false;
+    if(localStorage.userDetails) {
+        if(JSON.parse(localStorage.userDetails).isCustomer){
+             $scope.isUser = false;
+         }else {
+             $scope.isUser = true;
+         }
+    }
+    
     $scope.selectCb = function(component,index) {
         $rootScope.selectedComponent = component;
         var componentName = "";

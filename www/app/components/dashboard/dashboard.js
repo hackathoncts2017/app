@@ -210,7 +210,10 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
         });
     };
+    //$scope.customer ={name:"",mobile:""}
     $scope.registerUser = function(context, action, detail) {
+        $scope.customerName = "saravanan";
+        $scope.customerNumber = "8903639221";
         if(!context) {
             $rootScope.speeckToUser({
                 "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."

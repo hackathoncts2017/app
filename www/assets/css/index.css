@@ -233,3 +233,12 @@ highchart {
         padding: 5px;
     font-size: 14px;
 }
+#top-tabs  > md-tabs-wrapper{
+    top: 0px;
+}
+#top-tabs  > md-tabs-content-wrapper {
+    top:48px;
+}
+#top-tabs{
+    height: 436px;
+}
