@@ -22,7 +22,18 @@ hackathon.service('MapService', function($http, $q){
             // $scope.github.repositories = JSON.stringify(results.repos.data, null, 2);
           });
    }
-
+   this.assignJob = function(data,cb) {
+   	$http({
+			method: 'POST',
+			url: 'https://hackathoncts.herokuapp.com/assignJob',
+			data: JSON.stringify(data),
+			headers: {'Content-Type': 'application/json'}
+		}).success(function(res){
+			cb(res.data);
+		}, function(res){
+		   cb(true);
+		});
+   }
    this.sendSMS = function(data,cb) {   
 	  $http({
 			method: 'POST',
