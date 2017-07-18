@@ -54,7 +54,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 audiotext = audiotext.split(keyWords[2]);
                 //if (audiotext.length > 1 && audiotext[1] != "") {
                     $rootScope.speeckToUser({
-                        "text": "Description" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity" + $scope.dashboardData.weather.main.humidity + "and" + "Temperature" + $scope.dashboardData.weather.main.temp
+                        "text": "Today Weather Report" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity is " + $scope.dashboardData.weather.main.humidity + "and" + "Temperature is" + $scope.dashboardData.weather.main.temp
                     });
                     //$scope.chartReports(audiotext);
                 //} else {
@@ -175,6 +175,13 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         });
         
     }
+
+     
+
+    $scope.getNumber = function(num) {
+    return new Array(num);   
+    }
+
     $scope.getDetails = function() {
         $scope.userdetails = null;
         DashboardService.getDetails().then(function(res) {
@@ -193,6 +200,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 } else if (res.data.data[0].isCustomer == 1){
                     $scope.registerNewUser = false;
                     $scope.isCustomer = true;
+                    $scope.customerName = res.data.data[0].engineerName;
+                    $scope.customerNumber = res.data.data[0].mobileNo;
                 }
                 
             } else {
@@ -210,10 +219,11 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
         });
     };
+    $scope.customerName = "saravanan";
+    $scope.customerNumber = "8903639221";
     //$scope.customer ={name:"",mobile:""}
     $scope.registerUser = function(context, action, detail) {
-        $scope.customerName = "saravanan";
-        $scope.customerNumber = "8903639221";
+       
         if(!context) {
             $rootScope.speeckToUser({
                 "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."
@@ -381,6 +391,81 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if ($rootScope.chartType) {
             $scope.charttype = $rootScope.chartType;
         }
+        $scope.charttype = 'bubble';
+
+        if($scope.charttype == 'bubble'){
+                alert($scope.charttype);
+                $scope.dchartConfig = {
+
+                    chart: {
+                    type: 'bubble',
+                    plotBorderWidth: 1,
+                    zoomType: 'xy',
+                    plotBorderColor: 'transparent',
+                },
+
+                title: {
+                    text: 'Yearly Report'
+                },
+                  credits: {
+                            enabled: false
+                        },
+                        legend: {
+                            enabled: false
+                        },
+
+                xAxis: {
+                    gridLineWidth: 0,
+                    lineWidth: 0,    
+                    tickLength: 0, 
+                       labels: {
+                           enabled: false
+                       },
+                },
+
+                yAxis: {
+                    gridLineWidth: 0,
+                     labels: {
+                           enabled: false
+                       },
+                    title:{
+                                "text":""
+                            }
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
+                        }
+                    }
+                },
+
+                series: [{
+                    data: [
+                         { x: 95, y: 105, z:78, name: 'Q1',},
+                        { x: 86.5, y: 102.9, z: 40, name: 'Q2'},
+                        { x: 80.8, y: 91.5, z: 42, name: 'Q3'},
+                        { x: 80.4, y: 102.5, z: 47, name: 'Q4'},
+                        { x: 100.1, y: 100.2, z: 0, name: '',visible:"hidden"},
+                       
+                        
+                    ],
+                    marker: {
+                        fillColor: {
+                            radialGradient: { cx: 0.4, cy: 0.3, r: 0.7 },
+                            stops: [
+                                [0, 'rgba(255,255,255,0.5)'],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.5).get('rgba')]
+                            ]
+                        }
+                    }
+                }]
+
+            }; 
+
+        }
+        else{
         $scope.dchartConfig = {
             chart: {
                 type: $scope.charttype
@@ -416,5 +501,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 data: [72.9, 99.5, 76.4]
             }]
         };
+    }
     };
 })
