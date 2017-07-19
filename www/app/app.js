@@ -20,8 +20,8 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
   }, false);
 //c0e9928ff73b8fa1
 //1234567890
-var devideId = "c0e9928ff73b8fa1";//+(Math.random()*1000000000000000).toFixed(0);
- ///localStorage.deviceDetails = JSON.stringify({"available":true,"platform":"Android","version":"7.0","uuid": devideId ,"cordova":"6.2.3","model":"Lenovo K33a42","manufacturer":"LENOVO","isVirtual":false,"serial":"d4d2cc44"} );        
+var devideId = "c0e9928ff73b8fa1"//+(Math.random()*1000000000000000).toFixed(0);
+localStorage.deviceDetails = JSON.stringify({"available":true,"platform":"Android","version":"7.0","uuid": devideId ,"cordova":"6.2.3","model":"Lenovo K33a42","manufacturer":"LENOVO","isVirtual":false,"serial":"d4d2cc44"} );        
   /* Hijack Android Back Button (You Can Set Different Functions for Each View by Checking the $state.current)
   document.addEventListener("backbutton", function (e) {
       if($state.is('init')){

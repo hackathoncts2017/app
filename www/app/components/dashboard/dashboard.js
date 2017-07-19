@@ -153,26 +153,33 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $rootScope.speeckToUser({
                     "text": "Please tell us the issue you are facing"
                 });
-            } 
+            } else if (audiotext.indexOf('track') > -1) {
+                if($rootScope.assignedEngId != -1) {
+                    $rootScope.tabChange(1);
+                } else {
+                    $rootScope.speeckToUser({
+                        "text": "You dont have any jobs to be tracked"
+                    });
+                }
+            }
         }
     };
     $scope.registerNewComplaint = function() {
-        $rootScope.speeckToUser({
-            "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
-        });
-        
-
         var request = {
           "userId": "",
+          "postedBy": "" + JSON.parse(localStorage.userDetails).id,
           "Location": $scope.myLocation,
           "Address": $scope.defaultLocation,
           "customerName": JSON.parse(localStorage.userDetails).engineerName,
-          "customerContactNo": JSON.parse(localStorage.userDetails).mobileNo,
+          "customerContactNo": JSON.parse(localStorage.userDetails).mobileNo.replace(/\s/g,''),
           "jobOn": $scope.issueDate.toDateString(),
           "reason": $scope.issueDetails
         };
         console.log(request);
         DashboardService.registerComplaint(request, function(data){
+            $rootScope.speeckToUser({
+                "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
+            });
         });
         
     }
@@ -194,13 +201,16 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     $rootScope.isAdmin = res.data.data[0].isAdmin;
                     $scope.userdetails.designation = "Senior Executive";
                     $scope.registerNewUser = false;
+                    $scope.userRegistered = true;
                     $scope.isCustomer = false;
                 } else if(res.data.data[0].isNewUser) {
                     $scope.registerNewUser = true; 
                     $scope.isCustomer = true;
+                    $scope.userRegistered = false;
                 } else if (res.data.data[0].isCustomer == 1){
                     $scope.registerNewUser = false;
                     $scope.isCustomer = true;
+                    $scope.userRegistered = true;
                     $scope.customerName = res.data.data[0].engineerName;
                     $scope.customerNumber = res.data.data[0].mobileNo;
                 }
@@ -220,8 +230,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
         });
     };
-    $scope.customerName = "saravanan";
-    $scope.customerNumber = "8903639221";
+    $scope.customerName = "";
+    $scope.customerNumber = "";
     //$scope.customer ={name:"",mobile:""}
     $scope.registerUser = function(context, action, detail) {
        
@@ -245,7 +255,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $("#fff").trigger("click");
             var requestData = {
                 "userName" : $scope.customerName,
-                "mobileNo" : $scope.customerNumber.trim()
+                "mobileNo" : $scope.customerNumber.replace(/\s/g,'')
             }
             DashboardService.registerUser(requestData,function(data) {
                 $scope.getDetails();
@@ -256,7 +266,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
      $scope.getjob = function() { 
         if($scope.userdetails.isAdmin == "0") {
             DashboardService.getJob().then(function(res){
-            //debugger;              
                 for(var i = 0; i<res.data.length;i++) {
                     if(res.data[i].status == "I") {
                         $scope.pendingjobs.push(res.data[i]);                            
@@ -323,7 +332,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $scope.WeatherIcon = "http://openweathermap.org/img/w/" + $scope.dashboardData.weather.weather[0].icon + ".png";
                 console.log("$scope.WeatherIcon", $scope.WeatherIcon);
                 if($scope.userdetails.isAdmin == "1") {
-                 $scope.afterRender();
+                    $scope.afterRender();
                 }
             }
             $rootScope.loadMap();

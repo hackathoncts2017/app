@@ -59,7 +59,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         console.log("My loc", $rootScope.myLoc);
                     },2000);
                 });
-            } else {
+            } else if($rootScope.isCustomer === 0){
                 MapService.getJob().then(function(res){
                     console.log(res);
                     var indexValue = 0;
@@ -78,6 +78,23 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         console.log("My loc", $rootScope.myLoc);
                     },2000);
                 }); 
+            } else if ($rootScope.isCustomer === 1) {
+                $scope.indexVal = 0;
+                setInterval(function(){ 
+                    $scope.locations = [];
+                    MapService.userJobSearch($rootScope.assignedEngId).then(function(res){
+                        console.log("calling location", res.data[i].location);
+                        $scope.locations.push({"locationVal" : res.data[i].location});
+                        setTimeout(function(){
+                            document.getElementById("fff").click(); 
+                            var id = +Object.keys($rootScope.allDirections)[0];
+                            $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                            " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
+                        },2000);
+                    })
+                }, 15000);
+                
+                
             }
         }); 
     }
