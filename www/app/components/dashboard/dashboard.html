@@ -57,7 +57,7 @@
 		<div>-->
 		<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'">
 			<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
-			<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px;"></highchart>
+			<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" ></highchart>
 			<highchart id="chart2" config="dchartConfigBubble" ng-show="showBubble"  style="height:{{chartHeight}}px;"></highchart>
 			<!--<highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
 			<highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>

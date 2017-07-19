@@ -341,12 +341,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     window.drawChart = $scope.drawChart = function(type) {
         var chartType = ['line','spline','area','areaspline','column'];
         if(chartType.indexOf(type) > -1){
-            $scope.showBubble = false;
-            $("#fff").trigger("click");
-            $("#chart1").highcharts().update({"chart":{"type":type,height:350,width:396}})
+            $scope.showBubble = false;            
+            $("#chart1").highcharts().update({"chart":{"type":type,height:$scope.chartHeight,width:$(window).width() - 20}})
+			$("#fff")[0].click()
         } else if(type == "bubble") {
             $scope.showBubble = true;
-            $("#fff").trigger("click");
+            $("#fff")[0].click()
         } else {
             $rootScope.speeckToUser({
                     "text": "Chart type not allowed"
