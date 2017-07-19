@@ -468,21 +468,21 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     },
                     bubble: {
                         minSize: 10,
-                        maxSize: 200
+                        maxSize: 150
                     }
 
                 },
 
                 series: [{
-                    data: [{ x: 145, y: 125, z:200, name: 'Q1',}],marker: marker
+                    data: [{ x: 150, y: 135, z:150, name: 'Q1',}],marker: marker
                 },{
-                    data: [{ x: 70, y: 70, z:75, name: 'Q2',}],marker: marker
+                    data: [{ x: 80, y: 70, z:90, name: 'Q2',}],marker: marker
                 },{
-                    data: [{ x: 40, y: 150, z:100, name: 'Q3',}],marker: marker
+                    data: [{ x: 40, y: 150, z:70, name: 'Q3',}],marker: marker
                 },{
-                    data: [{ x: 25, y: 28, z:50, name: 'Q4',}],marker: marker
+                    data: [{ x: 25, y: 40, z:40, name: 'Q4',}],marker: marker
                 },{
-                    data: [{ x: 90, y: 68, z:30, name: ''}],marker: {fillColor:'transparent',lineColor: 'transparent'},visible:true
+                    data: [{ x: 90, y: 68, z:25, name: ''}],marker: {fillColor:'transparent',lineColor: 'transparent'},visible:true
                 }]
 
             }; 
