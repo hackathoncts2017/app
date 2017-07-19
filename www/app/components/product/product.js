@@ -29,6 +29,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     	ProductService.getAdminProduct(function(err,res){
     		if(!err) {
     			$scope.productAdmin = res;
+				$scope.noData = false;
     		} else {
     			$scope.productAdmin = [];
     			$scope.noData = true;
@@ -109,7 +110,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		  "orderFor": "" + $rootScope.jobId,
 		  "Location": "LOCATION",
 		  "price":selPro.productBaseInfo.productAttributes.maximumRetailPrice.amount.toString(),
-		  "image":selPro.productBaseInfo.productAttributes.imageUrls['200x200'] || selPro.productBaseInfo.productAttributes.imageUrls['unknown']
+		  "image":$scope.imagesplit(selPro.productBaseInfo.productAttributes.imageUrls)
 		};
 		ProductService.saveProduct(productDesc,function() {
 			$scope.product = [];
@@ -135,5 +136,16 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 			}
 		}); 
 	}
-
+	$scope.imagesplit = function(imgaeObj) {
+		if(!imgaeObj['200x200']){
+			var unknownData = imgaeObj['unknown'];
+			unknownData = unknownData.split("-");
+			unknownData[unknownData.length - 2] = '200x200';
+			unknownData = unknownData.join("-");
+			return unknownData;
+		} else {
+			return imgaeObj['200x200']
+		}
+	}
+	//prod.productBaseInfo.productAttributes.imageUrls['200x200']?prod.productBaseInfo.productAttributes.imageUrls['200x200'] : prod.productBaseInfo.productAttributes.imageUrls['unknown']
 })
