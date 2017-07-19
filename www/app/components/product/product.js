@@ -4,6 +4,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	$scope.productAdmin = [];
 	$scope.isAdminLoad = true;
 	$scope.isAdmin = false;
+	$scope.noData = false;
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
         console.log(deviceDetails);

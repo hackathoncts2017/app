@@ -8,6 +8,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.dashboardData = null;
     $scope.isLoading = true;
     $scope.pendingjobs =[];
+    $scope.showBubble = true;
     $scope.completedjobs =[];
 	$scope.defaultLocation = 'current-location'; 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
@@ -337,10 +338,15 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.chartConfig = '';
     $scope.charttype = 'column';
     $scope.chartsection = true;
-    $scope.drawChart = function(type) {
+    window.drawChart = $scope.drawChart = function(type) {
         var chartType = ['line','spline','area','areaspline','column'];
         if(chartType.indexOf(type) > -1){
-            $("#chart1").highcharts().update({"chart":{"type":type}})
+            $scope.showBubble = false;
+            $("#fff").trigger("click");
+            $("#chart1").highcharts().update({"chart":{"type":type,height:350,width:396}})
+        } else if(type == "bubble") {
+            $scope.showBubble = true;
+            $("#fff").trigger("click");
         } else {
             $rootScope.speeckToUser({
                     "text": "Chart type not allowed"
@@ -349,38 +355,45 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         
     }
     window.chartReportChange = $scope.chartReportChange = function(report) {
-        var isChange = false,
-            chartRef = $("#chart1").highcharts(),
-            xAxis = [];
-        if(report == 'daily') {
-            chartRef.series[0].update({"data": [72.9, 99.5, 76.4]},false);
-            chartRef.setTitle({text: "Daily Report"});
-            xAxis = ['Morning', 'Afternoon', 'Evening'];
-            isChange = true;
-        } else if (report == 'weekly')  {
-            chartRef.series[0].update({"data": [72.9, 9.5, 76.4, 33.5, 12, 85]},false);
-            chartRef.setTitle({text: "Weekly Report"});
-            xAxis = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-            isChange = true;
-        } else if (report == 'monthly') {
-            chartRef.series[0].update({"data":[72.9, 99.5, 6.4, 64.3]},false);
-            chartRef.setTitle({text: "Monthly Report"});
-            isChange = true;
-            xAxis = ['Week1', 'Week2', 'week3', 'week4'];
-        } else if (report == 'yearly' || report == "early") {
-            chartRef.series[0].update({"data":[72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]},false);
-            chartRef.setTitle({text: "Yearly Report"});
-            isChange = true;
-            xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec'];
-        }
-
-        if(isChange) {
-            $("#chart1").highcharts().xAxis[0].setCategories(xAxis);
+        if($scope.showBubble){
+                 $rootScope.speeckToUser({
+                        "text": "Report type not allowed"
+                    });
         } else {
-            $rootScope.speeckToUser({
-                    "text": "please check your report type"
-                });
+            var isChange = false,
+                chartRef = $("#chart1").highcharts(),
+                xAxis = [];
+            if(report == 'daily') {
+                chartRef.series[0].update({"data": [72.9, 99.5, 76.4]},false);
+                chartRef.setTitle({text: "Daily Report"});
+                xAxis = ['Morning', 'Afternoon', 'Evening'];
+                isChange = true;
+            } else if (report == 'weekly')  {
+                chartRef.series[0].update({"data": [72.9, 9.5, 76.4, 33.5, 12, 85]},false);
+                chartRef.setTitle({text: "Weekly Report"});
+                xAxis = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+                isChange = true;
+            } else if (report == 'monthly') {
+                chartRef.series[0].update({"data":[72.9, 99.5, 6.4, 64.3]},false);
+                chartRef.setTitle({text: "Monthly Report"});
+                isChange = true;
+                xAxis = ['Week1', 'Week2', 'week3', 'week4'];
+            } else if (report == 'yearly' || report == "early") {
+                chartRef.series[0].update({"data":[72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]},false);
+                chartRef.setTitle({text: "Yearly Report"});
+                isChange = true;
+                xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec'];
+            }
+
+            if(isChange) {
+                $("#chart1").highcharts().xAxis[0].setCategories(xAxis);
+            } else {
+                $rootScope.speeckToUser({
+                        "text": "please check your report type"
+                    });
+            }
         }
+        
     }
     $scope.chartReports = function(type) {
         if (!$rootScope.chartStatus) {
@@ -391,11 +404,21 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if ($rootScope.chartType) {
             $scope.charttype = $rootScope.chartType;
         }
-        $scope.charttype = 'bubble';
+        //$scope.charttype = 'bubble';
 
-        if($scope.charttype == 'bubble'){
-                alert($scope.charttype);
-                $scope.dchartConfig = {
+        //if($scope.charttype == 'bubble'){
+                //alert($scope.charttype);
+                var marker = {
+                        lineColor:"#7cb5ec",
+                        fillColor: {
+                            radialGradient: { cx: 0.4, cy: 0.3, r: 0.7 },
+                            stops: [
+                                [0, 'rgba(255,255,255,0.5)'],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.5).get('rgba')]
+                            ]
+                        }
+                    };
+                $scope.dchartConfigBubble = {
 
                     chart: {
                     type: 'bubble',
@@ -421,9 +444,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                        labels: {
                            enabled: false
                        },
+                    min:0,
+                    max:200
                 },
-
                 yAxis: {
+                    min:0,
+                    max:200,
                     gridLineWidth: 0,
                      labels: {
                            enabled: false
@@ -436,36 +462,33 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     series: {
                         dataLabels: {
                             enabled: true,
-                            format: '{point.name}'
+                            format: '{point.name}',
+                            color: 'black'
                         }
+                    },
+                    bubble: {
+                        minSize: 10,
+                        maxSize: 200
                     }
+
                 },
 
                 series: [{
-                    data: [
-                         { x: 95, y: 105, z:78, name: 'Q1',},
-                        { x: 86.5, y: 102.9, z: 40, name: 'Q2'},
-                        { x: 80.8, y: 91.5, z: 42, name: 'Q3'},
-                        { x: 80.4, y: 102.5, z: 47, name: 'Q4'},
-                        { x: 100.1, y: 100.2, z: 0, name: '',visible:"hidden"},
-                       
-                        
-                    ],
-                    marker: {
-                        fillColor: {
-                            radialGradient: { cx: 0.4, cy: 0.3, r: 0.7 },
-                            stops: [
-                                [0, 'rgba(255,255,255,0.5)'],
-                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0.5).get('rgba')]
-                            ]
-                        }
-                    }
+                    data: [{ x: 145, y: 125, z:200, name: 'Q1',}],marker: marker
+                },{
+                    data: [{ x: 70, y: 70, z:75, name: 'Q2',}],marker: marker
+                },{
+                    data: [{ x: 40, y: 150, z:100, name: 'Q3',}],marker: marker
+                },{
+                    data: [{ x: 25, y: 28, z:50, name: 'Q4',}],marker: marker
+                },{
+                    data: [{ x: 90, y: 68, z:30, name: ''}],marker: {fillColor:'transparent',lineColor: 'transparent'},visible:true
                 }]
 
             }; 
 
-        }
-        else{
+        //}
+        //else{
         $scope.dchartConfig = {
             chart: {
                 type: $scope.charttype
@@ -501,6 +524,6 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 data: [72.9, 99.5, 76.4]
             }]
         };
-    }
+            //}
     };
 })

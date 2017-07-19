@@ -55,7 +55,12 @@
 			  <div layout="row" layout-align="center center"  style="min-height: 500px">
 			  <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
 			  </div>
-		</div>		
+		</div>
+		<div class="flexbox-parent"  ng-if="!noData">
+			<div layout="row" layout-align="center center"  style="min-height: 500px">
+			        <p style="font-size: 22px;text-align: center;">No pending orders</p>
+			 </div>
+		</div>	
 		<div class="pop-up-custom" style='display:{{showPopUp?"block":"none"}}'>
 			<div class="product-pop-up-header">
 				Product Page <span style="display: inline-block;float: right;" ng-click="closePopup()"><i class="icon-remove-sign"></i></span>
