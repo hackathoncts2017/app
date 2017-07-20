@@ -16,11 +16,14 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		"product":2,
 		"search":3
 	}
-	$rootScope.speeckToUser = function(data) {
+	$rootScope.speeckToUser = function(data,callAudio) {
 		console.log("inside speak to");
 		if(typeof TTS != "undefined") {
 			TTS.speak(data.text, function () {
 	           // alert('success');
+			   if(callAudio) {
+				   $(".audio-btn")[0].click()
+			   }
 	        }, function (reason) {
 	            //alert(reason);
 	        });
@@ -79,7 +82,9 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 					} else {
 						$rootScope.speeckToUser({"text":"please check your page name"})
 					}
-				} else {
+				} else if(audioTxt.indexOf("call") > -1){
+					$("#calladmin")[0].click()
+				}else {
 					$scope.callcomponent(audioTxt);
 				}					
 			}
