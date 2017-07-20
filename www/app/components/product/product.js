@@ -65,7 +65,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				$scope.selectedProduct  = audiotext[1];
 				$scope.selectedProduct = Number($scope.selectedProduct);
 				if( 0 < $scope.selectedProduct &&  $scope.selectedProduct< 11) {
-					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"});		
+					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"},true);		
 				} else {
 					$rootScope.speeckToUser({"text":"Select product from 0 to 10"});	
 				}

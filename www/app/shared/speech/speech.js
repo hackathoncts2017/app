@@ -16,11 +16,14 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		"product":2,
 		"search":3
 	}
-	$rootScope.speeckToUser = function(data) {
+	$rootScope.speeckToUser = function(data,callAudio) {
 		console.log("inside speak to");
 		if(typeof TTS != "undefined") {
 			TTS.speak(data.text, function () {
 	           // alert('success');
+			   if(callAudio) {
+				   $(".audio-btn")[0].click()
+			   }
 	        }, function (reason) {
 	            //alert(reason);
 	        });
@@ -78,6 +81,24 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 						$rootScope.tabChange(navIndex);
 					} else {
 						$rootScope.speeckToUser({"text":"please check your page name"})
+					}
+				} else if(audioTxt.indexOf("call") > -1){
+					$("#calladmin")[0].click()
+				} else if(audioTxt.indexOf("switch to") > -1){
+					audioTxt = audioTxt.split("switch to");
+					audioTxt = audioTxt[1].split(" ");
+					if(audioTxt.length == 3) {
+						audioTxt = audioTxt[1];
+						if(audioTxt == "admin"){
+							localStorage.userToggle = "admin";
+						} else if(audioTxt == "engineer") {
+							localStorage.userToggle = "engineer";
+						} else if(audioTxt == "user"){
+							localStorage.userToggle = "user";
+						} else {
+							delete localStorage;
+						}
+						location.reload(0);
 					}
 				} else {
 					$scope.callcomponent(audioTxt);
