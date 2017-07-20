@@ -55,6 +55,14 @@ hackathon.service('DashboardService', function($http){
 		return {error:true};
 	  });
    }
+   this.userJob = function() {
+	  	var userId = JSON.parse(localStorage.userDetails).id || 1;
+   		return $http.get('http://hackathoncts.herokuapp.com/job/user/'+userId).then(function(res){
+			return res.data;
+		 }, function(res){
+			return {error:true};
+		 });
+   }
 
    
   

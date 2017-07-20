@@ -238,7 +238,21 @@ highchart {
 }
 #top-tabs  > md-tabs-content-wrapper {
     top:48px;
+    bottom: 0px;
 }
 #top-tabs{
     height: 436px;
+}
+.ticket-list{
+   /* height: 60px;*/
+}
+.ticket-reason{
+    padding: 6px 0px 0px 0px;
+    font-size: 20px;
+    text-transform: capitalize;
+    border-bottom: 1px solid #ccc;
+    font-weight: bold;
+}
+.md-list-item-text h3 {
+    font-weight: bold !important;
 }

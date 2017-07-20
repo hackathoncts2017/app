@@ -4,6 +4,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	$scope.productAdmin = [];
 	$scope.isAdminLoad = true;
 	$scope.isAdmin = false;
+	$scope.noData = false;
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
         console.log(deviceDetails);
@@ -28,6 +29,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     	ProductService.getAdminProduct(function(err,res){
     		if(!err) {
     			$scope.productAdmin = res;
+				$scope.noData = false;
     		} else {
     			$scope.productAdmin = [];
     			$scope.noData = true;
@@ -63,7 +65,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				$scope.selectedProduct  = audiotext[1];
 				$scope.selectedProduct = Number($scope.selectedProduct);
 				if( 0 < $scope.selectedProduct &&  $scope.selectedProduct< 11) {
-					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"});		
+					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"},true);		
 				} else {
 					$rootScope.speeckToUser({"text":"Select product from 0 to 10"});	
 				}
@@ -107,8 +109,8 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		  "orderBy": JSON.parse(localStorage.userDetails).id.toString(),
 		  "orderFor": "" + $rootScope.jobId,
 		  "Location": "LOCATION",
-		  "image":selPro.productBaseInfo.productAttributes.maximumRetailPrice.amount,
-		  "price":selPro.productBaseInfo.productAttributes.imageUrls['200x200']
+		  "price":selPro.productBaseInfo.productAttributes.maximumRetailPrice.amount.toString(),
+		  "image":$scope.imagesplit(selPro.productBaseInfo.productAttributes.imageUrls)
 		};
 		ProductService.saveProduct(productDesc,function() {
 			$scope.product = [];
@@ -134,5 +136,16 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 			}
 		}); 
 	}
-
+	$scope.imagesplit = function(imgaeObj) {
+		if(!imgaeObj['200x200']){
+			var unknownData = imgaeObj['unknown'];
+			unknownData = unknownData.split("-");
+			unknownData[unknownData.length - 2] = '200x200';
+			unknownData = unknownData.join("-");
+			return unknownData;
+		} else {
+			return imgaeObj['200x200']
+		}
+	}
+	//prod.productBaseInfo.productAttributes.imageUrls['200x200']?prod.productBaseInfo.productAttributes.imageUrls['200x200'] : prod.productBaseInfo.productAttributes.imageUrls['unknown']
 })

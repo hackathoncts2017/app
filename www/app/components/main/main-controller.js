@@ -4,7 +4,9 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
     $scope.audiocall = function() {
 		//alert("ff");
 	}
-      $scope.isUser = false;
+    $scope.isUser = false;
+    $scope.isadmin = false;
+    $scope.isEngineer = false;
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
         console.log(deviceDetails);
@@ -14,10 +16,12 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
 				localStorage.userDetails = JSON.stringify(res.data[0]);
                 $scope.isUser = false;
                 if(localStorage.userDetails) {
-                    if(JSON.parse(localStorage.userDetails).isCustomer){
-                         $scope.isUser = false;
-                     }else {
+                    if(JSON.parse(localStorage.userDetails).isAdmin == 1) {
+                        $scope.isadmin = true
+                    } else if(JSON.parse(localStorage.userDetails).isAdmin == 0 && JSON.parse(localStorage.userDetails).isCustomer == 1){
                          $scope.isUser = true;
+                     } else {
+                         $scope.isEngineer = true;
                      }
                 }
 			}

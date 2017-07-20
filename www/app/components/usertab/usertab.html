@@ -17,11 +17,35 @@
           Registered 
         </md-tab-label>
         <md-tab-body >                   
-              <div class="flexbox-parent" >
-				<div layout="row" layout-align="center center"  style="min-height: 340px">
-					<p style="font-size: 20px;text-align: center;">There is no open Ticket</p>
-				</div>
-			</div>
+            <div class="flexbox-parent" ng-if="noTicket">
+      				<div layout="row" layout-align="center center"  style="min-height: 340px">
+      					<p style="font-size: 20px;text-align: center;">There is no open Ticket</p>
+      				</div>
+      			</div>
+            <div class="flexbox-parent" ng-if="loader">
+              <div layout="row" layout-align="center center" ng-init="userJob()"  style="min-height: 340px">
+                <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+              </div>
+            </div>
+            <div class="flexbox-parent" ng-if="!loader && !noTicket">
+                <md-card class="md-padding" layout-xs="column" layout="row" ng-repeat="item in joblist" >
+                    <md-list style="padding:0px">
+                      <md-list-item class="md-3-line" ng-click="null">
+                     
+                        <img ng-if="!item.engineerDetails" ng-src="assets/img/engineer.jpg" class="md-avatar" alt="xcvxc" style="width: 60px;height: 60px;" />
+                        <img ng-if="item.engineerDetails" ng-src="assets/img/{{item.engineerDetails.image}}.jpg" class="md-avatar" alt="{{item.engineerDetails.engineerName}}" style="width: 60px;height: 60px;" />
+                        <div class="md-list-item-text" layout="column">
+                            <h3>{{item.reason}}</h3>
+                            <h4 ng-if="item.engineerDetails">{{item.engineerDetails.engineerName}}</h4>
+                            <h4 ng-if="!item.engineerDetails">Job yet to be assigned</h4>
+                            <div ng-if="item.rating">
+                            <img src="assets/img/star.png" ng-repeat="i in getNumber(item.rating) track by $index" style="height:16px;width:16px;top: 2px;position: relative;float:left;"/>
+                            </div>
+                         </div>
+                      </md-list-item>
+                   </md-list> 
+                </md-card>                             
+           </div>
         </md-tab-body> 
     </md-tab>
   </md-tabs>
