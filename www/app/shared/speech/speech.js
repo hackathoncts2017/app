@@ -84,7 +84,23 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 					}
 				} else if(audioTxt.indexOf("call") > -1){
 					$("#calladmin")[0].click()
-				}else {
+				} else if(audioTxt.indexOf("switch to") > -1){
+					audioTxt = audioTxt.split("switch to");
+					audioTxt = audioTxt[1].split(" ");
+					if(audioTxt.length == 3) {
+						audioTxt = audioTxt[1];
+						if(audioTxt == "admin"){
+							localStorage.userToggle = "admin";
+						} else if(audioTxt == "engineer") {
+							localStorage.userToggle = "engineer";
+						} else if(audioTxt == "user"){
+							localStorage.userToggle = "user";
+						} else {
+							delete localStorage;
+						}
+						location.reload(0);
+					}
+				} else {
 					$scope.callcomponent(audioTxt);
 				}					
 			}
