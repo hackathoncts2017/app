@@ -12,11 +12,17 @@ hackathon.controller("UserController", function(shared, $state, $scope, $mdSiden
 				$scope.loader = false;
 				$scope.joblist = res.data;
 				console.log("joblist",res.data);
+				var flag = false;
 				for(var i = 0; i <res.data.length; i++) {
 					if(res.data[i].status == "I" && res.data[i].userId != "") {
+						flag = true;
 						$rootScope.assignedEngId = res.data[i].userId;
 					}
 				}
+				if(flag) {
+					$rootScope.loadMap();
+				}
+
 			}
 		})
 	}

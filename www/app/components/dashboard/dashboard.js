@@ -203,16 +203,19 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     $scope.registerNewUser = false;
                     $scope.userRegistered = true;
                     $scope.isCustomer = false;
+                    $rootScope.isCustomer = 0;
                 } else if(res.data.data[0].isNewUser) {
                     $scope.registerNewUser = true; 
                     $scope.isCustomer = true;
                     $scope.userRegistered = false;
+                    $rootScope.isCustomer = 1;
                 } else if (res.data.data[0].isCustomer == 1){
                     $scope.registerNewUser = false;
                     $scope.isCustomer = true;
                     $scope.userRegistered = true;
                     $scope.customerName = res.data.data[0].engineerName;
                     $scope.customerNumber = res.data.data[0].mobileNo;
+                    $rootScope.isCustomer = 1;
                 }
                 
             } else {

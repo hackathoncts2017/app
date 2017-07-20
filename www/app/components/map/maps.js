@@ -25,11 +25,26 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $scope.indexVal = 0;
     $rootScope.loadMap = function() {
        NgMap.getMap().then(function(map) {
-            $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
+            
             $rootScope.mapDetails = map; 
-            MapService.setMyLocation($rootScope.myLoc,function(data) {
-                console.log(data);
-            });
+            if($rootScope.isCustomer !== 1) {
+                $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
+                MapService.setMyLocation($rootScope.myLoc,function(data) {
+                    console.log(data);
+                });
+                setInterval(function() {
+                    MapService.setMyLocation($rootScope.myLoc,function(data) {
+                        console.log(data);
+                    });
+                },15000);
+            } else {
+                MapService.getJobLoc().then(function(res) {
+                    if(res.data[0] && res.data[0].status == "I") {
+                        $scope.jobLoc = res.data[0].Location;
+                    }
+                });
+            }
+            
             if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
                     console.log("res inside",res);
@@ -83,10 +98,11 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 setInterval(function(){ 
                     $scope.locations = [];
                     MapService.userJobSearch($rootScope.assignedEngId).then(function(res){
-                        console.log("calling location", res.data[i].location);
-                        $scope.locations.push({"locationVal" : res.data[i].location});
+                        console.log("calling location", res.data[0].location);
+                        $scope.locations.push({"locationVal" : res.data[0].location, "image" : res.data[0].image, isEng : true});
                         setTimeout(function(){
-                            document.getElementById("fff").click(); 
+                            document.getElementById("fff").click();
+                            $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers; 
                             var id = +Object.keys($rootScope.allDirections)[0];
                             $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
                             " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
