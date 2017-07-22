@@ -1,4 +1,4 @@
-hackathon.controller("MapController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,NgMap,$rootScope,$http,MapService) {
+hackathon.controller("MapController", function(shared, $state, $scope, $mdSidenav, $mdToast,$mdComponentRegistry,NgMap,$rootScope,$http,MapService) {
 	$scope.locations = [];
     $scope.feedbackflag = false;
     $scope.starFlag = false;
@@ -115,7 +115,15 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         }); 
     }
     
-    $rootScope.$on("MapSpeech", function(controller,data){           
+    $rootScope.$on("MapSpeech", function(controller,data){
+            if (data.text) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(data.text)
+                    .position('bottom right')
+                    .hideDelay(5000)
+                );
+            } 
            $scope.mapAudioSplit(data.text);
     });
     

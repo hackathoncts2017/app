@@ -1,5 +1,13 @@
-hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
+hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
+        if (data.text) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(data.text)
+                    .position('bottom right')
+                    .hideDelay(5000)
+                );
+            }         
         $scope.dashboardAudio(data.text);
     });
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
@@ -191,6 +199,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     }
 
     $scope.getDetails = function() {
+        
         $scope.userdetails = null;
         DashboardService.getDetails().then(function(res) {
             $scope.isLoading = false;
