@@ -55,18 +55,21 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				  language:"en-US",
 				  matches:1,
 				  prompt:"",
-				  showPopup:true,
+				  showPopup:false,
 				  showPartial:true
 				}
-				$scope.speechRecognition.startListening($scope.successCb,function(){console.log("ddd")},options)	
+				$scope.speechRecognition.startListening($scope.successCb,$scope.onError,options)	
 			}
 			$scope.successCb = function(data) {
 				var result= data[0];
 				result = result.toLowerCase();
 				$scope.splitText(result);
-				
+				setTimeout($scope.listen , 1000);
 				//$rootScope.speeckToUser({"text":result})
 				
+			}
+			$scope.onError = function(_err){
+				setTimeout($scope.listen , 1000);
 			}
 			$scope.splitText = function(audioTxt) {
 				if(audioTxt.indexOf("navigate") > -1) {
