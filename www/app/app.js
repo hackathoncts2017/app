@@ -8,7 +8,8 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
     //window.plugins.orientationLock.lock("portrait");
 	if(typeof device != "undefined" ) {
 		if(localStorage.userToggle == undefined) {
-			localStorage.deviceDetails = JSON.stringify(device);		
+			//commenting for testing
+			//localStorage.deviceDetails = JSON.stringify(device);		
 		}
 		cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
 			console.log("Location is " + (enabled ? "enabled" : "disabled"));
@@ -20,7 +21,7 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
 		});
 	}
   }, false);
-  var devideId = "c0e9928ff73b8fa1";
+  var devideId = "1234567890";
   localStorage.deviceDetails = JSON.stringify({"available":true,"platform":"Android","version":"7.0","uuid": devideId ,"cordova":"6.2.3","model":"Lenovo K33a42","manufacturer":"LENOVO","isVirtual":false,"serial":"d4d2cc44"} );        
 
 if(localStorage.userToggle){

@@ -64,12 +64,12 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				var result= data[0];
 				result = result.toLowerCase();
 				$scope.splitText(result);
-				setTimeout($scope.listen , 1000);
+				//setTimeout($scope.listen , 1000);
 				//$rootScope.speeckToUser({"text":result})
 				
 			}
 			$scope.onError = function(_err){
-				setTimeout($scope.listen , 1000);
+				//setTimeout($scope.listen , 1000);
 			}
 			$scope.splitText = function(audioTxt) {
 				if(audioTxt.indexOf("navigate") > -1) {

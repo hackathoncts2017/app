@@ -3,19 +3,31 @@
 	  <ng-map center="current-location" style="height: 550px">
 		  <div ng-if="locations.length > 0">
 		  	<div ng-repeat="loc in locations">
-		  		<div ng-if="indexVal == $index && $rootScope.isCustomer != 1">
+		  		<div ng-if="indexVal == $index && isCustomer != 1">
 		  			<directions
 			          travel-mode="DRIVING"
 			          origin="current-location"
 			          destination={{loc.locationVal}}>
 			        </directions>
+					<custom-marker id="end"
+			          position={{loc.locationVal}}>
+			          <div style="width: 40px;height: 40px;border: 5px solid rgb(244,67,54);border-radius: 50px;background-color: black;margin-top: -55px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
+			          	<div style = "padding-top: 3px;" > {{timeTaken}} <br/> min</div>
+			          </div>
+			        </custom-marker>
 		  		</div>
-		  		<div ng-if="indexVal == $index && $rootScope.isCustomer == 1">
+		  		<div ng-if="indexVal == $index && isCustomer == 1">
 		  			<directions
 			          travel-mode="DRIVING"
 			          origin={{jobLoc}}
 			          destination={{loc.locationVal}}>
 			        </directions>
+			        <custom-marker id="start"
+			          position={{loc.locationVal}}>
+			          <div style="width: 40px;height: 40px;border: 5px solid rgb(244,67,54);border-radius: 50px;background-color: black;margin-top: -38px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
+			          	<div style = "padding-top: 3px;" > {{timeTaken}} <br/> min</div>
+			          </div>
+			        </custom-marker>
 		  		</div>
 		  		<div ng-if="indexVal != $index && indexVal >= 0">
 		  			<custom-marker position={{loc.locationVal}}>
