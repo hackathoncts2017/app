@@ -16,31 +16,8 @@
   			</div>\
   			');
         $templateCache.put('modules/dash/dashBoard.html','\
-            <div splitheight="100" headerHei="0" footerHei="0">\
-              <div class="banner">\
-                <div class="userTile">\
-                  <div class="menuBtn">\
-                      <img src="assets/icon.png"></img>\
-                  </div>\
-                  <div layout="row" class="userInfo"><div class="imgWrapper"><img ng-src="{{userImage}}"/></div><div layout="column"><div class="username"><b>{{userName}}</b></div><div>{{designation}}</div></div></div>\
-                  </div>\
-                <div class="infoTile" layout="column">\
-                  <div class="tile" flex><div>{{todayDate | date : "dd"}}</div><div>{{todayDate | date : "EEEE"}}</div></div>\
-                    <div class="tile" flex><div style="padding-top:3px; padding-bottom:0px;"><img ng-src="{{weatherIcon}}"/></div><div>{{minWeather}}<sup>o</sup> - {{maxWeather}}<sup>o</sup></div></div>\
-                    <div class="tile" flex><div>Count</div><div>{{callCounter}}</div></div>\
-                </div>\
-              </div>\
-              <div class="statusStrip" layout="row">\
-                <div flex class="textWrapper dateTile"><div flex>Calls</div><div flex>{{todayCalls}}</div></div>\
-                <div flex class="textWrapper weatherTile"><div flex>Attempt</div><div flex>{{todayAttempted}}</div></div>\
-                <div flex class="textWrapper counterTile"  layout="column"><div flex>Pending</div><div flex>{{todayPending}}</div></div>\
-                <div flex class="dynamicTile callTile"><div>Next Call</div><div>15 KM</div><div>03:20 PM</div></div>\
-              </div>\
-              <div class="selectionBar" layout="row">\
-                <div class="btnwrapper" ><div class="dashboardBtn" ng-class="{\'selectedBtn\':selectedIndex == 0}">Weekly</div></div>\
-                <div class="btnwrapper"><div class="dashboardBtn" ng-class="{\'selectedBtn\':selectedIndex == 1}">Monthly</div></div>\
-                <div class="btnwrapper"><div class="dashboardBtn" ng-class="{\'selectedBtn\':selectedIndex == 2}">Yearly</div></div>\
-                </div>\
+            <div splitheight="90" headerHei="0" footerHei="10" id="cardHolder">\
+              <htmldatael value="cardslist"></htmldatael>\
             </div>\
           ');
           $templateCache.put('modules/narrative/login.html','\

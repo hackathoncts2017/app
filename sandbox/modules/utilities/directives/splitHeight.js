@@ -25,4 +25,34 @@
          }
       };
    });
+
+   angular.module('hackathonApp').directive('htmldatael', function($compile, $timeout) {
+      return {
+         restrict: 'EA',
+         priority: 1,
+         replace: true,
+        scope: {
+            value: "="
+        },
+         compile: function(element, attr) {
+            return {
+               pre: function(scope, iElement, iAttrs, controller) {
+                  var itemStr = "";
+                  var myVars = scope.value;
+                  
+                  myVars.map(function(item,index){
+                      itemStr += item;
+                  });
+                    iElement.parent().html(itemStr);
+                    
+               },
+               post: function(scope, iElement, iAttrs, controller) {
+                  $compile(element.contents())(scope);
+               }
+            };
+         }
+      };
+   });
+
+   
 })();

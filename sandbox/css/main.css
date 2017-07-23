@@ -10,10 +10,11 @@ body {
     padding: 0px;
     margin: 0px;
     font-size: 14px;
-    background-color= #222;
+    background-color: #222;
+    overflow: hidden;
 }
 .dark {
-    background-color: rgb(17, 17, 17);
+    background-color: #e4e4e4;
     color: white;
 }
 .dark.header,
@@ -26,7 +27,7 @@ body {
 }
 #mainView {
     width: 100%;
-    background-color: #222;
+    background-color: #e4e4e4;
     overflow: auto;
 }
 .box {
@@ -153,6 +154,10 @@ select.sortBox:focus {
     bottom: 20px;
     left: 10px;
     text-shadow: 0px 1px #888888;
+    right: 0;
+    background-color: rgba(0,0,0,0.4);
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
 }
 .banner .userTile .userInfo .imgWrapper{
     padding-right: 10px;
@@ -279,6 +284,175 @@ select.sortBox:focus {
     background-color: gray;
     color: black;
 }
+.footer > div{
+    line-height: 10px;
+    font-size: 10px;
+    padding-top: 2px;
+    color: black;
+}
+.footer table{
+    height: 50px;
+    line-height: 50px;
+}
+.footer table td > input{
+    width: 100%;
+    height: 42px;
+    border: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.footer table td .micBtn{
+    position: absolute;
+    top: 13px;
+    right: 55px;
+}
+
+.footer table td .micBtn img, .footer table td:last-child{
+    padding-left: 0px;
+    width: 45px;
+    padding-bottom: 5px;
+}
+.footer table td:last-child button{
+    height: 42px;
+    background-color: white;
+    border: none;
+    border-radius: 0px;
+    vertical-align: middle;
+    padding-left: 5px;
+    margin-left: 1px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.footer table td .micBtn img, .footer table td .micBtn img, .footer table td:last-child button img{ 
+    width: 30px;
+    height: 30px;
+}
+.footer table td .micBtn img{
+    padding-top: 12px;
+}
+.removedCard{
+    display: none;
+    height: 0px;
+}
+.marquee.command{
+  width: 200px; height: 50px; white-space: nowrap;
+  overflow: hidden;
+  overflow-x:-webkit-marquee;
+  -webkit-marquee-direction: forwards;
+  -webkit-marquee-style: scroll;
+  -webkit-marquee-speed: normal;
+  -webkit-marquee-increment: small;
+  -webkit-marquee-repetition: 5;
+  overflow-x: marquee-line;
+  marquee-direction: forward;
+  marquee-style: scroll;
+  marquee-speed: normal;
+  marquee-play-count: 5;
+}
+.card{
+    padding:10px;
+    border:#888888;
+    margin: 5px;
+}
+.card.section img{
+    height: 140px;
+}
+md-card-content{
+    font-size: 14px;
+}
+md-card-content h2{
+    margin: 0px;
+}
+.adduser .md-headline{
+    font-size: 18px;
+}
+.triangle-isosceles {
+    position: relative;
+    padding: 15px;
+    margin: 10px 20px 14px;
+    color: #000;
+    font-size: 14px;
+    background: #ffffff;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#bbbbbb));
+    background: -moz-linear-gradient(#ffffff, #bbbbbb);
+    background: -o-linear-gradient(#ffffff, #bbbbbb);
+    background: linear-gradient(#ffffff, #ffffff);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+.triangle-isosceles:after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50px;
+    border-width: 15px 15px 0;
+    border-style: solid;
+    border-color: #ffffff transparent;
+    display: block;
+    width: 0;
+}
+.card-media img{
+    width: 100%;
+    height: 100%;
+}
+.productList img{
+    height: 150px;
+}
+.productList .items{
+    position: relative;
+}
+.productList .items .leftArrow, .productList .items .rightArrow{
+    position: absolute;
+    
+    background-color: rgba(255,255,255,0.5);
+    color:black;
+    font-weight: 400;
+    font-size: 20px;
+    padding: 10px;
+}
+.productList .items .rightArrow{
+    top: 50px;
+    right: 10px;
+}
+.productList .items .leftArrow{
+    top: 50px;
+    left: 10px;
+}
+.weatherCol1 , .weatherCol2{
+    width: 50%;
+    display: inline-block;
+    vertical-align: middle;
+}
+@keyframes cardAnim {
+    0%   {position:absolute;width:100%; left:0px; top:0px;}
+    75% {left:0px; top:-450px;}
+    100% {height: 0px;}
+}
+.removeCard{
+    animation-name: cardAnim;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+}
+.card.weatherCard{
+    background-color: white !important;
+    font-size: 0.5em;
+    text-align: center;
+        margin-top: 30px;
+    margin-bottom: 30px;
+}
+.card.weatherCard div:last-child{
+    font-size: 0.7em;
+}
+.card.weatherCard img{
+    width:30px;
+    height: 30px;
+}
+
+.md-button.md-default-theme:not([disabled]).md-icon-button:hover, .md-button:not([disabled]).md-icon-button:hover{
+    background-color: white;
+}
 @media screen and (min-width: 320px) {
     .dark.header,
     .dark.footer {
@@ -312,7 +486,8 @@ select.sortBox:focus {
     }
 }
 
-@media screen and (min-width: 820px) {
+@media screen and (min-width: 720px) {
+    body { font-size: 150%; }
     .dark.header,
     .dark.footer {
         font-size: 16px;
@@ -323,6 +498,31 @@ select.sortBox:focus {
         width: 30%;
         display: inline-block;
         position: relative;
+    }
+    .selectionBar {
+        padding-left: 19px;
+    }
+    .banner .userTile {
+        width: 80%;
+    }
+    .banner .infoTile {
+        width: 20%;
+    }
+    .footer >div:last-child {
+        width: 8%;
+    }
+    .footer >div:first-child {
+        width: 89%;
+    }
+
+    .footer >div:first-child > input {
+        width: 97%;
+    }
+
+    .card{
+        width: 45%;
+        display: inline-block;
+        vertical-align: text-top;
     }
 }
 

@@ -19,7 +19,16 @@
    
    <div class="dark header" ng-show="headerShow">Header</div>
    <div id="mainView" ng-view tabIndex="-1" ></div>
-   <div class="dark footer"  ng-show="footerShow">Footer</div>
+   <div class="dark footer"  ng-show="footerShow">
+       <div id="marquee command" angular-marquee scroll="scroll" duration="duration">Hello</div>
+       
+       <table width="100%"><tr><td>
+           <input ng-model="speechInput"/>
+           <div class="micBtn"><img ng-src="{{micImg}}"/></div>
+    </td><td width="50px">
+        <md-button class="md-icon-button md-warn" ng-click="sendRequest()"><img src="assets/icons/ic_send.png"/></md-button>
+        </td></tr></table>
+   </div>
    
 
    <script src="lib/jquery.js"></script>
