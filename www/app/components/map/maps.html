@@ -3,10 +3,17 @@
 	  <ng-map center="current-location" style="height: 550px">
 		  <div ng-if="locations.length > 0">
 		  	<div ng-repeat="loc in locations">
-		  		<div ng-if="indexVal == $index">
+		  		<div ng-if="indexVal == $index && $rootScope.isCustomer != 1">
 		  			<directions
 			          travel-mode="DRIVING"
 			          origin="current-location"
+			          destination={{loc.locationVal}}>
+			        </directions>
+		  		</div>
+		  		<div ng-if="indexVal == $index && $rootScope.isCustomer == 1">
+		  			<directions
+			          travel-mode="DRIVING"
+			          origin={{jobLoc}}
 			          destination={{loc.locationVal}}>
 			        </directions>
 		  		</div>

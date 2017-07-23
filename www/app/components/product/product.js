@@ -1,4 +1,4 @@
-hackathon.controller("ProductController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,ProductService,$rootScope,$mdDialog,mainService) {
+hackathon.controller("ProductController", function(shared, $state, $scope, $mdSidenav, $mdToast,$mdComponentRegistry,ProductService,$rootScope,$mdDialog,mainService) {
 	$scope.productWidth = screen.width - (167);
 	$scope.product = [];
 	$scope.productAdmin = [];
@@ -22,7 +22,15 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	//$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
 	//console.log(asyn);
 	$scope.onStart = true;
-	$rootScope.$on("ProductSpeech", function(controller,data){           
+	$rootScope.$on("ProductSpeech", function(controller,data){ 
+	       if (data.text) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .textContent(data.text)
+                    .position('bottom right')
+                    .hideDelay(5000)
+                );
+            }           
 		   $scope.audioSplit(data.text);
     });	
     $scope.getAdminProduct = function() {

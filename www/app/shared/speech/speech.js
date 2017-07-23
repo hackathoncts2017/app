@@ -9,6 +9,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 	$scope.callcomponent = function(audiotext){
 		//console.log($rootScope.selectedComponent)
 		$rootScope.$emit($rootScope.selectedComponent, {"text":audiotext});
+		
 	}
 	$scope.navigatePage ={
 		"dashboard":0,
