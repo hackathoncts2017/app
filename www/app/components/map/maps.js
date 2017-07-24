@@ -23,19 +23,54 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         "ten" : 10
     };
     $scope.indexVal = 0;
+    $scope.prevPosition = '';
     $rootScope.loadMap = function() {
+        $scope.locations = [];
+        $scope.feedbackflag = false;
+        $scope.starFlag = false;
+        $scope.jobDetails = {}
+        $scope.jobIdMapping = {};
+        $scope.jobMapping = {};
+        $scope.currentJob = {};
+        $scope.adminEngMapping = {};
+        $scope.adminJobMapping = {};
+        $rootScope.jobId = 1;
+        $scope.currentTimeTaken = 0;
+        $scope.indexVal = 0;
+        $scope.prevPosition = '';
+
        NgMap.getMap().then(function(map) {
             
             $rootScope.mapDetails = map; 
+            var options = {
+                enableHighAccuracy: true
+            };
+
+            
             if($rootScope.isCustomer !== 1) {
+
                 $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
+                $scope.prevPosition = {"lat": map.center.lat().toFixed(3), "lng" : map.center.lng().toFixed(3)};
                 MapService.setMyLocation($rootScope.myLoc,function(data) {
                     console.log(data);
                 });
                 setInterval(function() {
-                    MapService.setMyLocation($rootScope.myLoc,function(data) {
-                        console.log(data);
-                    });
+                    navigator.geolocation.getCurrentPosition(function(pos) {
+                    $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                    console.log(JSON.stringify($scope.position));
+                    $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
+                    if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
+                       $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
+                        MapService.setMyLocation($rootScope.myLoc,function(data) {
+                            console.log(data);
+                        });
+                    }         
+                }, 
+                function(error) {                    
+                    alert('Unable to get location: ' + error.message);
+                }, options);
+                    
+                    
                 },15000);
             } else {
                 MapService.getJobLoc().then(function(res) {
@@ -58,7 +93,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                                 $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
                                 $scope.adminEngMapping[indexEngValue] = res[j][i].id;
     
-                            } else if(res[j][i].status = 'I' && res[j][i].userId === ''){
+                            } else if(res[j][i].status == 'I' && res[j][i].userId === ''){
                                 indexJobValue += 1; 
                                 $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
                                 $scope.adminJobMapping[indexJobValue] = res[j][i].id;
@@ -76,7 +111,6 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 });
             } else if($rootScope.isCustomer === 0){
                 MapService.getJob().then(function(res){
-                    console.log(res);
                     var indexValue = 0;
                     for(var i = 0; i<res.data.length;i++) {
                         if(res.data[i].status == "I") {
@@ -89,12 +123,43 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                     console.log($scope.locations);
                     setTimeout(function(){
                         $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        var id = +Object.keys($rootScope.allDirections)[0];
+                        $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
                         console.log("All directions", $rootScope.mapDetails.directionsRenderers);
                         console.log("My loc", $rootScope.myLoc);
                     },2000);
                 }); 
-            } else if ($rootScope.isCustomer === 1) {
+            } else if ($rootScope.isCustomer === 1 && $rootScope.trackUser) {
+            //  } else if ($rootScope.isCustomer === 1) {
+                MapService.getJob($rootScope.assignedEngId).then(function(res){
+                    var indexValue = 0;
+                    for(var i = 0; i<res.data.length;i++) {
+                        if(res.data[i].status == "I") {
+                            indexValue += 1; 
+                            $scope.jobIdMapping[indexValue] = res.data[i].id;
+                            $scope.jobMapping[indexValue] = res.data[i];
+                        }
+                    }
+                });
                 $scope.indexVal = 0;
+                $scope.jobLoc = $rootScope.jobLocation;
+                $scope.isFirstTime = true;
+                $scope.locations = [];
+                    MapService.userJobSearch($rootScope.assignedEngId).then(function(res){
+                        console.log("calling location", res.data[0].location);
+                        $scope.locations.push({"locationVal" : res.data[0].location, "image" : res.data[0].image, isEng : true});
+                        setTimeout(function(){
+                            document.getElementById("fff").click();
+                            $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers; 
+                            var id = +Object.keys($rootScope.allDirections)[0];
+                            $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
+                            if($scope.isFirstTime) {
+                                $scope.isFirstTime = false;
+                                $rootScope.speeckToUser({"text":"Distance of your engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                               " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
+                            }
+                        },2000);
+                    })
                 setInterval(function(){ 
                     $scope.locations = [];
                     MapService.userJobSearch($rootScope.assignedEngId).then(function(res){
@@ -104,26 +169,22 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                             document.getElementById("fff").click();
                             $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers; 
                             var id = +Object.keys($rootScope.allDirections)[0];
-                            $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
-                            " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
+                            $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
+                            if($scope.isFirstTime) {
+                                $scope.isFirstTime = false;
+                                $rootScope.speeckToUser({"text":"Distance of your engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                               " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
+                            }
+                           // $rootScope.speeckToUser({"text":"Distance of your engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                           // " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
                         },2000);
                     })
-                }, 15000);
-                
-                
+                }, 15000);  
             }
         }); 
     }
     
-    $rootScope.$on("MapSpeech", function(controller,data){
-            if (data.text) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.text)
-                    .position('bottom right')
-                    .hideDelay(5000)
-                );
-            } 
+    $rootScope.$on("MapSpeech", function(controller,data){            
            $scope.mapAudioSplit(data.text);
     });
     
@@ -194,13 +255,13 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             if(audiotext.length > 1 && audiotext[0] != "") {
                 audiotext = audiotext[0].trim();
                 if(audiotext == "map") {
-                    document.getElementsByClassName("gm-style-mtc")[0].childNodes[0].click()
+                    document.getElementsByClassName("gm-style-mtc")[0].childNodes[0].click();
                 } else {
-                    document.getElementsByClassName("gm-style-mtc")[1].childNodes[0].click()
+                    document.getElementsByClassName("gm-style-mtc")[1].childNodes[0].click();
                 }
             }
         } else if (audiotext.indexOf("refresh") > -1) {
-            $scope.reloadMap();
+            $rootScope.loadMap();
         } else if (audiotext.indexOf("assign job") > -1) {
             audiotext = audiotext.split("assign job");
             if(audiotext.length > 1 && audiotext[1] != "") {
@@ -210,22 +271,27 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 }
                 $scope.currentJobId = audiotext;
                 $scope.assignJobFlag = true;
-                $rootScope.speeckToUser({"text":"To whom do you want to assign this job"})
+                $rootScope.speeckToUser({"text":"To whom do you want to assign this job"}, true);
             }
         } else if ($scope.assignJobFlag) {
             $scope.assignJobFlag = false;
-            if(isNaN(+audiotext)) {
-                audiotext = +$scope.numberMapping[audiotext];
+            audiotext = audiotext.split("engineer");
+            if(audiotext.length > 1 && audiotext[1] != "") {
+                 audiotext = audiotext[1].trim();
+                if(isNaN(+audiotext)) {
+                    audiotext = +$scope.numberMapping[audiotext];
+                }
+                var request = {
+                  "id": "" + $scope.adminJobMapping[+$scope.currentJobId],
+                  "userId": "" + $scope.adminEngMapping[+audiotext]
+                };
+                MapService.assignJob(request, function() {
+                    $rootScope.speeckToUser({"text":"Job has been assigned Successfully"});
+                    $rootScope.loadMap();
+                });
             }
-            var request = {
-              "id": "" + $scope.adminJobMapping[+$scope.currentJobId],
-              "userId": "" + $scope.adminEngMapping[+audiotext]
-            };
-            MapService.assignJob(request, function() {
-                $scope.reloadMap();
-            });
         } else {
-            $rootScope.speeckToUser({"text":"Sorry. Please try again"});
+            $rootScope.speeckToUser({"text":"Sorry. Please try again"}, true);
         }
     }
     $scope.reloadMap = function() {
@@ -243,7 +309,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                             indexEngValue += 1; 
                             $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
                             $scope.adminEngMapping[indexEngValue] = res[j][i].id;
-                        } else if(res[j][i].status = 'I' && res[j][i].userId === ''){
+                        } else if(res[j][i].status = 'I' && res[j][i].userId && res[j][i].userId.trim() === ''){
                             indexJobValue += 1; 
                             $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
                             $scope.adminJobMapping[indexJobValue] = res[j][i].id;
@@ -276,6 +342,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 setTimeout(function(){
                     document.getElementById("fff").click(); 
                     var id = +Object.keys($rootScope.allDirections)[0];
+                    $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text;
                     $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
                     " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
                 },2000);
@@ -309,13 +376,13 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             console.log("job id", text);
             $scope.jobDetails.id = "" + $scope.jobIdMapping[text];
             $scope.starFlag = true;
-            $rootScope.speeckToUser({"text":"On a scale of 1 to 5 how would you rate this service"});
+            $rootScope.speeckToUser({"text":"On a scale of 1 to 5 how would you rate this service"}, true);
         } else if (condition == "rating") {
             if(isNaN(+text)) {
                 text = +$scope.numberMapping[text];
             }
             $scope.jobDetails.rating = text;
-            $rootScope.speeckToUser({"text":"Thank you for your rating. Please give your valuble feedback"});
+            $rootScope.speeckToUser({"text":"Thank you for your rating. Please give your valuble feedback"}, true);
             $scope.feedbackflag = true;
         } else if (condition == "feedback") {
             $scope.jobDetails.feedback = text;
@@ -377,12 +444,16 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         }
     }
     $rootScope.$on("headedText", function(controller,data){
-    	if(data.header == "Map1") {
-    		if($rootScope.speeckToUser &&  $rootScope.allDirections[0] &&  $rootScope.allDirections[0].directions){
-                console.log("inside speech", $rootScope.allDirections[0]);
-                 $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[0].directions.routes[0].legs[0].distance.text + 
-                 	" and total time to reach is " + $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text}) 
-            } 
+    	if(data.header == "Map") {
+    		// if($rootScope.speeckToUser &&  $rootScope.allDirections[0] &&  $rootScope.allDirections[0].directions){
+      //           console.log("inside speech", $rootScope.allDirections[0]);
+      //            $rootScope.speeckToUser({"text":"Distance to your destination is " + $rootScope.allDirections[0].directions.routes[0].legs[0].distance.text + 
+      //            	" and total time to reach is " + $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text}) 
+      //       } 
+          if($rootScope.trackUser) {
+            $rootScope.loadMap();
+          }
+        
     	}
    });
 })

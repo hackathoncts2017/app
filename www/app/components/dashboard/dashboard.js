@@ -1,13 +1,13 @@
 hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
-        if (data.text) {
+        /*if (data.text) {
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent(data.text)
                     .position('bottom right')
                     .hideDelay(5000)
                 );
-            }         
+            } */        
         $scope.dashboardAudio(data.text);
     });
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
@@ -80,14 +80,14 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             if($scope.getName) {
                 $scope.customerName = audiotext;
                 $scope.registerUser(true,"name", audiotext)
-            } else if($scope.getNumber) {
+            } else if($scope.getPhoneNumber) {
                 $scope.customerNumber = audiotext;
                 $scope.registerUser(true,"number", audiotext)
             } else if ($scope.newIssue) {
                 $scope.issueDetails = audiotext;
                 $rootScope.speeckToUser({
                     "text": "When do you want our service personal to visit your location"
-                });
+                },true);
                 $scope.newIssue = false;
                 $scope.getTime = true;
             } else if($scope.getTime) {
@@ -122,7 +122,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 setTimeout(function() {
                     $rootScope.speeckToUser({
                         "text": "Is the location marked in the map correct?"
-                    });
+                    },true);
                     $scope.locationMap();
                 },3500);
             } else if($scope.confirmLocation) {
@@ -154,14 +154,15 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     $scope.getLoc = true;
                     $rootScope.speeckToUser({
                         "text": "Please confirm you location."
-                    });
+                    }, true);
                 }
             } else if(audiotext.indexOf('register') > -1) {
                 $scope.newIssue = true;
                 $rootScope.speeckToUser({
                     "text": "Please tell us the issue you are facing"
-                });
+                }, true);
             } else if (audiotext.indexOf('track') > -1) {
+                $rootScope.trackUser = true;
                 if($rootScope.assignedEngId != -1) {
                     $rootScope.tabChange(1);
                 } else {
@@ -188,14 +189,11 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
             });
-        });
-        
+        }); 
     }
 
-     
-
     $scope.getNumber = function(num) {
-    return new Array(num);   
+        return new Array(num);   
     }
 
     $scope.getDetails = function() {
@@ -250,20 +248,20 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if(!context) {
             $rootScope.speeckToUser({
                 "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."
-            });
+            },true);
             $scope.getName = true;
         } else if (action == "name") {
             $rootScope.speeckToUser({
                 "text": "Thank you " + detail + " . Please provide your mobile number"
-            });
+            },true);
             $scope.getName = false;
-            $scope.getNumber = true;
+            $scope.getPhoneNumber = true;
         } else if (action == "number") {
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. Enjoy our service"
             });
             $scope.userRegistered = true;
-            $scope.getNumber = false;
+            $scope.getPhoneNumber = false;
             $("#fff").trigger("click");
             var requestData = {
                 "userName" : $scope.customerName,
