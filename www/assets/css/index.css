@@ -264,7 +264,7 @@ highchart {
 .md-list-item-text h3 {
     font-weight: bold !important;
 }
-md-tabs-wrapper {
+#home > md-tabs-wrapper {
     display: none !important
 }
 .speech-text{  
