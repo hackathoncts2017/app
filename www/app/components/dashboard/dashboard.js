@@ -12,7 +12,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     });
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
     var h = window.innerHeight;
-    $scope.chartHeight = h - 310;
+    $scope.chartHeight = h - 300;
     $scope.dashboardData = null;
     $scope.isLoading = true;
     $scope.pendingjobs =[];
