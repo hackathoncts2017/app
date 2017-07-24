@@ -22,15 +22,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	//$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
 	//console.log(asyn);
 	$scope.onStart = true;
-	$rootScope.$on("ProductSpeech", function(controller,data){ 
-	       if (data.text) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.text)
-                    .position('bottom right')
-                    .hideDelay(5000)
-                );
-            }           
+	$rootScope.$on("ProductSpeech", function(controller,data){            
 		   $scope.audioSplit(data.text);
     });	
     $scope.getAdminProduct = function() {

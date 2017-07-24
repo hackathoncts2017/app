@@ -93,7 +93,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                                 $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
                                 $scope.adminEngMapping[indexEngValue] = res[j][i].id;
     
-                            } else if(res[j][i].status = 'I' && res[j][i].userId && res[j][i].userId.trim() === ''){
+                            } else if(res[j][i].status == 'I' && res[j][i].userId === ''){
                                 indexJobValue += 1; 
                                 $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
                                 $scope.adminJobMapping[indexJobValue] = res[j][i].id;
@@ -184,15 +184,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         }); 
     }
     
-    $rootScope.$on("MapSpeech", function(controller,data){
-            if (data.text) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.text)
-                    .position('bottom right')
-                    .hideDelay(5000)
-                );
-            } 
+    $rootScope.$on("MapSpeech", function(controller,data){            
            $scope.mapAudioSplit(data.text);
     });
     
@@ -286,7 +278,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             audiotext = audiotext.split("engineer");
             if(audiotext.length > 1 && audiotext[1] != "") {
                  audiotext = audiotext[1].trim();
-                if(isNaN(+audiotext[1])) {
+                if(isNaN(+audiotext)) {
                     audiotext = +$scope.numberMapping[audiotext];
                 }
                 var request = {

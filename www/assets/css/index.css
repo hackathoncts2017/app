@@ -147,9 +147,17 @@ md-tabs[md-align-tabs=bottom] md-tabs-wrapper{
 }
 
 .audio-btn{
-        position: absolute;
+       /* position: absolute;
     bottom: 64px;
     right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: red;
+    text-align: center;*/
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -255,4 +263,80 @@ highchart {
 }
 .md-list-item-text h3 {
     font-weight: bold !important;
+}
+md-tabs-wrapper {
+    display: none !important
+}
+.speech-text{  
+     background: #fff;
+    height: 46px;
+    width: 83%;
+    position: fixed;
+    bottom: 8px;
+    left: 2%;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.speech-text input{
+     width: 83%;
+    height: 90%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    margin-left: 5%;
+    margin-top: 2px;
+}
+.speech-send-icon{
+        width: 39px;
+    /* height: 100%; */
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.speech-container{
+        position: fixed;
+    bottom: 0;
+    height: 62px;
+    width: 100%;
+    background: #eaeaea;
+}
+.speech-suggestion {
+    max-height: 155px;
+    width: 83%;
+    background: #fff;
+    position: fixed;
+    bottom: 55px;
+    left: 2%;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    /* border: 1px solid #ccc; */
+    border-bottom: none;
+    box-sizing: border-box;
+    overflow: auto;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.speech-text.close{
+    border-radius: 25px
+}
+.speech-text.open{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.speech-suggestion div {
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.speech-suggestion div:last-child {
+    border-bottom: none;
+}
+.delete-icon{
+    position: absolute;
+    top: 12px;
+    width: 22px;
+    right: 12px;
+}
+md-toast{
+    bottom: 60px !important;
 }
