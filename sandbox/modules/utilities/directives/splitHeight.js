@@ -28,9 +28,10 @@
 
    angular.module('hackathonApp').directive('htmldatael', function($compile, $timeout) {
       return {
-         restrict: 'EA',
+         restrict: 'E',
          priority: 1,
          replace: true,
+         transclude:true,
         scope: {
             value: "="
         },
@@ -51,6 +52,39 @@
                }
             };
          }
+      };
+   });
+    
+   angular.module('hackathonApp').directive('registerField', function($compile, $timeout) {
+      return {
+         restrict: 'EA',
+         priority: 1,
+         transclude:true,
+        link: function(scope, element, attr) {
+            element.bind('focus', function customValidator() {
+                 var range,selection;
+                if (document.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(this);
+                range.select();
+                } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(this);
+                selection.removeAllRanges();
+                selection.addRange(range);
+                }
+            });
+            element.on('keydown', function(event) {
+                $(this).text('');
+            });
+            element.on('keyup', function(event) {
+                if($(this).text() == '' || isNaN($(this).text())){
+                    $(this).text('0');
+                }
+                $(this).next('register-field').focus();
+            });
+        }
       };
    });
 

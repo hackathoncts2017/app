@@ -12,10 +12,15 @@
    when('/dash', {
       templateUrl: 'modules/dash/dashBoard.html',
       controller: 'dashboardController'
-   }).otherwise({
-      redirectTo: '/dash'
+   }).
+   when('/register', {
+      templateUrl: 'modules/register/deviceRegistration.html',
+      controller: 'registerDeviceController'
+   })
+    .otherwise({
+      redirectTo: '/register'
    });
-
+//
   }]).config(function($httpProvider){
     //$httpProvider.interceptors.push('httpRequestInterceptor');
     //delete $httpProvider.defaults.headers.common['X-Requested-With'];

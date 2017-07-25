@@ -20,6 +20,14 @@
               <htmldatael value="cardslist"></htmldatael>\
             </div>\
           ');
+          $templateCache.put('modules/register/deviceRegistration.html','\
+            <div class="deviceReg" splitheight="100" headerHei="0" footerHei="0">\
+              <div class="logo"><img src="assets/logo.png"/><div class="header">Digital Service Assistance</div></div>\
+              <div class="inputwrapper"><div>Enter your verification number</div><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field></div>\
+              <section layout="row" layout-sm="column" layout-align="center center" layout-wrap  class="registerBtnWrapper"><button class="registerButton"  ng-click="registerDevice()">Register</button></section>\
+              <div class="regMicBtn" ng-click="enableMic()"><img src="assets/icons/ic_mic.png" width="30px" height="30px" style="position: absolute;right: 5px;bottom: 5px;"/></div>\
+              </div>\
+          ');
           $templateCache.put('modules/narrative/login.html','\
             <div splitheight="100" headerHei="0" footerHei="0">\
               <div class="banner">\
