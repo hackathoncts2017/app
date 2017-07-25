@@ -197,10 +197,26 @@
 		</div>
 	</div>
 	
+	<md-card class="md-padding" layout-xs="column" layout="row"  style="">
+		<div flex-xs flex-gt-xs="50" layout="column">
+			<div style="margin-bottom: 5px;">
+				<span style="float:right;">
+					<span>{{userdetails.engineerName}}</span>
+					<span><img src="assets/img/{{userdetails.image}}.jpg" style="margin-left:10px;width: 43px;border-radius: 25px;" /></span>
+				</span>
+			</div>
+			<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
+				<div style="text-align: left;">Where i am?</div> 
+			</div>
+		 </div>
+	</md-card>
 	<md-card class="md-padding" layout-xs="column" layout="row"  style="margin-bottom: 72px;">
 		<div flex-xs flex-gt-xs="50" layout="column">
 			<div style="margin-bottom: 5px;">
-				<img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;" />
+				<span>
+					<span><img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;margin-right:10px" /></span>
+					<span>Bot</span>
+				</span>
 			</div> 
 			<div style="height: 200px;background: red">
 				<div map-lazy-load="https://maps.google.com/maps/api/js">
