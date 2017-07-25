@@ -63,7 +63,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 audiotext = audiotext.split(keyWords[2]);
                 //if (audiotext.length > 1 && audiotext[1] != "") {
                     $rootScope.speeckToUser({
-                        "text": "Today Weather Report" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity is " + $scope.dashboardData.weather.main.humidity + "and" + "Temperature is" + $scope.dashboardData.weather.main.temp
+                        "text": "Today Weather Report " + $scope.dashboardData.weather.weather[0].description + " and " + " Humidity is " + $scope.dashboardData.weather.main.humidity + " and " + " Temperature is " + $scope.dashboardData.weather.main.temp
                     });
                     //$scope.chartReports(audiotext);
                 //} else {
