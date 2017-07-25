@@ -1,4 +1,4 @@
-hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
+hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav,NgMap, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
         /*if (data.text) {
                 $mdToast.show(
@@ -17,6 +17,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     $scope.isLoading = true;
     $scope.pendingjobs =[];
     $scope.showBubble = true;
+	$scope.whereAmI = false;
+	$scope.userChat = false;
     $scope.completedjobs =[];
 	$scope.defaultLocation = 'current-location'; 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
@@ -71,6 +73,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                      //   "text": "Invalid Command"
                     //})
                 //}
+            }  else if (audiotext.indexOf('where am i') > -1) {
+                $scope.whereAmI = true;
+				$scope.userChat = true;
+            }  else if (audiotext.indexOf('reset') > -1) {
+                $scope.whereAmI = false;
+				$scope.userChat = false;
             } else {
                 $rootScope.speeckToUser({
                     "text": "Please check your keyword"
@@ -545,4 +553,18 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         };
             //}
     };
+	var geocoder = new google.maps.Geocoder;
+	$scope.getAddress =function() {
+		NgMap.getMap().then(function(map) {
+			var lat = map.center.lat(),
+				lng = map.center.lng();
+			geocoder.geocode({'location': {lat:lat,lng:lng}}, function(results, status) {
+				if (status === 'OK') {
+					$scope.userAdressForTile = results[0].formatted_address;
+				} else {
+					$scope.userAdressForTile = "";
+				}
+			});
+		})
+	}
 })

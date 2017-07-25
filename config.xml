@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.hackathon.cts" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Hackathon-cts</name>
+    <name>Digital Service</name>
     <description>
             Hackathon-cts
         </description>
@@ -17,10 +17,38 @@
     <allow-intent href="geo:*" />
     <platform name="android">
         <allow-intent href="market:*" />
+        <splash density="land-hdpi" src="res/screen/android/drawable-land-hdpi/screen.png" />
+        <splash density="land-ldpi" src="res/screen/android/drawable-land-ldpi/screen.png" />
+        <splash density="land-mdpi" src="res/screen/android/drawable-land-mdpi/screen.png" />
+        <splash density="land-xhdpi" src="res/screen/android/drawable-land-xhdpi/screen.png" />
+        <splash density="port-hdpi" src="res/screen/android/drawable-port-hdpi/screen.png" />
+        <splash density="port-ldpi" src="res/screen/android/drawable-port-ldpi/screen.png" />
+        <splash density="port-mdpi" src="res/screen/android/drawable-port-mdpi/screen.png" />
+        <splash density="port-xhdpi" src="res/screen/android/drawable-port-xhdpi/screen.png" />
+        <icon density="ldpi" src="res/icon/icon.png" />
+        <icon density="mdpi" src="res/icon/icon.png" />
+        <icon density="hdpi" src="res/icon/icon.png" />
+        <icon density="xhdpi" src="res/icon/icon.png" />
+        <icon density="xxhdpi" src="res/icon/icon.png" />
+        <icon density="xxxhdpi" src="res/icon/icon.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <icon density="ldpi" src="res/icon/icon.png" />
+        <icon density="mdpi" src="res/icon/icon.png" />
+        <icon density="hdpi" src="res/icon/icon.png" />
+        <icon density="xhdpi" src="res/icon/icon.png" />
+        <icon density="xxhdpi" src="res/icon/icon.png" />
+        <icon density="xxxhdpi" src="res/icon/icon.png" />
+        <splash density="land-hdpi" src="res/screen/ios/drawable-land-hdpi/screen.png" />
+        <splash density="land-ldpi" src="res/screen/ios/drawable-land-ldpi/screen.png" />
+        <splash density="land-mdpi" src="res/screen/ios/drawable-land-mdpi/screen.png" />
+        <splash density="land-xhdpi" src="res/screen/ios/drawable-land-xhdpi/screen.png" />
+        <splash density="port-hdpi" src="res/screen/ios/drawable-port-hdpi/screen.png" />
+        <splash density="port-ldpi" src="res/screen/ios/drawable-port-ldpi/screen.png" />
+        <splash density="port-mdpi" src="res/screen/ios/drawable-port-mdpi/screen.png" />
+        <splash density="port-xhdpi" src="res/screen/ios/drawable-port-xhdpi/screen.png" />
     </platform>
     <engine name="android" spec="^6.2.3" />
     <engine name="ios" spec="^4.4.0" />

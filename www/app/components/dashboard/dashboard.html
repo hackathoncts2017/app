@@ -1,4 +1,4 @@
-<div ng-init="getDetails()" style="background: url('assets/img/background.jpg');background-size: cover;background-position: center;">
+<div ng-init="getDetails()" style="background: url('assets/img/background.jpg');padding-bottom: 14px;background-size: cover;background-position: center;">
 	<div  ng-if="!isLoading && !isCustomer">
 	<div class="dashboard-home" style="position:relative;height:220px;background-position:top;">
 		<div layout="row" style="background:rgba(0,0,0,0.3);height:100%;width:100%">
@@ -107,15 +107,17 @@
 			<div ng-click="drawChart('column')">column</div>
 			<div ng-click="drawChart('pie')">pie</div>
 		<div>-->
-		<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'">
-			<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
-			<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px;"></highchart>
-			<highchart id="chart2" config="dchartConfigBubble" ng-show="showBubble"  style="height:{{chartHeight}}px;"></highchart>
-			<!--<highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
-			<highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>
-			<highchart id="chart3" config="mchartConfig" ng-if="monthlychart" style="height:{{chartHeight}}px;"></highchart>
-			<highchart id="chart4" config="ychartConfig" ng-if="yearlychart" style="height:{{chartHeight}}px;"></highchart>-->
-		</md-card>
+		<div ng-if="!userChat">
+			<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'">
+				<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
+				<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px;"></highchart>
+				<highchart id="chart2" config="dchartConfigBubble" ng-show="showBubble"  style="height:{{chartHeight}}px;"></highchart>
+				<!--<highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
+				<highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>
+				<highchart id="chart3" config="mchartConfig" ng-if="monthlychart" style="height:{{chartHeight}}px;"></highchart>
+				<highchart id="chart4" config="ychartConfig" ng-if="yearlychart" style="height:{{chartHeight}}px;"></highchart>-->
+			</md-card>
+		</div>
 		<div ng-if="userdetails != null  && userdetails.isAdmin === '0'">
 			<md-card ng-if="pendingjobs[0]">
 				<div style="padding: 10px;">
@@ -192,43 +194,44 @@
 		</div>
 	</div>
 	<div class="flexbox-parent" ng-if="isLoading">
-		<div layout="row" layout-align="center center"  style="min-height: 500px">
+		<div layout="row" layout-align="center center"  style="min-height: 580px">
 			<md-progress-circular md-mode="indeterminate" ></md-progress-circular>
 		</div>
 	</div>
 	
-	<md-card class="md-padding" layout-xs="column" layout="row"  style="border-radius: 10px;width: 80%;margin-left: 17%;">
-		<div flex-xs flex-gt-xs="50" layout="column">
-			<div style="margin-bottom: 5px;">
-				<span style="float:right;">
-					<span style="float: left;display: block;text-align: center;margin-top: 14px;font-weight: bold;">{{userdetails.engineerName}}</span>
-					<span  style="float: right;""><img src="assets/img/{{userdetails.image}}.jpg" style="margin-left:10px;width: 43px;border-radius: 25px;" /></span>
-				</span>
-			</div>
-			<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
-				<div style="text-align: left;">Where i am?</div> 
-			</div>
-		 </div>
-	</md-card>
-	<md-card class="md-padding" layout-xs="column" layout="row"  style="margin-bottom: 72px;border-radius: 10px; width: 80%; margin-right: 17%;">
-		<div flex-xs flex-gt-xs="50" layout="column">
-			<div style="margin-bottom: 5px;">
-				<span style="float: left;">
-					<span style="float: left;"><img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;margin-right:10px" /></span>
-					<span style="font-weight: bold;">Bot</span>
-				</span>
-			</div> 
-			<div style="height: 200px;background: red">
-				<div map-lazy-load="https://maps.google.com/maps/api/js">
-				  <ng-map center="current-location" style="height: 200px">
-							<marker position="current-location" animation="BOUNCE"></marker>
-					</ng-map>
+	<div ng-if="whereAmI">
+		<md-card class="md-padding" layout-xs="column" layout="row" style="border-radius: 10px;width: 80%;margin-left: 17%;">
+			<div flex-xs flex-gt-xs="50" layout="column">
+				<div style="margin-bottom: 5px;">
+					<span style="float:right;">
+						<span style="float: left;display: block;text-align: center;margin-top: 14px;font-weight: bold;">{{userdetails.engineerName}}</span>
+						<span  style="float: right;""><img src="assets/img/{{userdetails.image}}.jpg" style="margin-left:10px;width: 43px;border-radius: 25px;" /></span>
+					</span>
 				</div>
-			</div>
-			<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
-				<div style="text-align: left;margin-bottom: 9px;">ddd</div> 
-				<div style="text-align: left;">ddd</div> 
-			</div>
-		 </div>
-	</md-card>
+				<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
+					<div style="text-align: left;">Where i am?</div> 
+				</div>
+			 </div>
+		</md-card>
+		<md-card class="md-padding" layout-xs="column" layout="row"  style="margin-bottom: 15px;border-radius: 10px; width: 80%; margin-right: 17%;">
+			<div flex-xs flex-gt-xs="50" layout="column">
+				<div style="margin-bottom: 5px;">
+					<span style="float: left;">
+						<span style="float: left;"><img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;margin-right:10px" /></span>
+						<span style="font-weight: bold;">Bot</span>
+					</span>
+				</div> 
+				<div style="height: 200px;background: red">
+					<div map-lazy-load="https://maps.google.com/maps/api/js">
+					  <ng-map center="current-location" style="height: 200px">
+								<marker position="current-location" animation="BOUNCE"></marker>
+						</ng-map>
+					</div>
+				</div>
+				<div  ng-init="getAddress()" style="margin-top: 10px;font-size: 16px;font-weight: bold;">
+					<div style="text-align: left;margin-bottom: 9px;">{{userAdressForTile}}</div> 
+				</div>
+			 </div>
+		</md-card>
+	</div>
 </div>
