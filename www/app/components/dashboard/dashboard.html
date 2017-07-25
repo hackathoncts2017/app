@@ -1,4 +1,4 @@
-<div ng-init="getDetails()">
+<div ng-init="getDetails()" style="background: url('assets/img/background.jpg');background-size: cover;background-position: center;">
 	<div  ng-if="!isLoading && !isCustomer">
 	<div class="dashboard-home" style="position:relative;height:220px;background-position:top;">
 		<div layout="row" style="background:rgba(0,0,0,0.3);height:100%;width:100%">
@@ -197,12 +197,12 @@
 		</div>
 	</div>
 	
-	<!--<md-card class="md-padding" layout-xs="column" layout="row"  style="">
+	<md-card class="md-padding" layout-xs="column" layout="row"  style="border-radius: 10px;width: 80%;margin-left: 17%;">
 		<div flex-xs flex-gt-xs="50" layout="column">
 			<div style="margin-bottom: 5px;">
 				<span style="float:right;">
-					<span>{{userdetails.engineerName}}</span>
-					<span><img src="assets/img/{{userdetails.image}}.jpg" style="margin-left:10px;width: 43px;border-radius: 25px;" /></span>
+					<span style="float: left;display: block;text-align: center;margin-top: 14px;font-weight: bold;">{{userdetails.engineerName}}</span>
+					<span  style="float: right;""><img src="assets/img/{{userdetails.image}}.jpg" style="margin-left:10px;width: 43px;border-radius: 25px;" /></span>
 				</span>
 			</div>
 			<div style="margin-top: 10px;font-size: 16px;font-weight: bold;">
@@ -210,18 +210,18 @@
 			</div>
 		 </div>
 	</md-card>
-	<md-card class="md-padding" layout-xs="column" layout="row"  style="margin-bottom: 72px;">
+	<md-card class="md-padding" layout-xs="column" layout="row"  style="margin-bottom: 72px;border-radius: 10px; width: 80%; margin-right: 17%;">
 		<div flex-xs flex-gt-xs="50" layout="column">
 			<div style="margin-bottom: 5px;">
-				<span>
-					<span><img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;margin-right:10px" /></span>
-					<span>Bot</span>
+				<span style="float: left;">
+					<span style="float: left;"><img src="assets/img/newsbot-bot.png" style="width: 43px;border-radius: 25px;margin-right:10px" /></span>
+					<span style="font-weight: bold;">Bot</span>
 				</span>
 			</div> 
 			<div style="height: 200px;background: red">
 				<div map-lazy-load="https://maps.google.com/maps/api/js">
-				  <ng-map center="center center" style="height: 200px">
-							<marker></marker>
+				  <ng-map center="current-location" style="height: 200px">
+							<marker position="current-location" animation="BOUNCE"></marker>
 					</ng-map>
 				</div>
 			</div>
@@ -230,5 +230,5 @@
 				<div style="text-align: left;">ddd</div> 
 			</div>
 		 </div>
-	</md-card>-->
+	</md-card>
 </div>
