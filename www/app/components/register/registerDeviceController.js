@@ -30,11 +30,11 @@
                 }
             }
         }
-
+        $scope.micImg = "assets/img/ic_mic.png";
         $scope.enableMicSpeech = function(){
             console.log("Trigerring....");
             $scope.isListening = !$scope.isListening;
-            $scope.micImg = $scope.isListening?"assets/icons/ic_mic_red.gif":"assets/icons/ic_mic.png";
+            $scope.micImg = $scope.isListening?"assets/img/ic_mic_red.gif":"assets/img/ic_mic.png";
         }
 
         $scope.successMsg = [{header:'Registration Successful',content:'Welcome, You have successfully registed your device with Digital Service Assistance. Now all your daily service calls will be in your finger tips.'},

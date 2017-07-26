@@ -249,7 +249,7 @@ highchart {
     bottom: 0px;
 }
 #top-tabs{
-    height: 436px;
+    height: 495px;
 }
 .ticket-list{
    /* height: 60px;*/
@@ -522,4 +522,14 @@ md-toast{
 }
 .layout-fill {
     background: transparent;
+}
+.speech-suggestion {
+    font-size: 16px
+}
+.layout-align-center-center>*, .layout-align-end-center>*, .layout-align-space-around-center>*, .layout-align-space-between-center>*, .layout-align-start-center>*
+{
+    color:white;
+}
+.query-page{
+    background: #fff;
 }
