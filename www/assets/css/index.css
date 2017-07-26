@@ -497,7 +497,22 @@ md-toast{
 .owl-carousel-succ-item{
     font-size: 0.5em;
 }
-
+.continuetoDash{
+    bottom: 10%;
+    text-align: right;
+    position: absolute;
+    padding: 10px;
+    right: 0px;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    line-height: 20px;
+}
+.continuetoDash a,.continuetoDash a:hover,.continuetoDash a:active{
+    color: black;
+    font-size: 0.5em;
+    text-decoration: none;
+}
     @media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
     body { font-size: 150%; }
 }
