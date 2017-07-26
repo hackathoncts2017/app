@@ -1,6 +1,11 @@
 <div class="deviceReg" splitheight="100" headerHei="0" footerHei="0">
-<div class="logo"><img src="assets/img/logo.png"/><div class="header">Digital Service Assistance</div></div>
-<div class="inputwrapper"><div>Enter your verification number</div><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field></div>
-<section layout="row" layout-sm="column" layout-align="center center" layout-wrap  class="registerBtnWrapper"><button class="registerButton"  ng-click="registerDevice()">Register</button><a ng-href="#/main">Continue</a></section>
-<div class="regMicBtn" ng-click="enableMic()"><img src="assets/img/ic_mic.png" width="30px" height="30px" style="position: absolute;right: 5px;bottom: 5px;"/></div>
-</div>
+            <div class="logo" ng-class="{\'successScreen\':showSuccess}"><img src="assets/logo.png"/><div class="header">Digital Service Assistance</div></div>
+              <div class="inputwrapper removeInputField" my-show="!showSuccess" ng-hide="showSuccess" after-hide="afterHide()"><div>Enter your verification number</div><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field><register-field class="inputField" contentEditable>0</register-field></div>
+              <section layout="row"  ng-hide="showSuccess" layout-sm="column" layout-align="center center" layout-wrap  class="registerBtnWrapper removeRegister"><button class="registerButton"  ng-click="registerDevice()">Register</button></section>
+              <div class="regMicBtn" ng-click="enableMicSpeech()"><img ng-src="{{micImg}}" width="30px" height="30px" style="position: absolute;bottom: 5px;"/></div>
+              <data-owl-carousel class="owl-carousel registerSuccess" ng-show="showSuccess" data-options="{navigation: true, pagination: true, rewindNav : true}">
+                <div owl-carousel-item="" ng-repeat="item in ::successMsg" class="item owl-carousel-succ-item">
+                  <h3>{{item.header}}</h3><p>{{item.content}}</p>
+                </div>
+              </data-owl-carousel>
+              </div>
