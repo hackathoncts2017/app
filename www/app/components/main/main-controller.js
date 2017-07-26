@@ -32,22 +32,30 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
     $scope.selectCb = function(component,index) {
         $rootScope.selectedComponent = component;
         var componentName = "";
+        var header = document.getElementsByClassName("_md-toolbar-transitions");        
         if(index === 1){
             componentName = "Dashboard";
+            header[0].style.display = "none";
+            
             $rootScope.$emit("headedText", {"header":componentName});
         } else if(index === 2) {
             componentName = "Map";
+             header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
          } else if(index === 3) {
             componentName = "Product";
+             header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
          } else if(index === 4) {
             componentName = "Search";
+             header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
          } else {
             componentName = "Hackathon";
+             header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
          }
+        
         if($rootScope.speeckToUser){
             // $rootScope.speeckToUser({"text":"welcome to " + componentName})  
         } 

@@ -296,7 +296,7 @@ highchart {
     bottom: 0;
     height: 62px;
     width: 100%;
-    background: #eaeaea;
+    background: transparent;
 }
 .speech-suggestion {
     max-height: 155px;
@@ -519,4 +519,7 @@ md-toast{
 
 @media only screen and (-webkit-min-device-pixel-ratio : 2), only screen and (min-device-pixel-ratio : 2) {
     body { font-size: 200%; }
+}
+.layout-fill {
+    background: transparent;
 }

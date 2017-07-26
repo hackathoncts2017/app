@@ -24,6 +24,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     };
     $scope.indexVal = 0;
     $scope.prevPosition = '';
+    $scope.jjj= function(){
+        var h = window.innerHeight;
+        $scope.mapHeight = h - 126;
+    }
     $rootScope.loadMap = function() {
         $scope.locations = [];
         $scope.feedbackflag = false;

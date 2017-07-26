@@ -1,4 +1,4 @@
-<div ng-init="getDetails()" style="background: url('assets/img/background.jpg');padding-bottom: 14px;background-size: cover;background-position: center;">
+<div ng-init="getDetails()" style="padding-bottom: 14px;">
 	<div  ng-if="!isLoading && !isCustomer">
 	<div class="dashboard-home" style="position:relative;height:220px;background-position:top;">
 		<div layout="row" style="background:rgba(0,0,0,0.3);height:100%;width:100%">
@@ -108,7 +108,7 @@
 			<div ng-click="drawChart('pie')">pie</div>
 		<div>-->
 		<div ng-if="!userChat">
-			<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'">
+			<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'" style="margin:8px 0px;border-radius:0px;">
 				<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
 				<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px;"></highchart>
 				<highchart id="chart2" config="dchartConfigBubble" ng-show="showBubble"  style="height:{{chartHeight}}px;"></highchart>
