@@ -70,7 +70,55 @@
          }
       };
    });
-
+  
+  angular.module('ngapp').directive('myShow', function($animate) {
+    return {
+      scope: {
+        'myShow': '=',
+        'afterShow': '&',
+        'afterHide': '&'
+      },
+      link: function(scope, element) {
+        console.log("My show got registered....");
+        scope.$watch('myShow', function(show, oldShow) {
+          if (show) {
+            $animate.removeClass(element, 'ng-hide', scope.afterShow);
+          }
+          if (!show) {
+            $animate.addClass(element, 'ng-hide', scope.afterHide);
+          }
+        });
+      }
+    }
+  })
+  angular.module('ngapp').directive("owlCarousel", function() {
+    return {
+        restrict: 'E',
+        transclude: false,
+        link: function (scope) {
+            scope.initCarousel = function(element) {
+                var defaultOptions = {
+                };
+                var customOptions = scope.$eval($(element).attr('data-options'));
+                for(var key in customOptions) {
+                    defaultOptions[key] = customOptions[key];
+                }
+                $(element).owlCarousel(defaultOptions);
+            };
+        }
+    };
+})
+.directive('owlCarouselItem', [function() {
+    return {
+        restrict: 'A',
+        transclude: false,
+        link: function(scope, element) {
+            if(scope.$last) {
+                scope.initCarousel(element.parent());
+            }
+        }
+    };
+}]);
    angular.module('ngapp').directive('registerField', function($compile, $timeout) {
       return {
          restrict: 'EA',
