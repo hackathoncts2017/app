@@ -396,17 +396,107 @@ md-toast{
     .registerBtnWrapper{
         position: absolute;
         width: 100%;
-        bottom: 8%;
+        top: 80%;
+        bottom:8%;
     }
     .regMicBtn{
         position: absolute;
         bottom: 0px;
-        right: 0px;
-        border-top-left-radius: 100%;
+        left: 0px;
+        border-top-right-radius: 100%;
         width: 50px;
         height: 50px;
         background: white;
+        outline: none;
     }
+    .owl-theme .owl-controls .owl-buttons div{
+        background-color: black !important;
+        font-size: 0.5em !important;
+    }
+    .owl-prev.disabled,.owl-next.disabled{
+        background-color: #cacaca !important;
+    }
+    .owl-theme .owl-controls .owl-page span{
+        background: white;
+        background-color: white;
+    }
+    @keyframes cardAnim {
+    0%   {position:absolute;width:100%; left:0px; top:0px;}
+    75% {left:0px; top:-450px;}
+    100% {height: 0px;}
+}
+
+@keyframes hideRegisterBtnInbottom {
+    0%   {bottom: 8%;}
+    80% {bottom: 0%;}
+    100% {height: 0px;bottom: 0%;}
+}
+
+@keyframes hideRegisterInputInbottom {
+    0%   { top: 50%;}
+    80% {top: 100%;}
+    100% {height: 0px;top: 100%;}
+}
+.registerSuccess{
+
+    animation-duration: 1s;
+    animation-delay: 3s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.logo,.removeRegister{
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.removeInputField{
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.removeCard{
+    animation-name: cardAnim;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+
+}
+.removeRegister.ng-hide, .removeInputField.ng-hide {
+  opacity:0;
+  top:100%;
+  bottom:0%;
+  /* transform: scale(0.8); */
+}
+.registerSuccess.ng-show{
+    opacity: 1;
+    top:20%;
+}
+.logo.successScreen{
+    top:3%;
+}
+.owl-carousel-item{
+
+}
+.md-button.md-default-theme:not([disabled]).md-icon-button:hover, .md-button:not([disabled]).md-icon-button:hover{
+    background-color: white;
+}
+.owl-carousel-succ-item{
+        padding: 20px;
+    background-color: rgba(255,255,255,0.1);
+    margin: 10px;
+}
+.registerSuccess.owl-carousel{
+    top:25%;
+    opacity: 1;
+}
+.owl-carousel-succ-item{
+    font-size: 0.5em;
+}
 
     @media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
     body { font-size: 150%; }
