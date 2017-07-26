@@ -211,7 +211,7 @@ highchart {
 .pop-up-custom{
 
     position: fixed;
-        bottom: 106px;
+        bottom: 120px;
     width: 96%;
     background: #fff;
     top: 5px;
@@ -226,6 +226,7 @@ highchart {
 }
 .product-pop-up-header{
     background: #448aff;
+	font-size:20px;
     padding: 10px;
     text-align: center;
     font-weight: bold;
@@ -249,7 +250,7 @@ highchart {
     bottom: 0px;
 }
 #top-tabs{
-    height: 495px;
+    height: 460px;
 }
 .ticket-list{
    /* height: 60px;*/
@@ -387,7 +388,7 @@ md-toast{
 }
 .registerButton{
         background-color: white;
-        color: #de7f00;
+        color: #de7f00 !important;
         padding: 8px 20px;
         border-radius: 6px;
         border-color: transparent;
@@ -532,4 +533,16 @@ md-toast{
 }
 .query-page{
     background: #fff;
+}
+.logo-img{
+	    width: 45px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+.logo-img-dashboard{
+	    width: 45px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
 }

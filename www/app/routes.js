@@ -20,4 +20,12 @@ angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function
         controller: "registerDeviceController",
         controllerAs: "register"
     });
+	
+	$stateProvider.state("order", {
+        url: "/order",
+        templateUrl: "app/components/order/order.html",
+        title: "Order",
+        controller: "OrderController",
+        controllerAs: "order"
+    });
 }]);

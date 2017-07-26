@@ -1,7 +1,7 @@
-<div>
+<div ng-init="heigthCal()">
     <div ng-if="!isAdmin">
 		<div class="product-container" ng-if="!onStart && product.length > 0">
-			<div ng-if="product.length > 0">
+			<div ng-if="product.length > 0" style="height:{{containerHeight}}px;overflow: auto;">
 				<div ng-if="!isLoading" class="listbox" ng-repeat="prod in product">
 					<div class ="image-box" style="background: url({{imagesplit(prod.productBaseInfo.productAttributes.imageUrls)}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
 					</div>
@@ -9,7 +9,7 @@
 						<div style="width:{{productWidth}}px" class="truncate">{{prod.productBaseInfo.productAttributes.title}}</div>
 						<div class="product-price"><i class="icon-inr"></i>&nbsp;{{prod.productBaseInfo.productAttributes.maximumRetailPrice.amount}}</div>
 						<div class="product-cnt-or-id">
-							{{$index + 1}}
+							{{prod.index}}
 						</div>
 					</div>
 				</div>
@@ -33,7 +33,7 @@
 	</div>
 	<div ng-if="isAdmin">
 		<div class="product-container" ng-if="!isAdminLoad">
-			<div ng-if="productAdmin.length > 0">
+			<div ng-if="productAdmin.length > 0" style="height:{{containerHeight}}px;overflow: auto;">
 				<div class="listbox" ng-repeat="prod in productAdmin" ng-click="productShow(prod.productUrl)">
 					<div class ="image-box" style="background: url({{prod.image}});background-size: 100% 100%;background-size: contain;background-repeat: no-repeat;background-position: center;">
 					</div>

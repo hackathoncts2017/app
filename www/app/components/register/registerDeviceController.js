@@ -2,7 +2,7 @@
 (function(){
   'use strict';
 
-  	angular.module('ngapp').controller('registerDeviceController',['$scope','$timeout',function($scope,$timeout){
+  	angular.module('ngapp').controller('registerDeviceController',['$scope','$timeout','$rootScope',function($scope,$timeout,$rootScope){
         //$scope.$parent.displayHeaderFooter(false,false);
         $scope.initRegcall = true;
         $scope.isListening = false;
@@ -10,7 +10,8 @@
         $scope.enableMic = function(){
 
         }
-
+		$rootScope.$emit("headedText", {"header":"register"});
+		//document.getElementsByTagName("md-toolbar")[0].style.display = "none"; 
         $scope.afterHide = function(){
             //alert("Start your successfull registration screen.");
         }
