@@ -12,7 +12,7 @@
         }
 
         $scope.afterHide = function(){
-            alert("Start your successfull registration screen.");
+            //alert("Start your successfull registration screen.");
         }
 
         $scope.registerDevice = function(){
@@ -20,11 +20,13 @@
             if($scope.initRegcall === true){
                 var registerNumber =  $("register-field").text();
                 if(isNaN(registerNumber)){
-                    alert("Register Number is not Valid");
+                    alert("It's not an valid registration number. Please check your admin");
                 }else if(registerNumber === "23456"){
                     $timeout(function(){
                         $scope.showSuccess = true;
                     },1500);
+                }else{
+                  alert("Register Number is 23456");
                 }
             }
         }
