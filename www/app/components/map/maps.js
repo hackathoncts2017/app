@@ -60,21 +60,19 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 });
                 setInterval(function() {
                     navigator.geolocation.getCurrentPosition(function(pos) {
-                    $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                    console.log(JSON.stringify($scope.position));
-                    $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
-                    if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
-                       $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
-                        MapService.setMyLocation($rootScope.myLoc,function(data) {
-                            console.log(data);
-                        });
-                    }         
-                }, 
-                function(error) {                    
-                    alert('Unable to get location: ' + error.message);
-                }, options);
-                    
-                    
+                        $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                        console.log(JSON.stringify($scope.position));
+                        $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
+                        if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
+                           $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
+                            MapService.setMyLocation($rootScope.myLoc,function(data) {
+                                console.log(data);
+                            });
+                        }         
+                    }, 
+                    function(error) {                    
+                        alert('Unable to get location: ' + error.message);
+                    }, options);
                 },15000);
             } else {
                 MapService.getJobLoc().then(function(res) {

@@ -39,7 +39,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		"search":3
 	}
 	$scope.userClick = false;
-	$scope.keyWordText = ["Reset","Register new complaint","Where am i?","Show monthly report","Show yearly report","Show weekly report","Show daily report","Change to line chart","Change to spline chart","Change to area chart","Change to areaspline chart","Change to bubble chart","Change to column chart","How about today weather","Track engineer","Assign job","refresh","Details of job ","Engineer","Direction for job","Started for job","Reached","Completed","Feedback","Rating","Satellite View","Map view","Order product","Close product","Back product","Search for","Select product","Order","Search for","Navigate to dashboard","Navigate to map","Navigate to product","Navigate to search","Navigate to order","Switch to admin view","Switch to user view","Switch to engineer view","Switch to normal view"];
+	$scope.keyWordText = ["Reset","Register new complaint","Where am i?","Show reports","Show monthly report","Show yearly report","Show weekly report","Show daily report","Change to line chart","Change to spline chart","Change to area chart","Change to areaspline chart","Change to bubble chart","Change to column chart","How about today weather","Track engineer","Assign job","refresh","Details of job ","Engineer","Direction for job","Started for job","Reached","Completed","Feedback","Rating","Satellite View","Map view","Order product","Close product","Back product","Search for","Select product","Order","Search for","Navigate to dashboard","Navigate to map","Navigate to product","Navigate to search","Navigate to order","Switch to admin view","Switch to user view","Switch to engineer view","Switch to normal view"];
 	$scope.appendInput = function(index){
 		$scope.userClick = true;
 		$scope.seachtext = $scope.keyWordText[index];		
@@ -65,7 +65,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		$mdToast.show(
             $mdToast.simple()
             .textContent(data.text)
-            .position('bottom right')
+            .position('top right')
             .hideDelay(5000)
         );
 		if(typeof TTS != "undefined") {
@@ -158,7 +158,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				$mdToast.show(
                     $mdToast.simple()
                     .textContent(text)
-                    .position('bottom right')
+                    .position('top right')
                     .hideDelay(5000)
                 );
 				//setTimeout($scope.listen , 1000);

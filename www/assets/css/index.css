@@ -547,3 +547,8 @@ md-toast{
     margin-left: 10px;
     margin-top: 10px;
 }
+md-dialog {
+font-size:16px;
+}
+
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{background-color:rgba(200,85,0,1);}
