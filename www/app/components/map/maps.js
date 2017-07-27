@@ -84,6 +84,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             
             if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
+					//debugger;
                     console.log("res inside",res);
                     var indexEngValue = 0,
                         indexJobValue = 0;
@@ -92,12 +93,12 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         for(var i = 0; i<res[j].length;i++) {
                             if(j == 0 && res[j][i].isCustomer == 0) {
                                 indexEngValue += 1; 
-                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
+                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image,"engStatus":res[j][i].status, isEng : true});
                                 $scope.adminEngMapping[indexEngValue] = res[j][i].id;
     
-                            } else if(res[j][i].status == 'I' && res[j][i].userId === ''){
+                            } else if(res[j][i].Address){
                                 indexJobValue += 1; 
-                                $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
+                                $scope.locations.push({"locationVal" : res[j][i].Location,status:res[j][i].status, isEng : false});
                                 $scope.adminJobMapping[indexJobValue] = res[j][i].id;
                             }
                         }

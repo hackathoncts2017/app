@@ -32,21 +32,24 @@
 		  		<div ng-if="indexVal != $index && indexVal >= 0">
 		  			<custom-marker position={{loc.locationVal}}>
 				        <div>
-				          <img src="assets/img/marker.png"  style="width:30px;height:30px;"/>
+				          <img g="{{loc.status}}" src="assets/img/marker.png"  style="width:30px;height:30px;"/>
 				        </div>
 			        </custom-marker>
 		  		</div>
 		  		<div ng-if="indexVal == -1 && loc.isEng">
 		  			<custom-marker position={{loc.locationVal}}>
 				        <div>
-				          <img src="assets/img/{{loc.image}}.jpg"  style="width:30px;height:30px;border:2px solid #f6a500; border-radius: 50px"/>
+				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'A'" style="width:30px;height:30px;border:2px solid green; border-radius: 50px"/>
+				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'W'" style="width:30px;height:30px;border:2px solid blue; border-radius: 50px"/>
+				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'B'" style="width:30px;height:30px;border:2px solid red; border-radius: 50px"/>
 				        </div>
 			        </custom-marker>
 		  		</div>
 		  		<div ng-if="indexVal == -1 && !loc.isEng">
-		  			<custom-marker position={{loc.locationVal}}>
+		  			<custom-marker position={{loc.locationVal}} ng-hide="loc.status == 'C'">
 				        <div>
-				          <img src="assets/img/marker.png"  style="width:30px;height:30px;"/>
+				          <img ng-show="loc.status == 'I'" ng-src="assets/img/marker-un-assigned.png"  style="width:30px;height:30px;"/>
+				          <img ng-show="loc.status != 'I'" ng-src="assets/img/marker-assigned.png"  style="width:30px;height:30px;"/>
 				        </div>
 			        </custom-marker>
 		  		</div>
