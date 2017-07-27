@@ -18,6 +18,11 @@
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link href="assets/css/flipclock.css" rel="stylesheet">
 
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.transitions.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" />
+	
     <!-- AngularJs -->
     <script type="text/javascript" src="assets/lib/angular.min.js"></script>
     <script type="text/javascript" src="assets/lib/angular-ui-router.min.js"></script>
@@ -48,6 +53,8 @@
     <!-- Services -->
     <script type="text/javascript" src="app/shared/shared-service.js"></script>
 
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
+	
     <!-- Controllers -->
     <script type="text/javascript" src="app/shared/speech/speech.js"></script>
     <script type="text/javascript" src="app/components/main/main-controller.js"></script>
@@ -62,12 +69,15 @@
     <script type="text/javascript" src="app/components/search/search.js"></script>
     <script type="text/javascript" src="app/components/search/searchservices.js"></script>
     <script type="text/javascript" src="app/components/usertab/usertab.js"></script>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcSRXV_QIHi9Z7GXsc0uWglO_XBLu53lg"  type="text/javascript"></script>-->
     
-    
+    <script type="text/javascript" src="app/components/register/registerDeviceController.js"></script>
+    <script type="text/javascript" src="app/components/order/order.js"></script>
+	
     <title>Hackathon</title>
 </head>
 
-<body style="position: fixed;" ng-cloak>
+<body style="position:fixed;background: url('assets/img/bg_pattern.png');background-repeat: repeat;background-position: center;" ng-cloak>
     <Header></Header>
     <ui-view></ui-view>
 

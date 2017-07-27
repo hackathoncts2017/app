@@ -5,6 +5,9 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	$scope.isAdminLoad = true;
 	$scope.isAdmin = false;
 	$scope.noData = false;
+	$scope.heigthCal = function() {
+		$scope.containerHeight = $(document).height() - 130
+	}
 	if(localStorage.deviceDetails) {
 		var deviceDetails =JSON.parse(localStorage.deviceDetails);
         console.log(deviceDetails);
@@ -22,15 +25,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 	//$scope.isAdmin = JSON.parse(localStorage.userDetails).isAdmin == "0"?false:true	
 	//console.log(asyn);
 	$scope.onStart = true;
-	$rootScope.$on("ProductSpeech", function(controller,data){ 
-	       if (data.text) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.text)
-                    .position('bottom right')
-                    .hideDelay(5000)
-                );
-            }           
+	$rootScope.$on("ProductSpeech", function(controller,data){            
 		   $scope.audioSplit(data.text);
     });	
     $scope.getAdminProduct = function() {
@@ -57,10 +52,14 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
     	$scope.showPopUp = false;
 		document.getElementById("fff").click();
     }
+	$scope.nextitem = 0;
 	$scope.audioSplit = function(audiotext) {
 		if(!$scope.isAdmin) {
-			var keyWords = ["search for","select product","order"]
-			if(audiotext.indexOf(keyWords[0]) > -1){
+			var keyWords = ["search for","select product","order","cancel","back"];
+			if(audiotext.indexOf(keyWords[3]) > -1 || audiotext.indexOf(keyWords[4]) > -1){
+				$scope.nextitem = 1;
+				$scope.product = JSON.parse(JSON.stringify($scope.Tempproduct));
+			}else if(audiotext.indexOf(keyWords[0]) > -1){
 				audiotext = audiotext.split(keyWords[0]);
 				if(audiotext.length > 1 && audiotext[1] != "") {
 					audiotext = audiotext[1];
@@ -68,34 +67,54 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				} else {
 					$rootScope.speeckToUser({"text":"please search some product"})
 				}
-			} else if(audiotext.indexOf(keyWords[1]) > -1) {
-				audiotext = audiotext.split(keyWords[1]);
-				$scope.selectedProduct  = audiotext[1];
+			} else if(audiotext.indexOf(keyWords[1]) > -1 || $scope.nextitem === 1) {
+				if(audiotext.indexOf(keyWords[1]) > -1){
+					audiotext = audiotext.split(keyWords[1]);
+					$scope.selectedProduct  = audiotext[1];
+				} else {
+					$scope.selectedProduct  = audiotext;
+				}
+				
 				$scope.selectedProduct = Number($scope.selectedProduct);
+				$scope.selectedProduct = $scope.selectedProduct - 1;
 				if( 0 < $scope.selectedProduct &&  $scope.selectedProduct< 11) {
-					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"},true);		
+					$scope.product = [$scope.product[$scope.selectedProduct]];
+					$rootScope.speeckToUser({"text":"can you tell me how many products you want to order"},true);
+					$scope.nextitem = 2;
 				} else {
 					$rootScope.speeckToUser({"text":"Select product from 0 to 10"});	
 				}
 					
-			} else if(audiotext.indexOf(keyWords[2]) > -1) {
-				audiotext = audiotext.split(keyWords[2]);
-				audiotext = audiotext[1].trim();
-				audiotext = audiotext.split(" ")[0];			
+			} else if(audiotext.indexOf(keyWords[2]) > -1 || $scope.nextitem === 2) {
+				if(audiotext.indexOf(keyWords[2]) > -1){
+					audiotext = audiotext.split(keyWords[2]);
+					audiotext = audiotext[1].trim();
+					audiotext = audiotext.split(" ")[0];	
+				}						
 				$scope.productCnt  = audiotext;
-				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " product in product " + $scope.selectedProduct +". we request admin regarding this and we will get back you soon"});
+				var productName = $scope.Tempproduct[$scope.selectedProduct].productBaseInfo.productAttributes.title
+				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " product in product " + productName +". we request admin regarding this and we will get back you soon"});
 				$scope.apiCall();
 			} else {
 				$rootScope.speeckToUser({"text":"please Check your keyword"})
 			}
 		} else {
-			var keyWords = ["order product","close","back"]
+			var keyWords = ["order product","close","back","reject"]
 			if(audiotext.indexOf(keyWords[0]) > -1){
 				audiotext = audiotext.split(keyWords[0]);
 				if(audiotext.length > 1 && audiotext[1] != "") {
 					audiotext = audiotext[1];
 					var selectedProduct = $scope.productAdmin[audiotext - 1];
 					$scope.productShow(selectedProduct.productUrl);
+				} else {
+					$rootScope.speeckToUser({"text":"please select some product"})
+				}
+			} else if(audiotext.indexOf(keyWords[3]) > -1){
+				audiotext = audiotext.split(keyWords[3]);
+				if(audiotext.length > 1 && audiotext[1] != "") {
+					audiotext = audiotext[1];
+					$scope.productAdmin.splice(audiotext - 1,1);
+					$rootScope.speeckToUser({"text":"You have successfully rejected ordered product"})
 				} else {
 					$rootScope.speeckToUser({"text":"please select some product"})
 				}
@@ -108,7 +127,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 		
 	}
 	$scope.apiCall =function() {
-		var selPro = $scope.product[$scope.selectedProduct - 1]
+		var selPro = $scope.Tempproduct[$scope.selectedProduct - 1]
 		var productDesc = {
 		  "productId": selPro.productBaseInfo.productIdentifier.productId,
 		  "productName": selPro.productBaseInfo.productAttributes.title,
@@ -138,9 +157,18 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 			$scope.isLoading = false;
 			if(!res.error) {				
 				$scope.isLoading = false;
-				$scope.product = res.data;
+				var pro = []
+				$.each(res.data,function(index,list){
+					list.index = index + 1;
+					pro.push(list)
+				})
+				
+				$scope.product = pro;
+				$scope.Tempproduct = pro;
+				$scope.nextitem = 1;
 			} else {
 				$scope.product = [];
+				$scope.Tempproduct = [];
 			}
 		}); 
 	}

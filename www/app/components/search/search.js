@@ -1,14 +1,7 @@
 hackathon.controller("searchController", function(shared, $state, $scope, $mdSidenav,$mdToast,$mdComponentRegistry,SearchService,$rootScope,$mdDialog) {
 	$scope.isSearch = false;
 	$rootScope.$on("questionSpeech", function(controller,data){
-	       if (data.text) {
-                $mdToast.show(
-                    $mdToast.simple()
-                    .textContent(data.text)
-                    .position('bottom right')
-                    .hideDelay(5000)
-                );
-            }           
+	                  
 		   $scope.audioSplitQuestionSpeech(data.text);
     });	
     $scope.audioSplitQuestionSpeech = function(audiotext) {

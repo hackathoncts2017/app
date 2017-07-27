@@ -147,9 +147,17 @@ md-tabs[md-align-tabs=bottom] md-tabs-wrapper{
 }
 
 .audio-btn{
-        position: absolute;
+       /* position: absolute;
     bottom: 64px;
     right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: red;
+    text-align: center;*/
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -203,7 +211,7 @@ highchart {
 .pop-up-custom{
 
     position: fixed;
-        bottom: 106px;
+        bottom: 120px;
     width: 96%;
     background: #fff;
     top: 5px;
@@ -218,6 +226,7 @@ highchart {
 }
 .product-pop-up-header{
     background: #448aff;
+	font-size:20px;
     padding: 10px;
     text-align: center;
     font-weight: bold;
@@ -241,7 +250,7 @@ highchart {
     bottom: 0px;
 }
 #top-tabs{
-    height: 436px;
+    height: 460px;
 }
 .ticket-list{
    /* height: 60px;*/
@@ -256,3 +265,290 @@ highchart {
 .md-list-item-text h3 {
     font-weight: bold !important;
 }
+#home > md-tabs-wrapper {
+    display: none !important
+}
+.speech-text{  
+     background: #fff;
+    height: 46px;
+    width: 80%;
+    position: fixed;
+    bottom: 8px;
+    left: 2%;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.speech-text input{
+     width: 80%;
+    height: 90%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    margin-left: 5%;
+    margin-top: 2px;
+}
+.speech-send-icon{
+        width: 39px;
+    /* height: 100%; */
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.speech-container{
+        position: fixed;
+    bottom: 0;
+    height: 62px;
+    width: 100%;
+    background: transparent;
+    background-color: rgba(47, 79, 79, 0.4);
+}
+.speech-suggestion {
+    max-height: 155px;
+    width: 80%;
+    background: #fff;
+    position: fixed;
+    bottom: 55px;
+    left: 2%;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    /* border: 1px solid #ccc; */
+    border-bottom: none;
+    box-sizing: border-box;
+    overflow: auto;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.speech-text.close{
+    border-radius: 25px
+}
+.speech-text.open{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.speech-suggestion div {
+    padding-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.speech-suggestion div:last-child {
+    border-bottom: none;
+}
+.delete-icon{
+    position: absolute;
+    top: 12px;
+    width: 22px;
+    right: 12px;
+}
+md-toast{
+    bottom: 60px !important;
+}
+
+
+.deviceReg{
+    background-image: url("../../assets/img/background.jpg");
+}
+.deviceReg .logo{
+    width: 100%;
+    position: absolute;
+    top:10%;
+    text-align: center;
+}
+.deviceReg .logo img{
+    width: 100px;
+}
+.deviceReg .logo .header{
+        font-size: .7em;
+    color: wheat;
+}
+.deviceReg .inputwrapper{
+    padding: 10px;
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+}
+.deviceReg .inputwrapper > div:first-child{
+    font-size: 0.5em;
+    padding-bottom: 10px;
+    color: white;
+}
+.deviceReg .inputwrapper .inputField{
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+    border: solid thin gray;
+    width: auto;
+    display: inline-block;
+    border-radius: 3px;
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    font-size: 0.5em;
+    vertical-align: text-top;
+    outline:none;
+}
+.registerButton{
+        background-color: white;
+        color: #de7f00 !important;
+        padding: 8px 20px;
+        border-radius: 6px;
+        border-color: transparent;
+        font-size: 0.7em;
+    }
+    .registerBtnWrapper{
+        position: absolute;
+        width: 100%;
+        top: 80%;
+        bottom:8%;
+    }
+    .regMicBtn{
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        border-top-right-radius: 100%;
+        width: 50px;
+        height: 50px;
+        background: white;
+        outline: none;
+    }
+    .owl-theme .owl-controls .owl-buttons div{
+        background-color: black !important;
+        font-size: 0.5em !important;
+    }
+    .owl-prev.disabled,.owl-next.disabled{
+        background-color: #cacaca !important;
+    }
+    .owl-theme .owl-controls .owl-page span{
+        background: white;
+        background-color: white;
+    }
+    @keyframes cardAnim {
+    0%   {position:absolute;width:100%; left:0px; top:0px;}
+    75% {left:0px; top:-450px;}
+    100% {height: 0px;}
+}
+
+@keyframes hideRegisterBtnInbottom {
+    0%   {bottom: 8%;}
+    80% {bottom: 0%;}
+    100% {height: 0px;bottom: 0%;}
+}
+
+@keyframes hideRegisterInputInbottom {
+    0%   { top: 50%;}
+    80% {top: 100%;}
+    100% {height: 0px;top: 100%;}
+}
+.registerSuccess{
+
+    animation-duration: 1s;
+    animation-delay: 3s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.logo,.removeRegister{
+    animation-duration: 1s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.removeInputField{
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-timing-function: linear;
+    -webkit-transition:all linear 1s;
+    transition:all linear 1s;
+}
+.removeCard{
+    animation-name: cardAnim;
+    animation-duration: 2s;
+    animation-delay: 0s;
+    animation-timing-function: linear;
+
+}
+.removeRegister.ng-hide, .removeInputField.ng-hide {
+  opacity:0;
+  top:100%;
+  bottom:0%;
+  /* transform: scale(0.8); */
+}
+.registerSuccess.ng-show{
+    opacity: 1;
+    top:20%;
+}
+.logo.successScreen{
+    top:3%;
+}
+.owl-carousel-item{
+
+}
+.md-button.md-default-theme:not([disabled]).md-icon-button:hover, .md-button:not([disabled]).md-icon-button:hover{
+    background-color: white;
+}
+.owl-carousel-succ-item{
+        padding: 20px;
+    background-color: rgba(255,255,255,0.1);
+    margin: 10px;
+}
+.registerSuccess.owl-carousel{
+    top:25%;
+    opacity: 1;
+}
+.owl-carousel-succ-item{
+    font-size: 0.5em;
+}
+.continuetoDash{
+    bottom: 10%;
+    text-align: right;
+    position: absolute;
+    padding: 10px;
+    right: 0px;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    line-height: 20px;
+}
+.continuetoDash a,.continuetoDash a:hover,.continuetoDash a:active{
+    color: black;
+    font-size: 0.5em;
+    text-decoration: none;
+}
+    @media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
+    body { font-size: 150%; }
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio : 2), only screen and (min-device-pixel-ratio : 2) {
+    body { font-size: 200%; }
+}
+.layout-fill {
+    background: transparent;
+}
+.speech-suggestion {
+    font-size: 16px
+}
+.layout-align-center-center>*, .layout-align-end-center>*, .layout-align-space-around-center>*, .layout-align-space-between-center>*, .layout-align-start-center>*
+{
+    color:white;
+}
+.query-page{
+    background: #fff;
+}
+.logo-img{
+	    width: 45px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+.logo-img-dashboard{
+	    width: 45px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+md-dialog {
+font-size:16px;
+}
+
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{background-color:rgba(200,85,0,1);}

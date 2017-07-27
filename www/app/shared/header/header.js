@@ -28,8 +28,14 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
         $mdSidenav("right").close()
             .then(function() {});
     };
+	$scope.headerbarshow = false;
     $rootScope.$on("headedText", function(controller,data){
            $scope.title = data.header
+		   if(data.header == "Dashboard" || data.header == "register"){
+				$scope.headerbarshow = false;
+		   } else {
+				$scope.headerbarshow = true;
+		   }
     });
 
     $scope.tabclick =function(no) {

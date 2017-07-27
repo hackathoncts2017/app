@@ -8,7 +8,8 @@ hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "n
     //window.plugins.orientationLock.lock("portrait");
 	if(typeof device != "undefined" ) {
 		if(localStorage.userToggle == undefined) {
-			localStorage.deviceDetails = JSON.stringify(device);		
+			//commenting for testing
+			//localStorage.deviceDetails = JSON.stringify(device);		
 		}
 		cordova.plugins.diagnostic.isLocationEnabled(function(enabled){
 			console.log("Location is " + (enabled ? "enabled" : "disabled"));

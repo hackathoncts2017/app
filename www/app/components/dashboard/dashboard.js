@@ -1,27 +1,32 @@
-hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
+hackathon.controller("DashboardController", function(shared, $state, $scope, $mdDialog, $mdSidenav,NgMap, $mdToast,$mdComponentRegistry, $rootScope, $timeout, $compile, DashboardService, $http,NgMap) {
     $rootScope.$on("DashboardSpeech", function(controller, data) {
-        if (data.text) {
+        /*if (data.text) {
                 $mdToast.show(
                     $mdToast.simple()
                     .textContent(data.text)
                     .position('bottom right')
                     .hideDelay(5000)
                 );
-            }         
+            } */        
         $scope.dashboardAudio(data.text);
     });
     //$rootScope.$emit("headedText", {"header":"Dashboard"});
     var h = window.innerHeight;
-    $scope.chartHeight = h - 310;
+    $scope.chartHeight = h - 300;
+
     $scope.dashboardData = null;
     $scope.isLoading = true;
     $scope.pendingjobs =[];
-    $scope.showBubble = true;
+    $scope.showBubble = false;
+	$scope.whereAmI = false;
+	$scope.userChat = false;
+    $scope.chartDisplay = true;
     $scope.completedjobs =[];
 	$scope.defaultLocation = 'current-location'; 
     $scope.WeatherIcon = 'http://openweathermap.org/img/w/10d.png';
     $scope.dashboardAudio = function(audiotext) {
         var keyWords = ["show", "change to", "weather","change 2","so","change two",];
+       
         if(!$scope.isCustomer) {
             if (audiotext.indexOf(keyWords[0]) > -1 || audiotext.indexOf(keyWords[4]) > -1) {
                 if(audiotext.indexOf(keyWords[0]) > -1){
@@ -33,6 +38,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     audiotext = audiotext[1].trim();                
                     audiotext = audiotext.split(" ");
                     audiotext = audiotext[0];
+                     $scope.chartDisplay = true;
+                      
+                      debugger;
+                     if(audiotext == 'reports'){
+                        audiotext = 'yearly';
+                     }
                     $scope.chartReportChange(audiotext);
                 } else {
                     $rootScope.speeckToUser({
@@ -51,7 +62,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 if (audiotext.length > 1 && audiotext[1] != "") {
                     audiotext = audiotext[1].trim();
                     audiotext = audiotext.split(" ");
-                    audiotext = audiotext[0]
+                    audiotext = audiotext[0];
+                    $scope.chartDisplay = true;
                     $rootScope.chartType = audiotext;
                     $scope.drawChart(audiotext);
                 } else {
@@ -63,7 +75,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 audiotext = audiotext.split(keyWords[2]);
                 //if (audiotext.length > 1 && audiotext[1] != "") {
                     $rootScope.speeckToUser({
-                        "text": "Today Weather Report" + $scope.dashboardData.weather.weather[0].description + "and" + "Humidity is " + $scope.dashboardData.weather.main.humidity + "and" + "Temperature is" + $scope.dashboardData.weather.main.temp
+                        "text": "Today Weather Report " + $scope.dashboardData.weather.weather[0].description + " and " + " Humidity is " + $scope.dashboardData.weather.main.humidity + " and " + " Temperature is " + $scope.dashboardData.weather.main.temp
                     });
                     //$scope.chartReports(audiotext);
                 //} else {
@@ -71,6 +83,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                      //   "text": "Invalid Command"
                     //})
                 //}
+            }  else if (audiotext.indexOf('where am i') > -1) {
+                $scope.whereAmI = true;
+				$scope.userChat = true;
+            }  else if (audiotext.indexOf('reset') > -1) {
+                $scope.whereAmI = false;
+				$scope.userChat = false;
             } else {
                 $rootScope.speeckToUser({
                     "text": "Please check your keyword"
@@ -80,14 +98,14 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             if($scope.getName) {
                 $scope.customerName = audiotext;
                 $scope.registerUser(true,"name", audiotext)
-            } else if($scope.getNumber) {
+            } else if($scope.getPhoneNumber) {
                 $scope.customerNumber = audiotext;
                 $scope.registerUser(true,"number", audiotext)
             } else if ($scope.newIssue) {
                 $scope.issueDetails = audiotext;
                 $rootScope.speeckToUser({
                     "text": "When do you want our service personal to visit your location"
-                });
+                },true);
                 $scope.newIssue = false;
                 $scope.getTime = true;
             } else if($scope.getTime) {
@@ -122,7 +140,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 setTimeout(function() {
                     $rootScope.speeckToUser({
                         "text": "Is the location marked in the map correct?"
-                    });
+                    },true);
                     $scope.locationMap();
                 },3500);
             } else if($scope.confirmLocation) {
@@ -154,14 +172,15 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     $scope.getLoc = true;
                     $rootScope.speeckToUser({
                         "text": "Please confirm you location."
-                    });
+                    }, true);
                 }
             } else if(audiotext.indexOf('register') > -1) {
                 $scope.newIssue = true;
                 $rootScope.speeckToUser({
                     "text": "Please tell us the issue you are facing"
-                });
+                }, true);
             } else if (audiotext.indexOf('track') > -1) {
+                $rootScope.trackUser = true;
                 if($rootScope.assignedEngId != -1) {
                     $rootScope.tabChange(1);
                 } else {
@@ -188,14 +207,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
             });
-        });
-        
+        }); 
     }
 
-     
-
     $scope.getNumber = function(num) {
-    return new Array(num);   
+        var number = Number(num);
+        return new Array(number);   
     }
 
     $scope.getDetails = function() {
@@ -232,7 +249,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                     "id": 1,
                     "location": "44,56",
                     "engineerName": "Saravanan",
-                    "designation": "Senior Executive",
+                    "designation": "Senior Executive1",
                     "deviceId": "c0e9928ff73b8fa1",
                     "image": "saravanan",
                     "isAdmin": "0",
@@ -250,20 +267,20 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if(!context) {
             $rootScope.speeckToUser({
                 "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."
-            });
+            },true);
             $scope.getName = true;
         } else if (action == "name") {
             $rootScope.speeckToUser({
                 "text": "Thank you " + detail + " . Please provide your mobile number"
-            });
+            },true);
             $scope.getName = false;
-            $scope.getNumber = true;
+            $scope.getPhoneNumber = true;
         } else if (action == "number") {
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. Enjoy our service"
             });
             $scope.userRegistered = true;
-            $scope.getNumber = false;
+            $scope.getPhoneNumber = false;
             $("#fff").trigger("click");
             var requestData = {
                 "userName" : $scope.customerName,
@@ -324,14 +341,33 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         console.log(WelcomeText);
     };
     $scope.weatherReports = function() {
-        DashboardService.getWeather({
-            "lon": "13",
-            "lat": "80",
+        var req = {
+            "lon": "80",
+            "lat": "13",
             "isAdmin": $scope.userdetails.isAdmin == "1" ? true : false
-        }).then(function(res) {
+        };
+        var options = {
+                enableHighAccuracy: true
+            };
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            $scope.positionVal = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+            console.log(JSON.stringify($scope.positionVal));
+            req.lat = "" + $scope.positionVal.lat();
+            req.lon = "" + $scope.positionVal.lng();
+            $scope.getWeather(req);
+        }, 
+        function(error) {    
+            $scope.getWeather(req);                
+            alert('Unable to get location: ' + error.message);
+
+        }, options);
+
+        
+    };
+    $scope.getWeather = function(req) {
+        DashboardService.getWeather(req).then(function(res) {
             if (!res.error) {
                 $scope.dashboardData = res.data.data;
-
                 if($scope.dashboardData.jobdetails) {
                     $scope.dashboardData.panelBox = {completed:0,inprogress:0};
                     $.each($scope.dashboardData.jobdetails,function(index,val){
@@ -349,7 +385,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }
             $rootScope.loadMap();
         });
-    };
+    }
     $scope.showAlert = function(ev) {
         // Appending dialog to document.body to cover sidenav in docs app
         // Modal dialogs should fully cover application
@@ -357,16 +393,18 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         $mdDialog.show($mdDialog.alert().parent(angular.element(document.querySelector('#popupContainer'))).clickOutsideToClose(true).title('Weather Report').textContent("Description: " + $scope.dashboardData.weather.weather[0].description + ", " + "Humidity: " + $scope.dashboardData.weather.main.humidity + ", " + "Temperature: " + $scope.dashboardData.weather.main.temp).ariaLabel('Alert Dialog Demo').ok('Close').targetEvent(ev));
     };
     $scope.chartConfig = '';
-    $scope.charttype = 'column';
+    $scope.charttype = 'areaspline';
     $scope.chartsection = true;
     window.drawChart = $scope.drawChart = function(type) {
         var chartType = ['line','spline','area','areaspline','column'];
         if(chartType.indexOf(type) > -1){
-            $scope.showBubble = false;            
-            $("#chart1").highcharts().update({"chart":{"type":type,height:$scope.chartHeight,width:$(window).width() - 20}})
+            $scope.showBubble = false; 
+                     
+            $("#chart1").highcharts().update({"chart":{"type":type,height:$scope.chartHeight,width:$(window).width() - 10}})
 			$("#fff")[0].click()
         } else if(type == "bubble") {
             $scope.showBubble = true;
+            $("#chart2").highcharts().update({"chart":{"type":type,height:$scope.chartHeight,width:$(window).width() - 10}})
             $("#fff")[0].click()
         } else {
             $rootScope.speeckToUser({
@@ -386,26 +424,34 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 xAxis = [];
             if(report == 'daily') {
                 chartRef.series[0].update({"data": [72.9, 99.5, 76.4]},false);
+                chartRef.series[1].update({"data": [28, 9.5, 56.4]},false);
+                 chartRef.series[2].update({"data": [48, 69.5, 76.4]},false);
                 chartRef.setTitle({text: "Daily Report"});
                 xAxis = ['Morning', 'Afternoon', 'Evening'];
                 isChange = true;
             } else if (report == 'weekly')  {
                 chartRef.series[0].update({"data": [72.9, 9.5, 76.4, 33.5, 12, 85]},false);
+                chartRef.series[1].update({"data": [52.9, 59.5, 86.4, 53.5, 82, 95]},false);
+                chartRef.series[2].update({"data": [32.9, 19.5, 16.4, 23.5, 52, 15]},false);
                 chartRef.setTitle({text: "Weekly Report"});
                 xAxis = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
                 isChange = true;
             } else if (report == 'monthly') {
                 chartRef.series[0].update({"data":[72.9, 99.5, 6.4, 64.3]},false);
+                chartRef.series[1].update({"data":[22.9, 39.5, 4.4, 34.3]},false);
+                chartRef.series[2].update({"data":[42.9, 59.5, 3.4, 24.3]},false);
                 chartRef.setTitle({text: "Monthly Report"});
                 isChange = true;
                 xAxis = ['Week1', 'Week2', 'week3', 'week4'];
             } else if (report == 'yearly' || report == "early") {
                 chartRef.series[0].update({"data":[72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88]},false);
+                chartRef.series[1].update({"data":[52.9, 94, 64, 38.3, 37, 5, 49.5, 192, 116.4, 101, 7, 128]},false);
+                chartRef.series[2].update({"data":[32.9, 64, 84, 73, 17, 55, 19.5, 132, 126.4, 41, 27, 18]},false);
                 chartRef.setTitle({text: "Yearly Report"});
                 isChange = true;
                 xAxis = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec'];
             }
-
+             
             if(isChange) {
                 $("#chart1").highcharts().xAxis[0].setCategories(xAxis);
             } else {
@@ -417,6 +463,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         
     }
     $scope.chartReports = function(type) {
+        
         if (!$rootScope.chartStatus) {
             type = type;
         } else {
@@ -443,13 +490,19 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
 
                     chart: {
                     type: 'bubble',
+                     backgroundColor: 'transparent',
                     plotBorderWidth: 1,
+                    height: $scope.chartHeight,
                     zoomType: 'xy',
                     plotBorderColor: 'transparent',
                 },
 
                 title: {
-                    text: 'Yearly Report'
+                    text: 'Yearly Report',
+                     style: {
+            color: '#fff',
+            fontWeight: 'bold'
+        }
                 },
                   credits: {
                             enabled: false
@@ -484,7 +537,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                         dataLabels: {
                             enabled: true,
                             format: '{point.name}',
-                            color: 'black'
+                            color: '#fff'
                         }
                     },
                     bubble: {
@@ -495,7 +548,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 },
 
                 series: [{
-                    data: [{ x: 150, y: 135, z:150, name: 'Q1',}],marker: marker
+                    data: [{ x: 150, y: 135, z:150, name: 'Q1',}],marker: marker,
                 },{
                     data: [{ x: 80, y: 70, z:90, name: 'Q2',}],marker: marker
                 },{
@@ -512,7 +565,9 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         //else{
         $scope.dchartConfig = {
             chart: {
-                type: $scope.charttype
+                type: $scope.charttype,
+                height: $scope.chartHeight,
+                backgroundColor: 'transparent',
             },
              credits: {
                 enabled: false
@@ -521,18 +576,40 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 enabled: false
             },
             title: {
-                text: 'Daily Reports'
+                text: 'Yearly Reports',
+                style: {
+            color: '#fff',
+            fontWeight: 'bold'
+        }
             },
+            labels: {
+            style: {
+                color: '#fff'
+            }
+        },
             xAxis: {
-                categories: ['Morning', 'Afternoon', 'Evening']
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'oct', 'Nov', 'Dec'],
+                labels: {
+            style: {
+                color: '#fff'
+            }
+        }
             },
             "yAxis":{
                 "title":{
                     "text":""
-                }
+                },
+                 labels: {
+            style: {
+                color: '#fff'
+            }
+        }
             },
             plotOptions: {
                 series: {
+                    marker: {
+                enabled: false
+            },
                     cursor: 'pointer',
                     events: {
                         click: function(event) {
@@ -542,9 +619,27 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 }
             },
             series: [{
-                data: [72.9, 99.5, 76.4]
+                data: [72.9, 14, 74, 43, 87, 35, 99.5, 112, 76.4, 21, 67, 88],color:'#f6a500'
+            },{
+                data: [52.9, 94, 64, 38.3, 37, 5, 49.5, 192, 116.4, 101, 7, 128],color:'#7cb5ec'
+            },{
+                data: [32.9, 64, 84, 73, 17, 55, 19.5, 132, 126.4, 41, 27, 18],color:'#00C876'
             }]
         };
             //}
     };
+	var geocoder = new google.maps.Geocoder;
+	$scope.getAddress =function() {
+		NgMap.getMap().then(function(map) {
+			var lat = map.center.lat(),
+				lng = map.center.lng();
+			geocoder.geocode({'location': {lat:lat,lng:lng}}, function(results, status) {
+				if (status === 'OK') {
+					$scope.userAdressForTile = results[0].formatted_address;
+				} else {
+					$scope.userAdressForTile = "";
+				}
+			});
+		})
+	}
 })
