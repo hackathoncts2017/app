@@ -2,13 +2,19 @@
 (function(){
   'use strict';
 
-  	angular.module('ngapp').controller('registerDeviceController',['$scope','$timeout','$rootScope',function($scope,$timeout,$rootScope){
+  	angular.module('ngapp').controller('registerDeviceController',['$scope','$timeout','$rootScope','$window',function($scope,$timeout,$rootScope,$window){
         //$scope.$parent.displayHeaderFooter(false,false);
+
+
         $scope.initRegcall = true;
         $scope.isListening = false;
         $scope.showSuccess = false;
         $scope.enableMic = function(){
 
+        }
+        $scope.registered = $window.localStorage.getItem("registered");
+        if($scope.registered === "true"){
+            window.location.href = "#/main";
         }
 		$rootScope.$emit("headedText", {"header":"register"});
 		//document.getElementsByTagName("md-toolbar")[0].style.display = "none"; 
@@ -25,6 +31,7 @@
                 }else if(registerNumber === "23456"){
                     $timeout(function(){
                         $scope.showSuccess = true;
+                        $window.localStorage.setItem("registered","true");
                     },1500);
                 }else{
                   alert("Register Number is 23456");
