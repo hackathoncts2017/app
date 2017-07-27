@@ -93,7 +93,7 @@ hackathon.controller("ProductController", function(shared, $state, $scope, $mdSi
 				}						
 				$scope.productCnt  = audiotext;
 				var productName = $scope.Tempproduct[$scope.selectedProduct].productBaseInfo.productAttributes.title
-				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " product in product " + productName +". we request admin regarding this and we will get back you soon"});
+				$rootScope.speeckToUser({"text":"You have ordered " + $scope.productCnt+ " products in " + productName +". we request admin regarding this and we will get back you soon"});
 				$scope.apiCall();
 			} else {
 				$rootScope.speeckToUser({"text":"please Check your keyword"})

@@ -157,7 +157,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				$scope.splitText(result);
 				$mdToast.show(
                     $mdToast.simple()
-                    .textContent(text)
+                    .textContent(result)
                     .position('top right')
                     .hideDelay(5000)
                 );
