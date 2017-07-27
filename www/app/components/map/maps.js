@@ -192,6 +192,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     });
     
     $scope.mapAudioSplit = function(audiotext) {
+		var currentUserDetails = JSON.parse(localStorage.userDetails)
         if(audiotext.indexOf("details of job") > -1){
             audiotext = audiotext.split("details of job");
             if(audiotext.length > 1 && audiotext[1] != "") {
@@ -237,7 +238,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
              setTimeout(function(){
                     $scope.jobProgressText(audiotext, "reached");
                 },1000);
-        } else if (audiotext.indexOf("completed") > -1) {
+        } 
+		else if(audiotext.indexOf("completed") > -1 && currentUserDetails.isAdmin == "0" && currentUserDetails.isCustomer == "0"){
+			$scope.jobCompletedEng()
+		} else if (audiotext.indexOf("completed") > -1 && currentUserDetails.isCustomer == "1") {
             audiotext = audiotext.split("completed");
             if(audiotext.length > 1 && audiotext[0] != "") {
                 audiotext = audiotext[0].replace('job','').trim();
@@ -365,11 +369,18 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         MapService.sendSMS(request, function() {
             if(condition == "started") {
                 $rootScope.speeckToUser({"text":"Please wear a helmet. Ride safely"});
+				MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"B"},function(){});
             } else if (condition == "reached") {
+				MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"W"},function(){});
                 $rootScope.speeckToUser({"text":"Good luck with your assignment"});
             }
         })
     }
+	$scope.jobCompletedEng = function() {
+		MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"A"},function(){
+			$rootScope.speeckToUser({"text":"Please wait for next assignment"});
+		});
+	}
     $scope.jobCompletedText = function(text, condition) {
         console.log("spoken work ", text);
         if(condition == "completed") {
