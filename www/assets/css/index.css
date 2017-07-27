@@ -298,6 +298,7 @@ highchart {
     height: 62px;
     width: 100%;
     background: transparent;
+    background-color: rgba(47, 79, 79, 0.4);
 }
 .speech-suggestion {
     max-height: 155px;
