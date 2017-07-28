@@ -48,8 +48,9 @@
 		  		<div ng-if="indexVal == -1 && !loc.isEng">
 		  			<custom-marker position={{loc.locationVal}} ng-hide="loc.status == 'C'">
 				        <div>
-				          <img ng-show="loc.status == 'I'" ng-src="assets/img/marker-un-assigned.png"  style="width:30px;height:30px;"/>
-				          <img ng-show="loc.status != 'I'" ng-src="assets/img/marker-assigned.png"  style="width:30px;height:30px;"/>
+							<div class="marker-number">{{loc.jobIndex}}</div>
+							<img ng-show="loc.status == 'I'" ng-src="assets/img/marker-un-assigned.png"  class="marker-size-loc"/>
+							<img ng-show="loc.status != 'I'" ng-src="assets/img/marker-assigned.png"  class="marker-size-loc"/>
 				        </div>
 			        </custom-marker>
 		  		</div>

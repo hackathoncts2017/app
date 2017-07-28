@@ -550,5 +550,22 @@ md-toast{
 md-dialog {
 font-size:16px;
 }
-
+.marker-size-loc{
+	width:50px;
+	height:50px;
+}
 md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{background-color:rgba(200,85,0,1);}
+	.marker-number{
+		    font-size: 18px;
+    position: absolute;
+    font-weight: bold;
+    margin-left: 12px;
+    background: white;
+    /* padding: 10px; */
+    border-radius: 50%;
+    width: 26px;
+    height: 25px;
+    margin-top: 9px;
+    text-align: center;
+	    line-height: 24px;
+	}
