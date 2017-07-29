@@ -39,6 +39,7 @@
 		  		<div ng-if="indexVal == -1 && loc.isEng">
 		  			<custom-marker position={{loc.locationVal}}>
 				        <div>
+						  <div class="engineer-marker-number">{{$index+1}}</div>
 				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'A'" style="width:30px;height:30px;border:2px solid green; border-radius: 50px"/>
 				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'W'" style="width:30px;height:30px;border:2px solid blue; border-radius: 50px"/>
 				          <img src="assets/img/{{loc.image}}.jpg" ng-show="loc.engStatus == 'B'" style="width:30px;height:30px;border:2px solid red; border-radius: 50px"/>

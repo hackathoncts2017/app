@@ -569,3 +569,18 @@ md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{backgrou
     text-align: center;
 	    line-height: 24px;
 	}
+	.engineer-marker-number
+	{
+		position: absolute;
+    background: green;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 50%;
+    line-height: 24px;
+    font-weight: bold;
+    margin-left: 32px;
+    margin-top: -12px;
+    color: white;
+	}

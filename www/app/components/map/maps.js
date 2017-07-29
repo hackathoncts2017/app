@@ -85,6 +85,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
 					//debugger;
+					$scope.engineerDetails = JSON.parse(JSON.stringify(res));
                     console.log("res inside",res);
                     var indexEngValue = 0,
                         indexJobValue = 0;
@@ -196,7 +197,30 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $rootScope.$on("MapSpeech", function(controller,data){            
            $scope.mapAudioSplit(data.text);
     });
-    
+    $scope.filterEngineer =function(){
+		var engineerData = $scope.engineerDetails[0],
+			jobDetails = $scope.engineerDetails[1],
+			engId = $scope.adminJobMapping[+$scope.currentJobId],
+			userData = null;
+		//debugger;
+		for(var jobe = 0;jobe < jobDetails.length;jobe++) {
+			if(engId == jobDetails[jobe].id){
+				userData = jobDetails[jobe];
+				break;
+			}
+		}
+		var filteredUser = [];
+		if(userData){
+			//console.log(userData);
+			for(var enge = 0;enge < engineerData.length;enge++) {	
+				if(engineerData[enge].isAdmin == "0" && engineerData[enge].isCustomer == "0" && (userData.reason).indexOf(engineerData[enge].expert) > -1){
+					filteredUser.push(engineerData[enge])
+				}
+			}
+		}
+		console.log(filteredUser);
+		debugger;
+	};
     $scope.mapAudioSplit = function(audiotext) {
 		var currentUserDetails = JSON.parse(localStorage.userDetails)
         if(audiotext.indexOf("details of job") > -1){
@@ -284,6 +308,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 }
                 $scope.currentJobId = audiotext;
                 $scope.assignJobFlag = true;
+				$scope.filterEngineer();
                 $rootScope.speeckToUser({"text":"To whom do you want to assign this job"}, true);
             }
         } else if ($scope.assignJobFlag) {
