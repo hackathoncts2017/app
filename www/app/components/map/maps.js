@@ -131,7 +131,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
                         console.log("All directions", $rootScope.mapDetails.directionsRenderers);
                         console.log("My loc", $rootScope.myLoc);
-                    },2000);
+                    },3000);
                 }); 
             } else if ($rootScope.isCustomer === 1 && $rootScope.trackUser) {
             //  } else if ($rootScope.isCustomer === 1) {
@@ -162,7 +162,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                                 $rootScope.speeckToUser({"text":"Distance of your engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
                                " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
                             }
-                        },2000);
+                        },3000);
                     })
                 setInterval(function(){ 
                     $scope.locations = [];
