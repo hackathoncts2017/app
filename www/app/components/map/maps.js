@@ -60,21 +60,19 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 });
                 setInterval(function() {
                     navigator.geolocation.getCurrentPosition(function(pos) {
-                    $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-                    console.log(JSON.stringify($scope.position));
-                    $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
-                    if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
-                       $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
-                        MapService.setMyLocation($rootScope.myLoc,function(data) {
-                            console.log(data);
-                        });
-                    }         
-                }, 
-                function(error) {                    
-                    alert('Unable to get location: ' + error.message);
-                }, options);
-                    
-                    
+                        $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+                        console.log(JSON.stringify($scope.position));
+                        $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
+                        if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
+                           $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
+                            MapService.setMyLocation($rootScope.myLoc,function(data) {
+                                console.log(data);
+                            });
+                        }         
+                    }, 
+                    function(error) {                    
+                        alert('Unable to get location: ' + error.message);
+                    }, options);
                 },15000);
             } else {
                 MapService.getJobLoc().then(function(res) {
@@ -86,21 +84,29 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             
             if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
+					//debugger;
+					$scope.engineerDetails = JSON.parse(JSON.stringify(res));
                     console.log("res inside",res);
                     var indexEngValue = 0,
                         indexJobValue = 0;
                      $scope.indexVal = -1;
+					 var inprogressJob = 1;
                     for(var j = 0 ;j < res.length; j++) {
                         for(var i = 0; i<res[j].length;i++) {
                             if(j == 0 && res[j][i].isCustomer == 0) {
                                 indexEngValue += 1; 
-                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
+                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image,"engStatus":res[j][i].status, isEng : true});
                                 $scope.adminEngMapping[indexEngValue] = res[j][i].id;
     
-                            } else if(res[j][i].status == 'I' && res[j][i].userId === ''){
-                                indexJobValue += 1; 
-                                $scope.locations.push({"locationVal" : res[j][i].Location, isEng : false});
-                                $scope.adminJobMapping[indexJobValue] = res[j][i].id;
+                            } else if(res[j][i].Address){
+                                indexJobValue += 1;
+								var defaultValue = {"locationVal" : res[j][i].Location,status:res[j][i].status, isEng : false}
+								if(res[j][i].status !="C"){
+									defaultValue.jobIndex = inprogressJob;
+									$scope.adminJobMapping[inprogressJob] = res[j][i].id;                                
+									inprogressJob += 1;
+								}
+								$scope.locations.push(defaultValue);
                             }
                         }
                         console.log($scope.locations);
@@ -191,8 +197,32 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $rootScope.$on("MapSpeech", function(controller,data){            
            $scope.mapAudioSplit(data.text);
     });
-    
+    $scope.filterEngineer =function(){
+		var engineerData = $scope.engineerDetails[0],
+			jobDetails = $scope.engineerDetails[1],
+			engId = $scope.adminJobMapping[+$scope.currentJobId],
+			userData = null;
+		//debugger;
+		for(var jobe = 0;jobe < jobDetails.length;jobe++) {
+			if(engId == jobDetails[jobe].id){
+				userData = jobDetails[jobe];
+				break;
+			}
+		}
+		var filteredUser = [];
+		if(userData){
+			//console.log(userData);
+			for(var enge = 0;enge < engineerData.length;enge++) {	
+				if(engineerData[enge].isAdmin == "0" && engineerData[enge].isCustomer == "0" && (userData.reason).indexOf(engineerData[enge].expert) > -1){
+					filteredUser.push(engineerData[enge])
+				}
+			}
+		}
+		console.log(filteredUser);
+		debugger;
+	};
     $scope.mapAudioSplit = function(audiotext) {
+		var currentUserDetails = JSON.parse(localStorage.userDetails)
         if(audiotext.indexOf("details of job") > -1){
             audiotext = audiotext.split("details of job");
             if(audiotext.length > 1 && audiotext[1] != "") {
@@ -238,7 +268,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
              setTimeout(function(){
                     $scope.jobProgressText(audiotext, "reached");
                 },1000);
-        } else if (audiotext.indexOf("completed") > -1) {
+        } 
+		else if(audiotext.indexOf("completed") > -1 && currentUserDetails.isAdmin == "0" && currentUserDetails.isCustomer == "0"){
+			$scope.jobCompletedEng()
+		} else if (audiotext.indexOf("completed") > -1 && currentUserDetails.isCustomer == "1") {
             audiotext = audiotext.split("completed");
             if(audiotext.length > 1 && audiotext[0] != "") {
                 audiotext = audiotext[0].replace('job','').trim();
@@ -275,6 +308,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 }
                 $scope.currentJobId = audiotext;
                 $scope.assignJobFlag = true;
+				$scope.filterEngineer();
                 $rootScope.speeckToUser({"text":"To whom do you want to assign this job"}, true);
             }
         } else if ($scope.assignJobFlag) {
@@ -366,11 +400,18 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         MapService.sendSMS(request, function() {
             if(condition == "started") {
                 $rootScope.speeckToUser({"text":"Please wear a helmet. Ride safely"});
+				MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"B"},function(){});
             } else if (condition == "reached") {
+				MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"W"},function(){});
                 $rootScope.speeckToUser({"text":"Good luck with your assignment"});
             }
         })
     }
+	$scope.jobCompletedEng = function() {
+		MapService.engineerStatus({"userId":(JSON.parse(localStorage.userDetails).id).toString(),"status":"A"},function(){
+			$rootScope.speeckToUser({"text":"Please wait for next assignment"});
+		});
+	}
     $scope.jobCompletedText = function(text, condition) {
         console.log("spoken work ", text);
         if(condition == "completed") {

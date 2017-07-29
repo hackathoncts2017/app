@@ -101,6 +101,19 @@ hackathon.service('MapService', function($http, $q){
 		   cb(true);
 		});
    }
+   this.engineerStatus = function(data,cb) {	   	
+		$http({
+			method: 'POST',
+			url: 'https://hackathoncts.herokuapp.com/engineer-status',
+			data: JSON.stringify(data),
+			headers: {'Content-Type': 'application/json'}
+		}).success(function(res){
+			cb(res.data);
+		}, function(res){
+		   cb(true);
+		});
+   }
+   
    this.getUserLocation = function(data,cb) {
 		$http({
 		method: 'POST',

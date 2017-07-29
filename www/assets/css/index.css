@@ -211,7 +211,7 @@ highchart {
 .pop-up-custom{
 
     position: fixed;
-        bottom: 106px;
+        bottom: 120px;
     width: 96%;
     background: #fff;
     top: 5px;
@@ -226,6 +226,7 @@ highchart {
 }
 .product-pop-up-header{
     background: #448aff;
+	font-size:20px;
     padding: 10px;
     text-align: center;
     font-weight: bold;
@@ -249,7 +250,7 @@ highchart {
     bottom: 0px;
 }
 #top-tabs{
-    height: 495px;
+    height: 460px;
 }
 .ticket-list{
    /* height: 60px;*/
@@ -297,6 +298,7 @@ highchart {
     height: 62px;
     width: 100%;
     background: transparent;
+    background-color: rgba(47, 79, 79, 0.4);
 }
 .speech-suggestion {
     max-height: 155px;
@@ -387,7 +389,7 @@ md-toast{
 }
 .registerButton{
         background-color: white;
-        color: #de7f00;
+        color: #de7f00 !important;
         padding: 8px 20px;
         border-radius: 6px;
         border-color: transparent;
@@ -533,3 +535,52 @@ md-toast{
 .query-page{
     background: #fff;
 }
+.logo-img{
+	    width: 45px;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+}
+.logo-img-dashboard{
+	    width: 45px;
+    padding: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+md-dialog {
+font-size:16px;
+}
+.marker-size-loc{
+	width:50px;
+	height:50px;
+}
+md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{background-color:rgba(200,85,0,1);}
+	.marker-number{
+		    font-size: 18px;
+    position: absolute;
+    font-weight: bold;
+    margin-left: 12px;
+    background: white;
+    /* padding: 10px; */
+    border-radius: 50%;
+    width: 26px;
+    height: 25px;
+    margin-top: 9px;
+    text-align: center;
+	    line-height: 24px;
+	}
+	.engineer-marker-number
+	{
+		position: absolute;
+    background: green;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    font-size: 17px;
+    border-radius: 50%;
+    line-height: 24px;
+    font-weight: bold;
+    margin-left: 32px;
+    margin-top: -12px;
+    color: white;
+	}

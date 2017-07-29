@@ -1,18 +1,18 @@
 <div ng-init="getDetails()" style="padding-bottom: 14px;">
 	<div  ng-if="!isLoading && !isCustomer">
-	<div class="dashboard-home" style="position:relative;height:220px;background-position:top;">
-		<div layout="row" style="background:rgba(0,0,0,0.3);height:100%;width:100%">
+	<div class="dashboard-home" style="position:relative;height:220px;background-position:top;background-image:url('assets/img/background.jpg');background-repeat: no-repeat;background-size: 100%;">
+		<div layout="row" style="background:rgba(0,0,0,0.3); background-image:url('assets/img/background.jpg');background-repeat: no-repeat;background-size: 100%;height:100%;width:100%">
 		<div flex="70">
-			<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;">
+			<img src="assets/img/logo.png" class="logo-img-dashboard"/>
+			<md-list-item class="md-2-line" ng-if="userdetails" style="position:absolute;bottom:10px;background-color:rgba(0,0,0,.3)">				
 				<img ng-src="assets/img/{{userdetails.image}}.jpg" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" alt="{{userdetails.engineerName}}" />
 				<div class="md-list-item-text">
 					<h3 style="color:#fff;font-size:16px;text-transform:capitalize;">{{userdetails.engineerName}}</h3>
 					<p style="color:#fff;font-size:16px;">{{userdetails.designation}}</p>
-					<p style="color:#fff;font-size:16px;">{{userdetails.rating}} 
-						
-						
-						<img src="assets/img/star.png" style="height:16px;width:16px;top: 2px;position: relative;"/>
-					</p>
+					 <div ng-if="userdetails.rating">
+                            <img src="assets/img/star.png" ng-repeat="k in getNumber(userdetails.rating) track by $index" style="height:16px;width:16px;top: 2px;position: relative;float:left;"/>
+                            </div>
+					
 				</div>
 			</md-list-item>
 			</div>
@@ -108,9 +108,9 @@
 			<div ng-click="drawChart('pie')">pie</div>
 		<div>-->
 		<div ng-if="!userChat">
-			<md-card ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'" style="margin:8px 0px;border-radius:0px;">
+			<md-card  ng-show="chartDisplay" ng-init="chartReports('yearly')" md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch ng-if="userdetails && userdetails.isAdmin == '1'" style="margin:8px 0px;border-radius:0px;margin:10px 5px;border-radius: 3px;background-color:transparent;">
 				<!-- <hc-chart options="chartOptions">Placeholder for generic chart</hc-chart> -->
-				<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px;"></highchart>
+				<highchart id="chart1" config="dchartConfig" ng-hide="showBubble" style="height:{{chartHeight}}px; "></highchart>
 				<highchart id="chart2" config="dchartConfigBubble" ng-show="showBubble"  style="height:{{chartHeight}}px;"></highchart>
 				<!--<highchart id="chart1" config="dchartConfig" ng-if="dailychart" style="height:{{chartHeight}}px;"></highchart>
 				<highchart id="chart2" config="wchartConfig" ng-if="weeklychart" style="height:{{chartHeight}}px;"></highchart>
@@ -164,7 +164,7 @@
 	</div>-->
 	<div ng-if="!isLoading && isCustomer && !getLoc">
 		<div>
-			<div class="dashboard-home" style="position:relative;height:100px;">
+			<div class="dashboard-home" style="position:relative;height:100px; background-image:url('assets/img/background.jpg');background-repeat: no-repeat;background-size: 100%;">
 				<md-list-item class="md-2-line" style="position:absolute;bottom:10px;">
 					<img ng-src="assets/img/user_male2-512.png" class="md-avatar" style="width:60px;height:60px;border:2px solid #f6a500" />
 					<div class="md-list-item-text">
@@ -194,7 +194,7 @@
 		</div>
 	</div>
 	<div class="flexbox-parent" ng-if="isLoading">
-		<div layout="row" layout-align="center center"  style="min-height: 580px">
+		<div layout="row" layout-align="center center"  style="min-height: 500px">
 			<md-progress-circular md-mode="indeterminate" ></md-progress-circular>
 		</div>
 	</div>

@@ -1,0 +1,19 @@
+hackathon.controller("OrderController", function(shared, $state, $scope, $mdSidenav, $mdToast,$mdComponentRegistry,ProductService,$rootScope,$mdDialog,mainService) {
+	$scope.productWidth = screen.width - (130);
+	$rootScope.$emit("headedText", {"header":"Ordered Product"});
+	$scope.product = [{"productBaseInfo":{"productIdentifier":{"productId":"MOBEZENFSZGTQGWF","categoryPaths":{"categoryPath":[[{"title":"Mobiles>Handsets"}]]}},"productAttributes":{"title":"Lenovo K6 Power (Gold, 32 GB)","productDescription":"Featuring a Qualcomm Snapdragon 430 octa-core processor, 4 GB RAM, 32 GB of internal memory and a 4000 mAh battery, the Lenovo Vibe K6 smartphone is well-equipped to deliver a power-packed performance. The Adreno 505 GPU lets you enjoy fast and smooth gaming sessions. The 12.7 cm full HD IPS display brings all your images and videos to life. Smile to the 13 MP rear camera and 8 MP front camera for stunning photos. To top it off, the fingerprint reader keeps all your data safe.","imageUrls":{"unknown":"http://img.fkcdn.com/image/j44h7680/mobile/g/w/f/lenovo-k6-power-k33a42-800-imaev3qtzzby5wzz.jpeg"},"maximumRetailPrice":{"amount":10999,"currency":"INR"},"sellingPrice":{"amount":10999,"currency":"INR"},"productUrl":"https://dl.flipkart.com/dl/lenovo-k6-power-gold-32-gb/p/itmezenfghddrfmc?pid=MOBEZENFSZGTQGWF&affid=sarvon77h","productBrand":"Lenovo","inStock":true,"isAvailable":true,"codAvailable":true,"emiAvailable":null,"discountPercentage":0,"cashBack":null,"offers":[],"size":null,"color":"Gold","sizeUnit":"","sizeVariants":"[MOBEZENFG8BPDPSU, MOBEZENFKXZ4HSCG, MOBEZENFSZGTQGWF]","colorVariants":"[MOBEZEMX6CZHCJVY, MOBEZEMYH7FQBGBQ, MOBEZENFG8BPDPSU, MOBEZENFKXZ4HSCG, MOBEZENFZBPW8UMF]","styleCode":null}},"productShippingBaseInfo":{"shippingOptions":null},"offset":null},{"productBaseInfo":{"productIdentifier":{"productId":"MOBEZENFG8BPDPSU","categoryPaths":{"categoryPath":[[{"title":"Mobiles>Handsets"}]]}},"productAttributes":{"title":"Lenovo K6 Power (Grey / Dark Grey, 32 GB)","productDescription":"Featuring a Qualcomm Snapdragon 430 octa-core processor, 4 GB RAM, 32 GB of internal memory and a 4000 mAh battery, the Lenovo Vibe K6 smartphone is well-equipped to deliver a power-packed performance. The Adreno 505 GPU lets you enjoy fast and smooth gaming sessions. The 12.7 cm full HD IPS display brings all your images and videos to life. Smile to the 13 MP rear camera and 8 MP front camera for stunning photos. To top it off, the fingerprint reader keeps all your data safe.","imageUrls":{"unknown":"http://img.fkcdn.com/image/j44h7680/mobile/p/s/u/lenovo-k6-power-k33a42-800-imaev3qywjsg9zx8.jpeg"},"maximumRetailPrice":{"amount":10999,"currency":"INR"},"sellingPrice":{"amount":10999,"currency":"INR"},"productUrl":"https://dl.flipkart.com/dl/lenovo-k6-power-grey-dark-grey-32-gb/p/itmezenfghddrfmc?pid=MOBEZENFG8BPDPSU&affid=sarvon77h","productBrand":"Lenovo","inStock":false,"isAvailable":true,"codAvailable":true,"emiAvailable":null,"discountPercentage":0,"cashBack":null,"offers":[],"size":null,"color":"Grey / Dark Grey","sizeUnit":"","sizeVariants":"[MOBEZENFKXZ4HSCG, MOBEZENFSZGTQGWF, MOBEZENFG8BPDPSU]","colorVariants":"[MOBEZEMX6CZHCJVY, MOBEZEMYH7FQBGBQ, MOBEZENFKXZ4HSCG, MOBEZENFSZGTQGWF, MOBEZENFZBPW8UMF]","styleCode":null}},"productShippingBaseInfo":{"shippingOptions":null},"offset":null}];
+	$scope.heigthCal= function() {
+		$scope.containerHeight = $(document).height() - 130
+	}
+	$scope.imagesplit = function(imgaeObj) {
+		if(!imgaeObj['200x200']){
+			var unknownData = imgaeObj['unknown'];
+			unknownData = unknownData.split("-");
+			unknownData[unknownData.length - 2] = '200x200';
+			unknownData = unknownData.join("-");
+			return unknownData;
+		} else {
+			return imgaeObj['200x200']
+		}
+	}
+})
