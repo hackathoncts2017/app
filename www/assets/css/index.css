@@ -661,7 +661,7 @@ md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{backgrou
 	position: absolute;
     height: 80px;
     width: 100%;
-    background: url(assets/img/siri.gif);
+    background: url(../img/siri.gif);
     bottom: 61px;
     background-position: 0px 600px;
     background-size: 429px 253px;
