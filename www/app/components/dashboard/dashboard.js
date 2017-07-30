@@ -75,7 +75,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 audiotext = audiotext.split(keyWords[2]);
                 //if (audiotext.length > 1 && audiotext[1] != "") {
                     $rootScope.speeckToUser({
-                        "text": "Today Weather Report " + $scope.dashboardData.weather.weather[0].description + " and " + " Humidity is " + $scope.dashboardData.weather.main.humidity + " and " + " Temperature is " + $scope.dashboardData.weather.main.temp
+                        "text": "Today Weather is " + $scope.dashboardData.weather.weather[0].description + " and " + " Humidity is " + $scope.dashboardData.weather.main.humidity + " and " + " Temperature is " + $scope.dashboardData.weather.main.temp
                     });
                     //$scope.chartReports(audiotext);
                 //} else {
@@ -89,6 +89,8 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
             }  else if (audiotext.indexOf('reset') > -1) {
                 $scope.whereAmI = false;
 				$scope.userChat = false;
+            }  else if (audiotext.indexOf('assign') > -1 || audiotext.indexOf('pending') > -1) {
+                $rootScope.tabChange(1);
             } else {
                 $rootScope.speeckToUser({
                     "text": "Please check your keyword"
@@ -358,7 +360,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         }, 
         function(error) {    
             $scope.getWeather(req);                
-            alert('Unable to get location: ' + error.message);
+            console.log('Unable to get location: ' + error.message);
 
         }, options);
 
