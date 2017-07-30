@@ -584,3 +584,17 @@ md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{backgrou
     margin-top: -12px;
     color: white;
 	}
+    .legend {
+        background: #fff;
+        padding: 10px;
+        margin: 10px;
+        border: 3px solid #000;
+        width: 50px;
+        height: 50px;
+    }
+    .legend h3 {
+        margin-top: 0;
+    }
+    .legend img {
+        vertical-align: middle;
+    }

@@ -95,7 +95,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         for(var i = 0; i<res[j].length;i++) {
                             if(j == 0 && res[j][i].isCustomer == 0) {
                                 indexEngValue += 1; 
-                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image,"engStatus":res[j][i].status, isEng : true});
+                                $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image,"engStatus":res[j][i].status, isEng : true, filter : true, expert : res[j][i].expert});
                                 $scope.adminEngMapping[indexEngValue] = res[j][i].id;
     
                             } else if(res[j][i].Address){
@@ -165,7 +165,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                             $scope.timeTaken = $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
                             if($scope.isFirstTime) {
                                 $scope.isFirstTime = false;
-                                $rootScope.speeckToUser({"text":"Distance of your engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
+                                $rootScope.speeckToUser({"text":"Distance of the engineer from your location is " + $rootScope.allDirections[id].directions.routes[0].legs[0].distance.text + 
                                " and total time to reach is " + $rootScope.allDirections[id].directions.routes[0].legs[0].duration.text})
                             }
                         },3000);
@@ -201,6 +201,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 		var engineerData = $scope.engineerDetails[0],
 			jobDetails = $scope.engineerDetails[1],
 			engId = $scope.adminJobMapping[+$scope.currentJobId],
+            locations = $scope.locations
 			userData = null;
 		//debugger;
 		for(var jobe = 0;jobe < jobDetails.length;jobe++) {
@@ -212,12 +213,16 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 		var filteredUser = [];
 		if(userData){
 			//console.log(userData);
-			for(var enge = 0;enge < engineerData.length;enge++) {	
-				if(engineerData[enge].isAdmin == "0" && engineerData[enge].isCustomer == "0" && (userData.reason).indexOf(engineerData[enge].expert) > -1){
-					filteredUser.push(engineerData[enge])
-				}
-			}
+            for(var enge = 0;enge < locations.length;enge++) {   
+                if(locations[enge].expert && locations[enge].expert != "" && (userData.reason).indexOf(locations[enge].expert) > -1){
+                    locations[enge].filter = true;
+                } else if (locations[enge].filter) {
+                    locations[enge].filter = false;
+                }
+            }
+
 		}
+        $scope.locations = locations;
 		console.log(filteredUser);
 		debugger;
 	};
@@ -312,21 +317,25 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 $rootScope.speeckToUser({"text":"To whom do you want to assign this job"}, true);
             }
         } else if ($scope.assignJobFlag) {
-            $scope.assignJobFlag = false;
-            audiotext = audiotext.split("engineer");
-            if(audiotext.length > 1 && audiotext[1] != "") {
-                 audiotext = audiotext[1].trim();
-                if(isNaN(+audiotext)) {
-                    audiotext = +$scope.numberMapping[audiotext];
+            if(audiotext == "cancel" || audiotext == "back") {
+                $rootScope.loadMap();
+            } else {
+                $scope.assignJobFlag = false;
+                audiotext = audiotext.split("engineer");
+                if(audiotext.length > 1 && audiotext[1] != "") {
+                     audiotext = audiotext[1].trim();
+                    if(isNaN(+audiotext)) {
+                        audiotext = +$scope.numberMapping[audiotext];
+                    }
+                    var request = {
+                      "id": "" + $scope.adminJobMapping[+$scope.currentJobId],
+                      "userId": "" + $scope.adminEngMapping[+audiotext]
+                    };
+                    MapService.assignJob(request, function() {
+                        $rootScope.speeckToUser({"text":"Job has been assigned Successfully"});
+                        $rootScope.loadMap();
+                    });
                 }
-                var request = {
-                  "id": "" + $scope.adminJobMapping[+$scope.currentJobId],
-                  "userId": "" + $scope.adminEngMapping[+audiotext]
-                };
-                MapService.assignJob(request, function() {
-                    $rootScope.speeckToUser({"text":"Job has been assigned Successfully"});
-                    $rootScope.loadMap();
-                });
             }
         } else {
             $rootScope.speeckToUser({"text":"Sorry. Please try again"}, true);
@@ -345,7 +354,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                     for(var i = 0; i<res[j].length;i++) {
                         if(j == 0) {
                             indexEngValue += 1; 
-                            $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true});
+                            $scope.locations.push({"locationVal" : res[j][i].location, "image" : res[j][i].image, isEng : true, filter : true});
                             $scope.adminEngMapping[indexEngValue] = res[j][i].id;
                         } else if(res[j][i].status = 'I' && res[j][i].userId && res[j][i].userId.trim() === ''){
                             indexJobValue += 1; 
