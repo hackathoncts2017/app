@@ -149,9 +149,11 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				  showPopup:false,
 				  showPartial:true
 				}
+				$scope.speechlisten = true;
 				$scope.speechRecognition.startListening($scope.successCb,$scope.onError,options)	
 			}
 			$scope.successCb = function(data) {
+				$scope.speechlisten = false;
 				var result= data[0];
 				result = result.toLowerCase();
 				$scope.splitText(result);
@@ -166,6 +168,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				
 			}
 			$scope.onError = function(_err){
+				$scope.speechlisten = true;
 				//setTimeout($scope.listen , 1000);
 			}
 			

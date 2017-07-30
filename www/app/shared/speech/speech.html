@@ -1,4 +1,5 @@
-<div>	
+<div>
+	<div ng-show="speechlisten" class="speech-gif"></div>
 	<div class="speech-container">
 		<div class="speech-suggestion" ng-if="suggestionText.length > 0">
 			<div ng-repeat="suggest in suggestionText" ng-click="appendInput(suggest.index)" >{{suggest.text}}</div>
