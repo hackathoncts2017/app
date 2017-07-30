@@ -193,7 +193,12 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
             }
         }); 
     }
-    
+    $scope.legendshow = function() {
+		$(".legend-point").slideDown(1000);
+	}
+	$scope.closelegend = function() {
+		$(".legend-point").slideUp(1000);
+	}
     $rootScope.$on("MapSpeech", function(controller,data){            
            $scope.mapAudioSplit(data.text);
     });

@@ -60,4 +60,42 @@
 			</div>
 		</ng-map>
 	</div>
+	<div class="help" ng-click="legendshow()">
+		<i class="icon-info-sign"></i>
+	</div>
+	<div>
+		<div class="legend-map legend-point"></div>
+		<div class="legend-map-marker legend-point">
+			<div ng-click="closelegend()" class="remove-legend"><i class="icon-remove-sign"></i></div>
+			<div class="custom-marker " style="display: inline-block; visibility: visible; position: absolute;">
+				<div class="ng-scope">
+				<div class="leg-data"> Unassigned </div>
+					<div class="marker-number ng-binding">1</div>
+					<img src="assets/img/marker-un-assigned.png" class="marker-size-loc" aria-hidden="false">
+					
+				</div>
+				<div class="ng-scope" style="    margin-top: 10px;">
+					<div class="leg-data"> Assigned </div>
+					<div class="marker-number ng-binding">1</div>
+					<img src="assets/img/marker-assigned.png" class="marker-size-loc" aria-hidden="false">
+					
+				</div>
+				</div>
+			<div style="top: 15px;right: 150px;position: absolute;">
+				<div>
+					<img src="assets/img/vignesh.jpg" style="width:30px;height:30px;border:2px solid green; border-radius: 50px" aria-hidden="false" class="">
+					<span class="leg-data-user">Free</span>
+				</div>
+				<div>
+					<img src="assets/img/vignesh.jpg" style="width:30px;height:30px;border:2px solid red; border-radius: 50px" aria-hidden="false" class="">
+					<span class="leg-data-user">Riding</span>
+				
+				</div>
+				<div>
+					<img src="assets/img/vignesh.jpg" style="width:30px;height:30px;border:2px solid blue; border-radius: 50px" aria-hidden="false" class="">
+					<span class="leg-data-user">Working</span>			
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

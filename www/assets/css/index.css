@@ -598,3 +598,61 @@ md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{backgrou
     .legend img {
         vertical-align: middle;
     }
+	.legend-map
+	{
+		position: absolute;
+    height: 150px;
+    background: black;
+    width: 100%;
+    top: 0px;
+    opacity: 0.9;
+	}
+	.leg-data {
+		    position: absolute;
+    font-size: 16px;
+    color: white;
+    margin-left: 54px;
+    /* left: 49px; */
+    /* top: 10px; */
+    /* display: inline-block; */
+    /* margin-bottom: -50px; */
+    margin-top: 14px;
+	}
+	.help{
+		    width: 23px;
+    height: 23px;
+    position: absolute;
+    top: 19px;
+    right: 60px;
+    font-size: 19px;
+    background: white;
+    text-align: center;
+    line-height: 24px;
+	}
+	.legend-point{
+		display:none;
+	}
+	.leg-data-user {
+		font-size: 17px;
+    margin-top: 14px;
+    position: absolute;
+    margin-top: -32px;
+    margin-left: 42px;
+    color: white;
+	}
+	.remove-legend{
+		    position: absolute;
+    color: white;
+    top: 3px;
+    right: 28px;
+    font-size: 21px;
+	}
+	
+	.legend-map-marker
+	{
+		position: absolute;
+    height: 150px;
+    width: 100%;
+    top: 0px;
+	padding:10px
+	}
