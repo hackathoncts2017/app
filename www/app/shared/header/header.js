@@ -8,6 +8,9 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
     this.toggle = angular.noop;
 
     $scope.title = "";
+    $rootScope.listView = false;
+    $rootScope.mapView = true;
+    
 
     this.isOpen = function() {
         return false
@@ -41,5 +44,13 @@ hackathon.controller("HeaderController", function(shared, $state, $scope, $mdSid
     $scope.tabclick =function(no) {
        $rootScope.tabChange(no);
        $mdSidenav("left").toggle()
+    }
+    $scope.show_list = function(){
+    $rootScope.listView = true;
+    $rootScope.mapView = false;
+    }
+    $scope.show_map = function(){
+    $rootScope.listView = false;
+    $rootScope.mapView = true;
     }
 });

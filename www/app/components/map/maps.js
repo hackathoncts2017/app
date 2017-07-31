@@ -10,6 +10,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $scope.adminJobMapping = {};
     $rootScope.jobId = 1;
     $scope.currentTimeTaken = 0;
+   
     $scope.numberMapping = {
         "one": 1,
         "two" : 2,
@@ -24,10 +25,23 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     };
     $scope.indexVal = 0;
     $scope.prevPosition = '';
+    
     $scope.jjj= function(){
         var h = window.innerHeight;
         $scope.mapHeight = h - 126;
     }
+    $scope.getalljobs = function() {
+        
+        $scope.jobdetails = null;
+        MapService.getallJob().then(function(res) {
+            $scope.isLoading = false;
+            if (!res.error && res.data.length > 0) {
+                console.log("#####getalljobs###########",res);
+                $scope.jobdetails = res.data;
+                
+            } 
+        });
+    };
     $rootScope.loadMap = function() {
         $scope.locations = [];
         $scope.feedbackflag = false;

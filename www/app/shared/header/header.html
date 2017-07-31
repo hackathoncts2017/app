@@ -6,6 +6,15 @@
             </md-button>-->
 			<img class="logo-img" src="assets/img/logo.png" />
             <p>{{ title }}</p>
+            <div ng-if="mapTab">
+            <md-button class="md-fab md-primary md-hack" aria-label="Use Android" ng-show="mapView" ng-if="isAdmin" ng-click="show_list();" style="position: fixed; top: 8px;right: 10px;border-radius: 5px;height: 40px;width: 40px;">
+         <i class="material-icons" style="position: relative;top: 0px;">view_list</i>
+        </md-button>
+         <md-button class="md-fab md-primary md-hack" aria-label="Use Android" ng-show="listView" ng-click="show_map();" style="position: fixed; top: 8px;right: 10px;border-radius: 5px;height: 40px;width: 40px;">
+         <i class="material-icons" style="position: relative;
+    top: 0px;">place</i>
+        </md-button>
+        </div>
             <div style="width: 40px; height: 40px;"></div>
         </div>
     </md-toolbar>
@@ -22,6 +31,7 @@
             <md-list-item ng-click="tabclick(1)">
                 <div class="icon-side-bar"><i class="nav-bar-icon icon-map-marker"></i></div>
                 <p class="menu-name-side-bar">Map</p>
+
             </md-list-item>
             <md-list-item ng-click="tabclick(2)">
                 <div class="icon-side-bar"><i class="nav-bar-icon icon-shopping-cart"></i></div>

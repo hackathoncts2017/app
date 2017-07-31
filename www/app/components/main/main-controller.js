@@ -36,24 +36,32 @@ hackathon.controller("MainController", function(shared, $state, $scope, $mdSiden
         if(index === 1){
             componentName = "Dashboard";
             //header[0].style.display = "none";
+            $rootScope.mapTab = false;
             
             $rootScope.$emit("headedText", {"header":componentName});
         } else if(index === 2) {
             componentName = "Map";
+            $rootScope.mapTab = true;
             // header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
          } else if(index === 3) {
             componentName = "Product";
+             $rootScope.mapTab = false;
              //header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
+            
          } else if(index === 4) {
             componentName = "Search";
+            $rootScope.mapTab = false;
              //header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
+             
          } else {
             componentName = "Hackathon";
+            $rootScope.mapTab = false;
              //header[0].style.display = "block";
              $rootScope.$emit("headedText", {"header":componentName});
+             
          }
         
         if($rootScope.speeckToUser){
