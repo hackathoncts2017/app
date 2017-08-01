@@ -14,6 +14,14 @@ hackathon.service('MapService', function($http, $q){
 		return {error:true};
 	  });
    }
+   this.getallJob = function(data) {
+   	
+      return $http.get('https://hackathoncts.herokuapp.com/job/list/{userId}').then(function(res){
+		return res.data;
+	  }, function(res){
+		return {error:true};
+	  });
+   }
    this.userJobSearch = function(userId) {
    		return $http.get('http://hackathoncts.herokuapp.com/engineer-location/get?id='+userId).then(function(res){
 			return res.data;

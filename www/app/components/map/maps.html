@@ -1,5 +1,29 @@
-<div ng-init="jjj()">
-	<div map-lazy-load="https://maps.google.com/maps/api/js?key=" style="padding:8px;height:{{mapHeight}}px;">
+<div ng-init="jjj();getalljobs();">
+ <div ng-show="listView">
+       
+        	<md-card class="md-padding" layout-xs="column" layout="row" style="background-color:transparent;"  >
+                    <md-list style="padding:0px">
+                      <md-list-item class="md-3-line" ng-if="jobdetails.length > 0" ng-repeat="job in jobdetails" ng-click="null" style="background-color: rgba(255,255,255,0.75);margin-bottom:10px;">
+                     
+                        
+                        <img  ng-if="job.engineerDetails" ng-src="assets/img/{{job.engineerDetails.image}}.jpg" class="md-avatar" alt="engineer" style="width: 60px;height: 60px;border: 2px solid #666;" />
+                        <div class="md-list-item-text" layout="column">
+                            <h3 style="text-transform: capitalize;">{{job.reason}}</h3>
+                            <h4>{{job.customerName}}</h4>
+                            <p style="color:green;" ng-if="job.status == 'C'">Completed</p>
+                             <p style="color:#f27500;" ng-if="job.status == 'I'">Inprogress</p>
+                              <p style="color:red;" ng-if="job.status == 'A'">Assigned</p>
+                            <div ng-if="item.status == 'C'">
+                              <img src="assets/img/star.png" ng-repeat="i in getNumber({{item.rating}}) track by $index" style="height:16px;width:16px;top: 2px;position: relative;float:left;"/>
+                            </div>
+                           
+                         </div>
+                      </md-list-item>
+                   </md-list> 
+                </md-card>
+        </div>
+	<div ng-show="mapView" map-lazy-load="https://maps.google.com/maps/api/js?key=" style="padding:8px;height:{{mapHeight}}px;">
+	
 	  <ng-map center="current-location" style="height:{{mapHeight}}px;">
 	   	  <traffic-layer></traffic-layer>
 		  <div ng-if="locations.length > 0">
@@ -60,10 +84,10 @@
 			</div>
 		</ng-map>
 	</div>
-	<div class="help" ng-click="legendshow()">
+	<div class="help" ng-show="mapView" ng-click="legendshow()">
 		<i class="icon-info-sign"></i>
 	</div>
-	<div>
+	<div ng-show="mapView">
 		<div class="legend-map legend-point"></div>
 		<div class="legend-map-marker legend-point">
 			<div ng-click="closelegend()" class="remove-legend"><i class="icon-remove-sign"></i></div>
