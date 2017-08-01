@@ -1,6 +1,6 @@
 "use strict";
 hackathon.controller("MainController", function(shared, $state, $scope, $mdSidenav, $mdComponentRegistry,$rootScope,mainService) {
-    $scope.selectedIndex = 1;
+    $scope.selectedIndex = 0;
     $scope.audiocall = function() {
 		//alert("ff");
 	}
