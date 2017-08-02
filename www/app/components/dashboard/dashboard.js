@@ -149,12 +149,10 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $scope.confirmLocation = false;
                 if(audiotext.indexOf('yes') > -1 || audiotext.indexOf('correct') > -1) {
                     var mapDet = $scope.mapDetailsInfo;
-                    $scope.getLoc = false;
                     if($scope.defaultLocation !== 'current-location') {
                         var geocoder = new google.maps.Geocoder();
                         geocoder.geocode( { 'address': $scope.defaultLocation}, function(results, status) {
                             $scope.myLocation = results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng();
-                            $("#fff").trigger("click");
                             setTimeout(function() {
                                 $("#fff").trigger("click");
                                 $scope.registerNewComplaint();
@@ -205,10 +203,14 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
           "reason": $scope.issueDetails
         };
         console.log(request);
+
         DashboardService.registerComplaint(request, function(data){
             $rootScope.speeckToUser({
                 "text": "Thank you for providing your details. We will be sending you the details of the appointment shortly"
             });
+            $rootScope.userJob();
+            $scope.getLoc = false;
+            $("#fff").trigger("click");
         }); 
     }
 
@@ -259,6 +261,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 };
                 $rootScope.isAdmin = "0";
             }
+            $scope.weatherReports();
         });
     };
     $scope.customerName = "";

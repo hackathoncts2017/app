@@ -4,7 +4,7 @@ hackathon.controller("UserController", function(shared, $state, $scope, $mdSiden
 	$scope.joblist = [];
 	$scope.selectedTab = $scope.joblist.length > 0 ? "0":"1";
 	$rootScope.assignedEngId = -1;
-	$scope.userJob = function() {
+	$rootScope.userJob = function() {
 		DashboardService.userJob().then(function(res){
 			if(res.data.length ==0) {
 				$scope.loader = false;
