@@ -403,8 +403,12 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
     window.drawChart = $scope.drawChart = function(type) {
         var chartType = ['line','spline','area','areaspline','column'];
         if(chartType.indexOf(type) > -1){
-            $scope.showBubble = false; 
-                     
+			if(type == "area"){
+				type = "areaspline";
+			} else if(type == "bar"){
+				type = "column";
+			}
+            $scope.showBubble = false;                      
             $("#chart1").highcharts().update({"chart":{"type":type,height:$scope.chartHeight,width:$(window).width() - 10}})
 			$("#fff")[0].click()
         } else if(type == "bubble") {
