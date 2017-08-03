@@ -262,6 +262,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $rootScope.isAdmin = "0";
             }
             $scope.weatherReports();
+            $scope.getjob();
         });
     };
     $scope.customerName = "";
@@ -301,7 +302,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
         if($scope.userdetails.isAdmin == "0") {
             DashboardService.getJob().then(function(res){
                 for(var i = 0; i<res.data.length;i++) {
-                    if(res.data[i].status == "I") {
+                    if(res.data[i].status == "I" || res.data[i].status == "A" || res.data[i].status == "B") {
                         $scope.pendingjobs.push(res.data[i]);                            
                     }
                     else if(res.data[i].status == "C"){

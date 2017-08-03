@@ -58,7 +58,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         $scope.prevPosition = '';
 
        NgMap.getMap().then(function(map) {
-            
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                //debugger
+                //alert("fsdfsd")
+            })
             $rootScope.mapDetails = map; 
             var options = {
                 enableHighAccuracy: true
@@ -90,7 +93,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 },15000);
             } else {
                 MapService.getJobLoc().then(function(res) {
-                    if(res.data[0] && res.data[0].status == "I") {
+                    if(res.data[0] && (res.data[0].status == "I" || res.data[0].status == "A")) {
                         $scope.jobLoc = res.data[0].Location;
                     }
                 });
@@ -137,7 +140,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 MapService.getJob().then(function(res){
                     var indexValue = 0;
                     for(var i = 0; i<res.data.length;i++) {
-                        if(res.data[i].status == "I") {
+                        if(res.data[i].status == "I" || res.data[i].status == "A") {
                             indexValue += 1; 
                             $scope.locations.push({"locationVal" : res.data[i].Location});
                             $scope.jobIdMapping[indexValue] = res.data[i].id;
@@ -158,7 +161,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 MapService.getJob($rootScope.assignedEngId).then(function(res){
                     var indexValue = 0;
                     for(var i = 0; i<res.data.length;i++) {
-                        if(res.data[i].status == "I") {
+                        if(res.data[i].status == "I" || res.data[i].status == "A") {
                             indexValue += 1; 
                             $scope.jobIdMapping[indexValue] = res.data[i].id;
                             $scope.jobMapping[indexValue] = res.data[i];
@@ -398,7 +401,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 $scope.indexVal = 0;
                 var indexValue = 0;
                 for(var i = 0; i<res.data.length;i++) {
-                    if(res.data[i].status == "I") {
+                    if(res.data[i].status == "I" || res.data[i].status == "A") {
                         indexValue += 1; 
                         $scope.locations.push({"locationVal" : res.data[i].Location});
                         $scope.jobIdMapping[indexValue] = res.data[i].id;
@@ -468,7 +471,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                 $scope.locations = [];
                 var indexVAl = 0;
                 for(var i = 0; i<res.length;i++) {
-                    if(res[i].status == "I") {
+                    if(res[i].status == "I" || res[i].status == "A") {
                         indexVAl += 1;
                         $scope.locations.push({"locationVal" : res.data[i].Location});
                         $scope.jobIdMapping[indexVAl] = res[i].id;
