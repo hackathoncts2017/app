@@ -101,8 +101,17 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
                 $scope.customerName = audiotext;
                 $scope.registerUser(true,"name", audiotext)
             } else if($scope.getPhoneNumber) {
-                $scope.customerNumber = audiotext;
-                $scope.registerUser(true,"number", audiotext)
+				var phoneno = /^\d{10}$/;  
+				if(audiotext.match(phoneno)) {  
+					$scope.customerNumber = audiotext;
+					$scope.registerUser(true,"number", audiotext)
+				}  
+				else {  
+					 $rootScope.speeckToUser({
+						"text": "The number you have provided is invalid. Please provide a valid 10 digit number"
+					},true);
+				} 
+                
             } else if ($scope.newIssue) {
                 $scope.issueDetails = audiotext;
                 $rootScope.speeckToUser({
@@ -199,7 +208,7 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
           "Address": $scope.defaultLocation,
           "customerName": JSON.parse(localStorage.userDetails).engineerName,
           "customerContactNo": JSON.parse(localStorage.userDetails).mobileNo.replace(/\s/g,''),
-          "jobOn": $scope.issueDate.toDateString(),
+          "jobOn": $scope.issueDate.toISOString(),
           "reason": $scope.issueDetails
         };
         console.log(request);
@@ -272,10 +281,11 @@ hackathon.controller("DashboardController", function(shared, $state, $scope, $md
        
         if(!context) {
             $rootScope.speeckToUser({
-                "text": "Welcome to Digital service existance. We need few information before we get started. PLease provide us your name."
+                "text": "Welcome to Digital service assistance. We need few information before we get started. Please provide us your name."
             },true);
             $scope.getName = true;
         } else if (action == "name") {
+			
             $rootScope.speeckToUser({
                 "text": "Thank you " + detail + " . Please provide your mobile number"
             },true);

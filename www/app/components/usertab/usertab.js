@@ -15,7 +15,7 @@ hackathon.controller("UserController", function(shared, $state, $scope, $mdSiden
 				console.log("joblist",res.data);
 				var flag = false;
 				for(var i = 0; i <res.data.length; i++) {
-					if(res.data[i].status == "I" && res.data[i].userId.trim() != "") {
+					if((res.data[i].status == "I" || res.data[i].status == "A") && res.data[i].userId.trim() != "") {
 						flag = true;
 						$rootScope.assignedEngId = res.data[i].userId;
 						$rootScope.jobLocation = res.data[i].Location;

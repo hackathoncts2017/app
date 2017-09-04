@@ -31,7 +31,7 @@ if(localStorage.userToggle){
 	} else if(localStorage.userToggle  == "engineer") {
 		devideId = "1234567890";
 	} else  {
-		devideId = "1234509876";
+		devideId = "52c65734ab2b7a54";
 	}
 	localStorage.deviceDetails = JSON.stringify({"available":true,"platform":"Android","version":"7.0","uuid": devideId ,"cordova":"6.2.3","model":"Lenovo K33a42","manufacturer":"LENOVO","isVirtual":false,"serial":"d4d2cc44"} );        
   
