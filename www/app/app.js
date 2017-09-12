@@ -1,6 +1,6 @@
 hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "ngStorage","ngMap","highcharts-ng"])
 // ngTouch is No Longer Supported by Angular-Material
-
+var urlOld = "https://hackathoncts.herokuapp.com/"
 .run(function($rootScope, $cordovaDevice, $cordovaStatusbar){
   document.addEventListener("deviceready", function () {
     $cordovaStatusbar.overlaysWebView(false); // Always Show Status Bar

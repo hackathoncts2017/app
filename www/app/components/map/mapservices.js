@@ -8,7 +8,7 @@ hackathon.service('MapService', function($http, $q){
 	   		userId = data;
 	   	}
 	  console.log("userID", userId);
-      return $http.get('https://hackathoncts.herokuapp.com/job/list/'+userId).then(function(res){
+      return $http.get('http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/job/list/'+userId).then(function(res){
 		return res.data;
 	  }, function(res){
 		return {error:true};
@@ -16,7 +16,7 @@ hackathon.service('MapService', function($http, $q){
    }
    this.getallJob = function(data) {
    	
-      return $http.get('https://hackathoncts.herokuapp.com/job/list/{userId}').then(function(res){
+      return $http.get('http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/job/list/{userId}').then(function(res){
 		return res.data;
 	  }, function(res){
 		return {error:true};
@@ -51,7 +51,7 @@ hackathon.service('MapService', function($http, $q){
    this.assignJob = function(data,cb) {
    	$http({
 			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/assignJob',
+			url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/assignJob',
 			data: JSON.stringify(data),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
@@ -63,7 +63,7 @@ hackathon.service('MapService', function($http, $q){
    this.sendSMS = function(data,cb) {   
 	  $http({
 			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/SMS',
+			url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/SMS',
 			data: JSON.stringify(data),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
@@ -84,7 +84,7 @@ hackathon.service('MapService', function($http, $q){
 		console.log("request",request);
 		$http({
 			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/engineer-location/save',
+			url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/engineer-location/save',
 			data: JSON.stringify(request),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
@@ -100,7 +100,7 @@ hackathon.service('MapService', function($http, $q){
 		console.log("request",request);
 		$http({
 			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/job/completed',
+			url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/job/completed',
 			data: JSON.stringify(request),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
@@ -112,7 +112,7 @@ hackathon.service('MapService', function($http, $q){
    this.engineerStatus = function(data,cb) {	   	
 		$http({
 			method: 'POST',
-			url: 'https://hackathoncts.herokuapp.com/engineer-status',
+			url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/engineer-status',
 			data: JSON.stringify(data),
 			headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
@@ -125,7 +125,7 @@ hackathon.service('MapService', function($http, $q){
    this.getUserLocation = function(data,cb) {
 		$http({
 		method: 'POST',
-		url: 'https://hackathoncts.herokuapp.com/product/save',
+		url: 'http://app-4524d925-398c-4eff-bdf6-189b0b873555.cleverapps.io/product/save',
 		data: JSON.stringify(data),
 		headers: {'Content-Type': 'application/json'}
 		}).success(function(res){
