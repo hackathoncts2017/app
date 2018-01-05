@@ -2,14 +2,13 @@
 
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
 
-    $urlRouterProvider.otherwise("/register");
-
-    $stateProvider.state("main", {
-        url: "/main",
-        templateUrl: "app/components/main/main.html",
-        title: "Cordova Angular-Material",
-        controller: "MainController",
-        controllerAs: "main"
+    $urlRouterProvider.otherwise("/landing");
+	$stateProvider.state("landing", {
+        url: "/landing",
+        templateUrl: "app/components/landing/landing.html",
+        title: "Landing page",
+        controller: "landingController",
+        controllerAs: "landing"
     });
     
     
@@ -21,11 +20,11 @@ angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function
         controllerAs: "register"
     });
 	
-	$stateProvider.state("order", {
-        url: "/order",
-        templateUrl: "app/components/order/order.html",
-        title: "Order",
-        controller: "OrderController",
-        controllerAs: "order"
+	$stateProvider.state("sos", {
+        url: "/sos",
+        templateUrl: "app/components/sos/sos.html",
+        title: "help Device",
+        controller: "sosController",
+        controllerAs: "sos"
     });
 }]);
