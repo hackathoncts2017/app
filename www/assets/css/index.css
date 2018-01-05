@@ -150,8 +150,7 @@ md-tabs[md-align-tabs=bottom] md-tabs-wrapper{
        /* position: absolute;
     bottom: 64px;
     right: 20px;
-    width: 50px;
-    height: 50px;
+    width: 50px;height: 50px;
     border-radius: 50%;
     background: red;
     text-align: center;*/
@@ -516,11 +515,11 @@ md-toast{
     text-decoration: none;
 }
     @media only screen and (-webkit-min-device-pixel-ratio : 1.5), only screen and (min-device-pixel-ratio : 1.5) {
-    body { font-size: 150%; }
+    
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio : 2), only screen and (min-device-pixel-ratio : 2) {
-    body { font-size: 200%; }
+    
 }
 .layout-fill {
     background: transparent;
@@ -550,51 +549,24 @@ md-toast{
 md-dialog {
 font-size:16px;
 }
-
+md-input-container {
+    display: inline-block;
+    position: relative;
+    padding: 2px;
+    margin: 9px 0;
+    vertical-align: middle;
+}
 md-toast.md-default-theme .md-toast-content, md-toast .md-toast-content{background-color:rgba(200,85,0,1);}
-.timer{
-	text-align: center;
+md-list-item ._md-no-style, md-list-item._md-no-proxy {
+    position: relative;
+    padding: 0 0px;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
 }
-.timer .flip-clock-divider{
-	display:none
+.md-button.md-primary.md-register {
+    color: #fff !important;
 }
-.timer ul.flip:nth-child(2){
-	display:none
+
+.md-button[disabled] {
+    opacity:0.5;
 }
-.timer ul.flip:nth-child(3){
-	display:none
-}
-.full-screen-width{
-	    width: 100%;
-    height: 100%;
-	}
-.sos-logo
-	{
-	    width: 150px;
-    height: 150px;
-    background: url(../img/sos);
-    background-size: 100% 100%;
-    position: absolute;
-    top: 35%;
-    left: 30%;
-	}
-	.ambulance-fast { 
-		    width: 80%;
-    height: 230px;
-    background: url(../img/ambulance.jpg);
-    background-size: 100% 100%;
-    position: absolute;
-    left: 10%;
-    top: 35%;
-	}
-	.emergency-msg{
-		text-align: center;
-    color: red;
-    font-size: 22px;
-	}
-	.btn-container{
-		    bottom: 10%;
-    position: absolute;
-	    width: 100%;
-	text-align:center
-	}

@@ -8,7 +8,67 @@ hackathon.service("shared", function(){ // One of The Ways To Share Informations
     };
 });
 
+hackathon.directive('header', function () {
+    return {
+        replace: true,
+        templateUrl: "app/shared/header/header.html",
+        controller: 'HeaderController',
+        controllerAs: 'head',
+    }
+});
 
+hackathon.directive('dashboard', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/dashboard/dashboard.html",
+        controller: 'DashboardController',
+        controllerAs: 'dash',
+    }
+});
+
+hackathon.directive('product', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/product/product.html",
+        controller: 'ProductController',
+        controllerAs: 'product',
+    }
+});
+
+hackathon.directive('mapcomponent', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/map/maps.html",
+        controller: 'MapController',
+        controllerAs: 'mapctrl',
+    }
+});
+
+hackathon.directive('searchcomponent', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/search/search.html",
+        controller: 'searchController',
+        controllerAs: 'searchctrl',
+    }
+});
+hackathon.directive('speech', function () {
+    return {
+        replace: true,
+        templateUrl: "app/shared/speech/speech.html",
+        controller:"SpeechController",
+        controllerAs: 'speechctrl',
+    }
+});
+
+hackathon.directive('usertab', function () {
+    return {
+        replace: true,
+        templateUrl: "app/components/usertab/usertab.html",
+        controller:"UserController",
+        controllerAs: 'userctrl',
+    }
+});
 hackathon.directive('flipClock', ['$parse', function($parse) {
     return {
       replace: true,

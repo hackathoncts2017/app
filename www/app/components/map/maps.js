@@ -42,47 +42,72 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         $scope.currentTimeTaken = 0;
         $scope.indexVal = 0;
         $scope.prevPosition = '';
-
+	$scope.timeTaken1 = 0;
+	 $scope.locations.push({"locationVal" : "13,80", "image" : "", isEng : true});
+	 $scope.wayPoints = [
+          {location: {lat:13, lng: 80.05}, stopover: true}
+        ];
        NgMap.getMap().then(function(map) {
             
             $rootScope.mapDetails = map; 
             var options = {
                 enableHighAccuracy: true
             };
-
+           
             
             if($rootScope.isCustomer !== 1) {
 
                 $rootScope.myLoc = map.center.lat() + ',' + map.center.lng();
                 $scope.prevPosition = {"lat": map.center.lat().toFixed(3), "lng" : map.center.lng().toFixed(3)};
-                MapService.setMyLocation($rootScope.myLoc,function(data) {
+                /*MapService.setMyLocation($rootScope.myLoc,function(data) {
                     console.log(data);
-                });
+                });*/
+				 $rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                     setTimeout(function(){
+$scope.timeTaken1 = $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
+					console.log("time taken",$scope.timeTaken1);
+					$scope.$applyAsync();
+					//$('#timetaken').html($scope.timeTaken1);
+							},2000);   
                 setInterval(function() {
+						
                     navigator.geolocation.getCurrentPosition(function(pos) {
                         $scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
                         console.log(JSON.stringify($scope.position));
                         $rootScope.myLoc = $scope.position.lat() + ',' + $scope.position.lng();   
-                        if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
+						$rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+                        $scope.timeTaken1 = $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');
+							console.log("time taken",$scope.timeTaken1);
+							$scope.$applyAsync();
+							//$('#timetaken').html($scope.timeTaken1);
+							setTimeout(function(){
+								$rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
+								console.log("All directions", $rootScope.mapDetails.directionsRenderers);
+								console.log("My loc", $rootScope.myLoc);
+							},2000);
+						if($scope.position.lat().toFixed(3) != $scope.prevPosition.lat || $scope.position.lng().toFixed(3) != $scope.prevPosition.lng) {
                            $scope.prevPosition = {"lat": $scope.position.lat().toFixed(3), "lng" : $scope.position.lng().toFixed(3)};
-                            MapService.setMyLocation($rootScope.myLoc,function(data) {
+                            /*MapService.setMyLocation($rootScope.myLoc,function(data) {
                                 console.log(data);
-                            });
+                            });*/
+							
+							
                         }         
                     }, 
                     function(error) {                    
                         alert('Unable to get location: ' + error.message);
                     }, options);
-                },15000);
+                },7000);
             } else {
-                MapService.getJobLoc().then(function(res) {
+               /* MapService.getJobLoc().then(function(res) {
                     if(res.data[0] && res.data[0].status == "I") {
                         $scope.jobLoc = res.data[0].Location;
                     }
-                });
+                });*/
             }
-            
-            if($rootScope.isAdmin === "1") {
+			$rootScope.isCustomer === 1 ;
+           
+            /*if($rootScope.isAdmin === "1") {
                 MapService.getEngLocation().then(function(res){
                     console.log("res inside",res);
                     var indexEngValue = 0,
@@ -182,7 +207,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
                         },2000);
                     })
                 }, 15000);  
-            }
+            }*/
         }); 
     }
     
