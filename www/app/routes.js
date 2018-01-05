@@ -2,7 +2,7 @@
 
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
 
-    $urlRouterProvider.otherwise("/register");
+    $urlRouterProvider.otherwise("/firstaid");
 
     $stateProvider.state("main", {
         url: "/main",
@@ -33,6 +33,13 @@ angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function
         title: "Help Me",
         controller: "sosController",
         controllerAs: "sos"
+    });
+	$stateProvider.state("firstaid", {
+        url: "/firstaid",
+        templateUrl: "app/components/search/search.html",
+        title: "Help Me",
+        controller: "searchController",
+        controllerAs: "speach"
     });
 	
 }]);

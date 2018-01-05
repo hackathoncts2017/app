@@ -571,6 +571,7 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
     opacity:0.5;
 }.timer{
 	text-align: center;
+	position:relative;
 }
 .timer .flip-clock-divider{
 	display:none
@@ -614,4 +615,20 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
     position: absolute;
 	    width: 100%;
 	text-align:center
+	}
+	.timer-sec
+	{
+		position: absolute;
+    font-size: 22px;
+    margin-top: 32px;
+	}
+	.address-box
+	{
+		position: absolute;
+    top: 61%;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+    font-weight: bold;
 	}

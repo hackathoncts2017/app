@@ -1,12 +1,25 @@
 <div class="full-screen-width">
 	<div class="timer" ng-show="sosInit && onstart">
-		<flip-clock countdown="true" clockFace="MinuteCounter" time={{sosTime}} ></flip-clock>		
+		<div style="font-size: 21px;">
+			Automatic SOS triggered in
+		</div>
+		<flip-clock countdown="true" clockFace="MinuteCounter" time={{sosTime}} ></flip-clock>
+		<span class="timer-sec">
+			Seconds
+		</span>
+		<br/>
+		<div style="margin-top: 20px;font-size: 21px;padding-left: 29px;">
+		<span>Press</span> <button style="background: red;" class="btn waves-effect waves-light" type="submit" name="action" ng-click="canceltimer()">Stop</button> to cancel
+		</div>
 	</div>
 	<div class="emergency-msg" ng-hide="sosInit">
 		Don't panic.our ambulance on the way.
 	</div>
 	<div class="sos-logo" ng-show="sosInit" ng-click="sosClick()"></div>
 	<div class="ambulance-fast" ng-hide="sosInit"></div>
+	<div  class="address-box" ng-show="sosInit">
+		{{currentAddress}}
+	</div>
 	<div class="btn-container" ng-hide="sosInit">
 		<button style="background: red;" class="btn waves-effect waves-light" type="submit" name="action" ng-click="cancelsos()">Cancel SOS </button>
   </div>

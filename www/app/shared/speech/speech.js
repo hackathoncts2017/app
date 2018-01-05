@@ -13,6 +13,8 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
         		$scope.autoComplete();
         	} else {
         		setTimeout(function(){
+					
+					//$rootScope.$emit($rootScope.questionSpeech, {"text":newValue});
         			$scope.userClick = false;
         		},1000)
         	}
@@ -23,7 +25,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
     });
 	$scope.callcomponent = function(audiotext){
 		//console.log($rootScope.selectedComponent)
-		$rootScope.$emit($rootScope.selectedComponent, {"text":audiotext});
+		$rootScope.$emit("questionSpeech", {"text":audiotext});
 		
 	}
 	$scope.textinput =function() {
@@ -39,7 +41,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		"search":3
 	}
 	$scope.userClick = false;
-	$scope.keyWordText = ["Reset","Register new complaint","Where am i?","Show reports","Show monthly report","Show yearly report","Show weekly report","Show daily report","Change to line chart","Change to spline chart","Change to area chart","Change to areaspline chart","Change to bubble chart","Change to column chart","How about today weather","Track engineer","Assign job","refresh","Details of job ","Engineer","Direction for job","Started for job","Reached","Completed","Feedback","Rating","Satellite View","Map view","Order product","Close product","Back product","Search for","Select product","Order","Search for","Navigate to dashboard","Navigate to map","Navigate to product","Navigate to search","Navigate to order","Switch to admin view","Switch to user view","Switch to engineer view","Switch to normal view"];
+	$scope.keyWordText = ["First aid for Fracture", "First aid for Headache","First aid for Burns","First aid for Heart attack","First aid for Dizziness"];
 	$scope.appendInput = function(index){
 		$scope.userClick = true;
 		$scope.seachtext = $scope.keyWordText[index];		
@@ -146,7 +148,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				  language:"en-US",
 				  matches:1,
 				  prompt:"",
-				  showPopup:false,
+				  showPopup:true,
 				  showPartial:true
 				}
 				$scope.speechRecognition.startListening($scope.successCb,$scope.onError,options)	

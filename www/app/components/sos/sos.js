@@ -7,14 +7,25 @@
 		timeObject = new Date(timeObject .getTime() + 1000*15.5);
 		$scope.sosTime = timeObject.toString();
 		$scope.stopTime= function(){
-			$(".timer").hide();
+			//$(".timer").hide();
 			if($scope.sosInit && $scope.onstart) {
 				$scope.sosClick();
 			}
 		}
+		var geocoder = new google.maps.Geocoder;
+		
+		navigator.geolocation.getCurrentPosition(function(pos) {
+			var latlng = {lat: pos.coords.latitude, lng: pos.coords.longitude};
+			geocoder.geocode({'location': latlng}, function(results, status) {
+				if(status == "OK"){
+					$scope.currentAddress = results[0].formatted_address;
+					$scope.$applyAsync();
+				}
+			});
+		});
 		$scope.sosInit = true;
 		$scope.onstart = true;
-		setTimeout(function(){
+		var timerClk = setTimeout(function(){
 			$scope.stopTime();
 		},16000);
 		$scope.sosClick = function(){
@@ -36,6 +47,10 @@
 			$scope.sosInit = true;
 			$scope.onstart = false;
 			$scope.contactEmergency(false);
+		};
+		$scope.canceltimer = function(){
+			clearInterval(timerClk);
+			$(".timer").hide();
 		};
   	}]);
  

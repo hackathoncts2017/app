@@ -5,15 +5,18 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
 		   $scope.audioSplitQuestionSpeech(data.text);
     });	
     $scope.audioSplitQuestionSpeech = function(audiotext) {
-    	var keyWords = ["search for"]
+    	/*var keyWords = ["search for"]
 		if(audiotext.indexOf(keyWords[0]) > -1) {
 			audiotext = audiotext.split(keyWords[0]);
-			audiotext = audiotext[1].trim();
+			audiotext = audiotext[1].trim();*/
 			$scope.callSearch(audiotext);
-		} else {
+		/*} else {
 			$rootScope.speeckToUser({"text":"please Check your keyword"})
-		}
+		}*/
     }
+	$scope.loadVideo = function() {
+		$scope.callSearch("First aid for fracture");
+	}
     setTimeout(function() {
     	//$scope.callSearch();
     },100);
