@@ -569,4 +569,49 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
 
 .md-button[disabled] {
     opacity:0.5;
+}.timer{
+	text-align: center;
 }
+.timer .flip-clock-divider{
+	display:none
+}
+.timer ul.flip:nth-child(2){
+	display:none
+}
+.timer ul.flip:nth-child(3){
+	display:none
+}
+.full-screen-width{
+	    width: 100%;
+    height: 100%;
+	}
+.sos-logo
+	{
+	    width: 150px;
+    height: 150px;
+    background: url(../img/sos);
+    background-size: 100% 100%;
+    position: absolute;
+    top: 35%;
+    left: 30%;
+	}
+	.ambulance-fast { 
+		    width: 80%;
+    height: 230px;
+    background: url(../img/ambulance.jpg);
+    background-size: 100% 100%;
+    position: absolute;
+    left: 10%;
+    top: 35%;
+	}
+	.emergency-msg{
+		text-align: center;
+    color: red;
+    font-size: 22px;
+	}
+	.btn-container{
+		    bottom: 10%;
+    position: absolute;
+	    width: 100%;
+	text-align:center
+	}

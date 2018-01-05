@@ -27,11 +27,12 @@ angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function
         controllerAs: "register"
     });
 	
-	$stateProvider.state("order", {
-        url: "/order",
-        templateUrl: "app/components/order/order.html",
-        title: "Order",
-        controller: "OrderController",
-        controllerAs: "order"
+	$stateProvider.state("sos", {
+        url: "/sos",
+        templateUrl: "app/components/sos/sos.html",
+        title: "Help Me",
+        controller: "sosController",
+        controllerAs: "sos"
     });
+	
 }]);
