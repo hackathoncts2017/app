@@ -2,7 +2,7 @@
 
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
 
-    $urlRouterProvider.otherwise("/landing");
+    $urlRouterProvider.otherwise("/sos");
 	$stateProvider.state("landing", {
         url: "/landing",
         templateUrl: "app/components/landing/landing.html",
