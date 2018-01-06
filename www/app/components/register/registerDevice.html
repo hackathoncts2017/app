@@ -45,16 +45,18 @@
 	
   </md-list-item>
 		  
-		  <div ng-if="emergency.length > 0" ng-repeat="em in emergency">
+		  <div ng-if="emergency.length > 0" ng-repeat="em in emergency" style="position:relative;">
+		  
 		  <md-input-container class="md-block" flex-gt-sm>
             <label>Name {{em.count}} </label>
             <input ng-model="em.name" ng-required="em.mandatory">
           </md-input-container>
 		   
-		  
+		  <a href="javascript:void(0);" ng-if ="!em.mandatory && $last" ng-click="delete(em.count);" style="z-index:999;color:rgba(255,255,255,0.67);position:absolute;right:0px;">
+		  <i class="material-icons">delete</i></a>
 		  <md-input-container class="md-block" flex-gt-sm>
             <label>Mobile Number {{em.count}}</label>
-            <input type="text" pattern="\d*" maxlength="10" ng-keypress="filterValue($event)"  ng-model="em.number" ng-required="em.mandatory">
+            <input type="text" pattern="\d*" maxlength="10" ng-minlength="10" ng-keypress="filterValue($event)"  ng-model="em.number" ng-required="em.mandatory">
 			
           </md-input-container>
 		  

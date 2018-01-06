@@ -37,6 +37,16 @@
 			$scope.emergency.push($scope.emergencydetails);
             
         }
+		
+		$scope.delete = function(count){
+			var id = count - 1;
+			$scope.emergency.splice(id, 1);
+			$scope.emergencycount = $scope.emergency.length;
+			
+            
+        }
+		
+		
 		$scope.submitRegister = function(){
 			$scope.userDetails ={"personalDetails":$scope.personal,"emergencyDetails":$scope.emergency};
 			console.log("$scope.userDetails",$scope.userDetails);
