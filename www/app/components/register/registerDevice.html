@@ -21,9 +21,9 @@
     position: absolute;
     top: 50px;
     width: 93%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    color: #fff;">
+    color: #fff;
+	min-height: 100%;
+	    background-color: rgba(0, 0, 0, 0.5);">
 		   <md-list-item class="secondary-button-padding" >
     <p style="font-weight: bold;">Personal Contact</p>
     
@@ -45,13 +45,13 @@
 	
   </md-list-item>
 		  
-		  <div ng-if="emergency.length > 0" ng-repeat="em in emergency" style="position:relative;">
-		  
+		  <div ng-if="emergency.length > 0" ng-repeat="em in emergency">
 		  <md-input-container class="md-block" flex-gt-sm>
             <label>Name {{em.count}} </label>
             <input ng-model="em.name" ng-required="em.mandatory">
           </md-input-container>
 		   
+		  
 		  <a href="javascript:void(0);" ng-if ="!em.mandatory && $last" ng-click="delete(em.count);" style="z-index:999;color:rgba(255,255,255,0.67);position:absolute;right:0px;">
 		  <i class="material-icons">delete</i></a>
 		  <md-input-container class="md-block" flex-gt-sm>

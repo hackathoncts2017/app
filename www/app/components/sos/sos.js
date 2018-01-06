@@ -11,7 +11,8 @@
 		$scope.currentAddress = "";
 		$scope.audio = new Audio('sossound.mp3');
 		$scope.stopTime= function(){
-			$(".timer").hide();
+			$(".timer").hide();			
+			$(".sos-logo").css("top","32%");
 			$scope.audio.pause();
 			localStorage.stopListening = true;
 			if($scope.sosInit && $scope.onstart) {
@@ -40,7 +41,7 @@
 		$scope.sosClick = function(){
 			$scope.onstart = false;
 			$scope.sosInit = false;
-			
+			$(".sos-logo").css("top","32%");
 			$scope.audio.play();
 			$scope.contactEmergency(true);
 		};
@@ -48,14 +49,7 @@
 			var msg = "Emergency!! Please help";
 			if(!isEmergency) {
 				msg = "Wrong SOS triggered. Appologize for the inconvinience caused.";	
-			} else {
-				socket.emit('emergencyRequest', {
-					"name": details.personalDetails.name,
-					"contact":contactDetails,
-					"location":$scope.currentAddress,
-					"mobileno":details.personalDetails.number
-				});
-			}
+			} 
 			var emergencyContactDetails = JSON.parse(localStorage.userDetails).emergencyDetails
 			var contactDetails = [];
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
@@ -65,7 +59,21 @@
 			}
 			var details = JSON.parse(localStorage.userDetails);
 			localStorage.stopListening = true;
-			
+			if(isEmergency) {
+				socket.emit('emergencyRequest', {
+					"name": details.personalDetails.name,
+					"contact":contactDetails,
+					"location":$scope.currentAddress,
+					"mobileno":details.personalDetails.number
+				});
+			} else {
+				socket.emit('emergencyRequestCancel', {
+					"name": details.personalDetails.name,
+					"contact":contactDetails,
+					"location":$scope.currentAddress,
+					"mobileno":details.personalDetails.number
+				});
+			}
 		};
 		$scope.cancelsos = function(){
 			$scope.sosInit = true;
@@ -75,7 +83,8 @@
 		};
 		$scope.canceltimer = function(){
 			clearInterval(timerClk);
-			$(".timer").hide();
+			$(".timer").hide();			
+			$(".sos-logo").css("top","32%");
 		};
   	}]);
  

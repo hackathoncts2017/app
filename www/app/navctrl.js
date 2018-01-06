@@ -15,11 +15,12 @@
 	$scope.contactEmergency = function(isEmergency){
 			var msg = "Reached Location. On the way to hospital.";
 			
-			var emergencyContactDetails = JSON.parse(localStorage.userDetails).emergencyDetails;
+			var emergencyContactDetails = JSON.parse(localStorage.data).contact;;
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
-				var postmsg = {phoneNo:"" + emergencyContactDetails[i].number,msg:msg};
+				var postmsg = {phoneNo:"" + emergencyContactDetails[i],msg:msg};
 				sosService.sendSms(postmsg).then(function(){});
 			}
+			socket.emit('reachedEmit',{ data:JSON.parse(localStorage.data),id:socket.id });
 			
 			
 			//sosService.sendSms(postmsg).then(function(){

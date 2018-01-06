@@ -23,5 +23,9 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
+    <plugin name="cordova-plugin-speechrecognition" spec="^1.2.0" />
+    <plugin name="cordova-plugin-local-notifications-db" spec="https://github.com/DavidBriglio/cordova-plugin-local-notifications" />
+    <plugin name="cordova-plugin-firebase" spec="^0.1.25" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
     <engine name="android" spec="^7.0.0" />
 </widget>

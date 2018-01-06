@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="ngapp">
+<html ng-app="ngapp" style="background-image: url(assets/img/aider_bg.jpg);">
 
 <head>
     <meta charset="utf-8" />
@@ -84,8 +84,7 @@
     <title>Hackathon</title>
 </head>
 
-<body style=" background-image: url(assets/img/aider_bg.jpg);
-    background-position: center center;width:100%;height:100%;padding-top: 50px;" ng-cloak ng-controller="navCtrl">
+<body style="     background-position: center center;width:100%;height:100%;" ng-cloak ng-controller="navCtrl">
 <md-toolbar class="md-hue-2" ng-if="navbar" style="position:fixed;top:0px;z-index:1000;">
       <div class="md-toolbar-tools">
         <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()"
@@ -168,8 +167,17 @@
   
   socket.on('deviceId', function (data) {
     //console.log(data);
-    socket.emit('registerId', { deviceId: "8903639221",isAmbulance:true,id:socket.id });
+	//9940955107
+	//9940054516
+    socket.emit('registerId', { deviceId: "9940054516",isAmbulance:false,id:socket.id });
   });
+  function callrootscope(iskey) {
+  var $body = angular.element(document.body);   // 1
+  var $rootScope = $body.scope().$root;         // 2
+  $rootScope.$apply(function () {               // 3
+    $rootScope.$emit("loadDataPoints", {location:iskey});
+  });
+}
   socket.on('emergency',function(data){
 		if(cordova.plugins){
 			cordova.plugins.notification.local.schedule({ 
@@ -191,9 +199,13 @@
 				if(notification.id == 1){
 					if (notification.actionClicked && notification.actionClicked.id == "yes") {
 						socket.emit('serviceAccept',{ data:data,deviceId: "8903639221",isAmbulance:true,id:socket.id });
+						localStorage.data = JSON.stringify(data);
+						callrootscope(true);
 					} else if(notification.actionClicked && notification.actionClicked.id == "no"){
 						socket.emit('serviceReject',{ data:data,deviceId: "8903639221",isAmbulance:true,id:socket.id });
 					}
+				} else if(notification.id == 4){
+					location.href="#/map";
 				}
 			}); 
 }
@@ -201,11 +213,31 @@
   socket.on('emergencyServiceAccept',function(data){
 		if(cordova.plugins){
 			cordova.plugins.notification.local.schedule({
-				id: 2,
+				id: 4,
 				title: data.data.name + " need's urgent help.Click here to track"
 			});
 		}
+		localStorage.data = JSON.stringify(data.data);
   }) 
+  socket.on('requestCancel',function(data){
+		if(cordova.plugins){
+			cordova.plugins.notification.local.schedule({
+				id: 2,
+				title: data.name + " has raised wrong SOS."
+			});
+		}
+  })
+	socket.on('reachedDetails',function(data){
+		if(cordova.plugins){
+			cordova.plugins.notification.local.schedule({
+				id: 9,
+				title: "Ambulance has reached in SOS point."
+			});
+			
+		}
+		callrootscope(false);
+  })  
+  
   
 </script> 
 </html>

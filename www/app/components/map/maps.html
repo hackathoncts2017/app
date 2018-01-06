@@ -1,19 +1,19 @@
 <div style="height: 100%;
     background-color: rgba(0,0,0,0.5);">
 <div ng-init="loadMap()" >
-	<div map-lazy-load="https://maps.google.com/maps/api/js?key=" style="height:450px;">
-	  <ng-map center="current-location" style="height:450px;">
+	<div map-lazy-load="https://maps.google.com/maps/api/js?key=" style="height:{{widthChart+ 'px'}};margin-top: 57px">
+	  <ng-map center="current-location" style="height:{{widthChart + 'px'}};">
 	  <traffic-layer></traffic-layer>
 		  <div ng-if="locations.length > 0">
 		  	<div ng-repeat="loc in locations">
 		  			<directions
 			          travel-mode="DRIVING"
-			          origin="current-location"
+			          origin="12.9673,80.1527"
 			          destination={{loc.locationVal}}>
 			        </directions>
-					<div ng-if="indexVal == $index && isCustomer != 1">
+					<div ng-if="indexVal == $index && isCustomer == 1">
 					<custom-marker id="start"
-			          position="current-location">
+			          position="12.9673,80.1527">
 					  <div style="width: 40px;height: 40px;border: 5px solid green;border-radius: 50px;background-color: black;margin-top: -55px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
 			          	<img src="assets/img/ambulance_small.png"  style="width:30px;height:30px;position: relative;
     top: 6px;"/>

@@ -1,4 +1,4 @@
-<div class="full-screen-width" style="background-color: rgba(0,0,0,0.5);padding-top:15px;color:rgba(255,255,255,0.67);">
+<div class="full-screen-width" style="background-color: rgba(0,0,0,0.5);color:rgba(255,255,255,0.67);">
 	<div class="timer" ng-show="sosInit && onstart">
 		<div style="font-size: 20px;margin-bottom:15px;">
 			Automatic SOS triggered in
@@ -8,14 +8,14 @@
 			Seconds
 		</span>
 		<br/>
-		<div style="margin-top: 20px;font-size: 20px;">
+		<div style="margin-top: 20px;font-size: 20px;    padding-left: 31px;">
 		<span>Press</span> <md-button class="md-raised" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="canceltimer()">Stop</md-button> to cancel
 		</div>
 	</div>
-	<div class="emergency-msg" ng-hide="sosInit" style="color:rgba(255,255,255,0.67);font-size: 20px;margin-top:15px;">
-		Don't panic.Our ambulance is on its way.
+	<div class="emergency-msg" ng-hide="sosInit" style="color:rgba(255,255,255,0.67);font-size: 20px;">
+		Don't panic.our ambulance on the way.
 	</div>
-	<div class="centerflex" style="width:100%">
+	<div class="centerflex" style="width:100%;height:250px;">
 	<div class="sos-logo" style="" ng-show="sosInit" ng-click="sosClick()"></div>
 	<div class="ambulance-fast" ng-hide="sosInit"><img src="assets/img/ambulance_big.png" style="width:150px;" /></div>
 	</div>
