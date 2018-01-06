@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
-	
+	localStorage.stopListening = false;
 	if(localStorage.isNotSOS) {
 		localStorage.userId = 2;
 		$urlRouterProvider.otherwise("/map");

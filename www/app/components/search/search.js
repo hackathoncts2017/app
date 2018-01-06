@@ -10,6 +10,7 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
 			audiotext = audiotext.split(keyWords[0]);
 			audiotext = audiotext[1].trim();*/
 			$scope.callSearch(audiotext);
+			localstorage.stopListening = true;
 		/*} else {
 			$rootScope.speeckToUser({"text":"please Check your keyword"})
 		}*/

@@ -1,4 +1,4 @@
- <div ng-if="enableSpeech">	
+ <div class='{{enableSpeech ? "":"hidden"}}'>	
 	<div class="speech-container" >
 		<div class="speech-suggestion" ng-if="suggestionText.length > 0">
 			<div ng-repeat="suggest in suggestionText" ng-click="appendInput(suggest.index)" >{{suggest.text}}</div>

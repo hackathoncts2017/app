@@ -149,7 +149,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				  language:"en-US",
 				  matches:1,
 				  prompt:"",
-				  showPopup:true,
+				  showPopup:false,
 				  showPartial:true
 				}
 				$scope.speechRecognition.startListening($scope.successCb,$scope.onError,options)	
@@ -157,14 +157,14 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 			$scope.successCb = function(data) {
 				var result= data[0];
 				result = result.toLowerCase();
-				$scope.splitText(result);
-				$mdToast.show(
-                    $mdToast.simple()
-                    .textContent(text)
-                    .position('top right')
-                    .hideDelay(5000)
-                );
-				//setTimeout($scope.listen , 1000);
+				if(result.search("help") == -1 && localstorage.stopListening) {
+					setTimeout($scope.listen , 1000);
+				} else {
+					localStorage.stopListening = true;
+					if(result.search("help") != -1) {
+						$rootScope.$emit("triggerSOS", {});
+					}
+				}
 				//$rootScope.speeckToUser({"text":result})
 				
 			}

@@ -670,3 +670,6 @@ md-input-container.md-default-theme.md-input-invalid .md-input, md-input-contain
   align-items: center;
   justify-content: center;
 }
+.hidden{
+	visibility: hidden;
+}
