@@ -1,10 +1,10 @@
-<div>	
-	<div class="speech-container">
+ <div ng-if="enableSpeech">	
+	<div class="speech-container" >
 		<div class="speech-suggestion" ng-if="suggestionText.length > 0">
 			<div ng-repeat="suggest in suggestionText" ng-click="appendInput(suggest.index)" >{{suggest.text}}</div>
 		</div>	
 		<div class='{{suggestionText.length > 0?"speech-text open":"speech-text close"}}'>
-			<input type="text" ng-model="seachtext" style="margin: 5px 15px 0px; width: 270px;" placeholder="Type a text here" />
+			<input type="text" ng-model="seachtext" style="margin: 1px 15px 0px; width: 270px;" placeholder="Type a text here" />
 			<img  ng-hide="showaudio" ng-click="clearTextbox()" class="delete-icon" src="assets/img/icon-trash-b-128.png" />
 		</div>
 		<div class="audio-btn" ng-show="showaudio" ng-click="audioinput()">

@@ -1,8 +1,15 @@
 "use strict";
 
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
-
-    $urlRouterProvider.otherwise("/firstaid");
+	
+	if(localStorage.isNotSOS) {
+		localStorage.userId = 2;
+		$urlRouterProvider.otherwise("/map");
+	} else if(!localStorage.userDetails){
+		$urlRouterProvider.otherwise("/register");
+	} else {
+		$urlRouterProvider.otherwise("/sos");
+	}
 
     $stateProvider.state("main", {
         url: "/main",
@@ -40,6 +47,13 @@ angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function
         title: "Help Me",
         controller: "searchController",
         controllerAs: "speach"
+    });
+	$stateProvider.state("landing", {
+        url: "/landing",
+        templateUrl: "app/components/landing/landing.html",
+        title: "landing",
+        controller: "landingController",
+        controllerAs: "landing"
     });
 	
 }]);

@@ -484,7 +484,7 @@ md-toast{
 
 }
 .md-button.md-default-theme:not([disabled]).md-icon-button:hover, .md-button:not([disabled]).md-icon-button:hover{
-    background-color: white;
+    background-color: transparent;
 }
 .owl-carousel-succ-item{
         padding: 20px;
@@ -593,17 +593,15 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
     background: url(../img/sos);
     background-size: 100% 100%;
     position: absolute;
-    top: 35%;
-    left: 30%;
+    top: 53%;
+    
 	}
 	.ambulance-fast { 
-		    width: 80%;
-    height: 230px;
-    background: url(../img/ambulance.jpg);
-    background-size: 100% 100%;
+		   
+    
     position: absolute;
-    left: 10%;
-    top: 35%;
+    
+    top: 33%;
 	}
 	.emergency-msg{
 		text-align: center;
@@ -611,7 +609,7 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
     font-size: 22px;
 	}
 	.btn-container{
-		    bottom: 10%;
+		    bottom: 20%;
     position: absolute;
 	    width: 100%;
 	text-align:center
@@ -625,10 +623,50 @@ md-list-item ._md-no-style, md-list-item._md-no-proxy {
 	.address-box
 	{
 		position: absolute;
-    top: 61%;
-    width: 100%;
+    top: 82%;
+    width: 97%;
     text-align: center;
     font-size: 15px;
     padding: 0px 10px 0px 10px;
     font-weight: bold;
 	}
+	md-sidenav {
+    width: calc(100% - 110px);
+    min-width: calc(100% - 110px);
+    max-width: calc(100% - 110px);
+}
+
+.layout-padding, .layout-padding-gt-sm, .layout-padding-gt-sm>*, .layout-padding-md, .layout-padding-md>*, .layout-padding>*, .layout-padding>.flex, .layout-padding>.flex-gt-sm, .layout-padding>.flex-md {
+    padding: 0px;
+}
+html.md-default-theme, html, body.md-default-theme, body {
+    color: rgba(0,0,0,0.87);
+    background-color:transparent;
+	
+	   
+}
+md-input-container.md-default-theme .md-input, md-input-container .md-input {
+    color: rgba(255,255,255,0.75);
+    border-color: rgba(255,255,255,0.18);
+	font-size: 100%;
+}
+md-input-container.md-default-theme:not(.md-input-invalid).md-input-has-value label, md-input-container:not(.md-input-invalid).md-input-has-value label {
+    color: rgba(255,255,255,0.55);
+	font-size: 90%;
+}
+md-input-container.md-default-theme label, md-input-container label, md-input-container.md-default-theme ._md-placeholder, md-input-container ._md-placeholder {
+    color: rgba(255,255,255,0.55);
+	font-size: 90%;
+}
+md-input-container.md-default-theme.md-input-invalid label, md-input-container.md-input-invalid label {
+    color: rgba(221,44,0,0.85);
+}
+md-input-container.md-default-theme.md-input-invalid .md-input, md-input-container.md-input-invalid .md-input {
+    border-color: rgba(221,44,0,0.67);
+}
+
+.centerflex{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+}

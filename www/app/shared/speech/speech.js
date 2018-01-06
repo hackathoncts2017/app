@@ -6,6 +6,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		$scope.speechReg();
 	}
 	$scope.showaudio = true;
+	//$scope.enableSpeech = true;
 	 $scope.$watch('seachtext', function (newValue, oldValue) {
         if(newValue != "" && newValue != undefined){
         	$scope.showaudio = false;

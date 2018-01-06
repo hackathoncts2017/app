@@ -6,8 +6,10 @@
 		var timeObject = new Date(); 
 		timeObject = new Date(timeObject .getTime() + 1000*15.5);
 		$scope.sosTime = timeObject.toString();
+		$scope.registerbar = false;
+		$scope.navbar =true;
 		$scope.stopTime= function(){
-			//$(".timer").hide();
+			$(".timer").hide();
 			if($scope.sosInit && $scope.onstart) {
 				$scope.sosClick();
 			}
@@ -34,14 +36,15 @@
 			$scope.contactEmergency(true);
 		};
 		$scope.contactEmergency = function(isEmergency){
-			var msg = "please come fast";
+			var msg = "Emergency!! Please help";
 			if(!isEmergency) {
-				msg = "Sorry am clicked wrongly";	
+				msg = "Wrong SOS triggered. Appologize for the inconvinience caused.";	
 			}
-			var postmsg = {phoneNo:8903639221,msg:msg};
-			//sosService.sendSms(postmsg).then(function(){
-				//alert("dd");
-			//})
+			var emergencyContactDetails = JSON.parse(localStorage.userDetails).emergencyDetails;
+			for(var i = 0; i < emergencyContactDetails.length; i++) {
+				var postmsg = {phoneNo:+emergencyContactDetails[i].number,msg:msg};
+				sosService.sendSms(postmsg).then(function(){});
+			}
 		};
 		$scope.cancelsos = function(){
 			$scope.sosInit = true;

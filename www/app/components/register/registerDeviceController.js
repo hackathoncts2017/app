@@ -11,6 +11,23 @@
 		$scope.emergencycount = 1;
 		$scope.emergencydetails = {"count":1,"name":"","number":"","mandatory":true};
         $scope.emergency.push($scope.emergencydetails);
+		$scope.registerbar = true;
+		$scope.navbar =false;
+		$scope.headername = "Register";
+		
+		$scope.userDetails ={"personalDetails":"","emergencyDetails":[]};
+		var userDetails = localStorage.userDetails;
+		console.log("userDetails",userDetails);
+		if(userDetails){
+			$scope.userDetails = JSON.parse(localStorage.userDetails);
+			console.log("$scope.userDetails",$scope.userDetails);
+			$scope.personal = $scope.userDetails.personalDetails;
+			$scope.emergency = $scope.userDetails.emergencyDetails;
+			$scope.headername = "Profile";
+			
+		}
+		
+		
 		console.log("$scope.emergency",$scope.emergency);
         $scope.addmore = function(){
 			
@@ -21,8 +38,11 @@
             
         }
 		$scope.submitRegister = function(){
-			console.log("$scope.emergency",$scope.emergency);
-			console.log("$scope.personal",$scope.personal);
+			$scope.userDetails ={"personalDetails":$scope.personal,"emergencyDetails":$scope.emergency};
+			console.log("$scope.userDetails",$scope.userDetails);
+			localStorage.userDetails = JSON.stringify($scope.userDetails);
+			console.log("localStorage.userDetails",localStorage.userDetails);
+			location.href = "#sos";
 		}
 		
 		

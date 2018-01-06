@@ -19,7 +19,6 @@
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link href="assets/css/flipclock.css" rel="stylesheet">
 	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 
   
 	
@@ -46,6 +45,7 @@
 	<script type="text/javascript" src="assets/lib/moment.js"></script>
     <!-- Modules -->
     <script type="text/javascript" src="app/app.js"></script>
+	<script type="text/javascript" src="app/navctrl.js"></script>
 
     <!-- Routes -->
     <script type="text/javascript" src="app/routes.js"></script>
@@ -57,6 +57,8 @@
 	
     <!-- Controllers -->
     <script type="text/javascript" src="app/shared/speech/speech.js"></script>
+	
+	<script type="text/javascript" src="app/components/landing/landing.js"></script>
     <script type="text/javascript" src="app/components/main/main-controller.js"></script>
     <script type="text/javascript" src="app/shared/header/header.js"></script>
     <script type="text/javascript" src="app/components/dashboard/dashboard.js"></script>
@@ -77,14 +79,133 @@
     
     <script type="text/javascript" src="app/components/register/registerDeviceController.js"></script>
     <script type="text/javascript" src="app/components/order/order.js"></script>
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
     <title>Hackathon</title>
 </head>
 
-<body style="" ng-cloak>
+<body style=" background-image: url(assets/img/aider_bg.jpg);
+    background-position: center center;width:100%;height:100%;padding-top: 50px;" ng-cloak ng-controller="navCtrl">
+<md-toolbar class="md-hue-2" ng-if="navbar" style="position:fixed;top:0px;z-index:1000;">
+      <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()"
+            ng-hide="isOpenRight()">
+          <i class="material-icons">reorder</i>
+        </md-button>
+		<div class="centerflex" ng-if="userId == 2" style="width:100%;position: relative;
+    left: -20px;">
+		<md-button class="md-raised md-warn" aria-label="" ng-click="contactEmergency();" style="background-color:#fff;color:rgb(255,87,34);">
+            <i class="material-icons" style="    position: relative;
+    top: 6px;">check_circle</i> Reached
+        </md-button>
+</div>
+        
+
+        
+
+        <md-button class="md-icon-button" aria-label="More" style="position: absolute;
+    right: 20px;" ng-click="firstaid();">
+          <i class="material-icons">games</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+<md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="right" style="    z-index: 1001;">
+
+      
+      <md-content  layout-padding>
+        <md-list-item class="md-2-line" >
+          <img src="assets/img/user.png" class="md-avatar" alt="User" style="    height: 50px;
+    width: 50px;" />
+          <div class="md-list-item-text" layout="column">
+            <h3>{{userDetails.personalDetails.name}}</h3>
+           
+          </div>
+        </md-list-item>
+		<md-divider ></md-divider>
+		<md-list-item style="padding-left: 8px;" ng-click="home();" >
+         
+          
+            <p>Home</p>
+           
+          </div>
+        </md-list-item>
+		<md-divider ></md-divider>
+		<md-list-item  style="padding-left: 8px;" ng-click="profile();">
+         
+          
+            <p>Profile</p>
+           
+       
+        </md-list-item>
+		<md-divider ></md-divider>
+		<md-list-item  style="padding-left: 8px;" ng-click="track();">
+         
+          
+            <p>Track</p>
+           
+       
+        </md-list-item>
+		<md-divider ></md-divider>
+		<md-list-item  style="padding-left: 8px;" ng-click="signout();">
+         
+          
+            <p>Signout</p>
+           
+         
+        </md-list-item>
+        <md-divider ></md-divider>
+        
+      </md-content>
+
+    </md-sidenav>
     <Header style="height: 65px;    margin-bottom: 20px;"></Header>
     <ui-view></ui-view>
 	<Speech/>
-</body>
-
+</body> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+<script>
+  window.socket = io('https://hackathoncts.herokuapp.com/');
+  
+  socket.on('deviceId', function (data) {
+    //console.log(data);
+    socket.emit('registerId', { deviceId: "8903639221",isAmbulance:true,id:socket.id });
+  });
+  socket.on('emergency',function(data){
+		if(cordova.plugins){
+			cordova.plugins.notification.local.schedule({ 
+				id: 1,
+				title: "One person need medical emergency in " + data.location + ". Are you avaiable right now?",
+				actions: [
+					{
+						text: "Accept",
+						id: "yes"
+					},
+					{
+						text: "Reject",
+						id: "no"
+					}
+				]
+			});
+			cordova.plugins.notification.local.on("click", function (notification) {				
+				cordova.plugins.notification.local.cancel(1);
+				if(notification.id == 1){
+					if (notification.actionClicked && notification.actionClicked.id == "yes") {
+						socket.emit('serviceAccept',{ data:data,deviceId: "8903639221",isAmbulance:true,id:socket.id });
+					} else if(notification.actionClicked && notification.actionClicked.id == "no"){
+						socket.emit('serviceReject',{ data:data,deviceId: "8903639221",isAmbulance:true,id:socket.id });
+					}
+				}
+			}); 
+}
+  });
+  socket.on('emergencyServiceAccept',function(data){
+		if(cordova.plugins){
+			cordova.plugins.notification.local.schedule({
+				id: 2,
+				title: data.data.name + " need's urgent help.Click here to track"
+			});
+		}
+  }) 
+  
+</script> 
 </html>
