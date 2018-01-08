@@ -40,11 +40,9 @@
 			//})
 		};
 	var userDetails = localStorage.userDetails;
-		
+		$scope.isUser = localStorage.userId?false:true;
 		if(userDetails){
-			$scope.userDetails = JSON.parse(localStorage.userDetails);
-			
-			
+			$scope.userDetails = JSON.parse(localStorage.userDetails);		
 			
 			
 		}
