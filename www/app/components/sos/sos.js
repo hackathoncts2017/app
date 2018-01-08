@@ -45,7 +45,8 @@
 			$scope.onstart = false;
 			$scope.sosInit = false;
 			$(".sos-logo").css("top","32%");
-			$scope.audio.play();
+			// uncomment before build
+			//$scope.audio.play();
 			$scope.contactEmergency(true);
 		};
 		$scope.contactEmergency = function(isEmergency){
@@ -91,6 +92,7 @@
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 		};
+		$rootScope.speechReg();
   	}]);
  
    
