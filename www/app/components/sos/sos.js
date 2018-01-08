@@ -8,7 +8,7 @@
 		$scope.sosTime = timeObject.toString();
 		$scope.registerbar = false;
 		$scope.navbar =true;
-		
+		$scope.appInitLoad = $rootScope.appInitLoad ;
 		$scope.header = "header.html";
 		$scope.currentAddress = "";
 		$scope.audio = new Audio('sossound.mp3');
@@ -16,8 +16,8 @@
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 			$scope.audio.pause();
-			localStorage.stopListening = true;
-			if($scope.sosInit && $scope.onstart) {
+			localStorage.stopListening = true;			
+			if($scope.sosInit && $scope.onstart && $rootScope.appInitLoad) {
 				$scope.sosClick();
 			}
 		}
@@ -41,6 +41,7 @@
 			$scope.stopTime();
 		},16000);
 		$scope.sosClick = function(){
+			$rootScope.appInitLoad = false;
 			$scope.onstart = false;
 			$scope.sosInit = false;
 			$(".sos-logo").css("top","32%");
@@ -85,6 +86,7 @@
 		};
 		$scope.canceltimer = function(){
 			clearInterval(timerClk);
+			$rootScope.appInitLoad = false;
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 		};
