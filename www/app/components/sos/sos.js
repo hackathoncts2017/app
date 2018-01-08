@@ -94,7 +94,7 @@
 			if(typeof TTS != "undefined"){
 				TTS
 				.speak("Our ambulance Reached you sos point. We will take care", function () {
-					$scope.audio.play();
+					//$scope.audio.play();
 				}, function (reason) {
 				});
 			} 
