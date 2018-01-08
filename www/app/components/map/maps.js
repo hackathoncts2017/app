@@ -11,6 +11,9 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $scope.adminJobMapping = {};
     $rootScope.jobId = 1;
     $scope.currentTimeTaken = 0;
+    $scope.origin = "12.92,80.20";
+    $scope.hospitals = ["12.91477592,80.22984445","12.93362997,80.2336961","12.9414305,80.23584187"];
+    $scope.locateHospital = true;
     $scope.numberMapping = {
         "one": 1,
         "two" : 2,
@@ -33,7 +36,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 	$rootScope.$on("loadDataPoints", function(controller,data){
 			$scope.locations = [];
 			if(data.location){
-				$scope.locations.push({"locationVal" : "12.922915, 80.127457", "image" : "", isEng : true});
+				$scope.locations.push({"locationVal" : "12.9127111, 80.2191472", "image" : "", isEng : true});
 			}
 		   $rootScope.loadMap()
     });	
@@ -47,10 +50,11 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         $scope.indexVal = 0;
         $scope.prevPosition = '';
 	$scope.timeTaken1 = 0;
-	 if(localStorage.userId != 2) {
-		 $scope.locations.push({"locationVal" : "12.922915, 80.127457", "image" : "", isEng : true});
+	//uncomment before build
+	 //if(localStorage.userId != 2) {
+		$scope.locations.push({"locationVal" : "12.9127111, 80.2191472", "image" : "", isEng : true});
 		   
-	 }
+	 //}
        NgMap.getMap().then(function(map) {
             
             $rootScope.mapDetails = map; 
@@ -68,7 +72,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 					$scope.$applyAsync();
 					localStorage.setItem("mapDetails", $rootScope.allDirections )
 							},2000);   
-				setInterval(function() {
+				/*setInterval(function() {
 						
 					navigator.geolocation.getCurrentPosition(function(pos) {
 						$scope.position = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
@@ -89,7 +93,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 					function(error) {                    
 						alert('Unable to get location: ' + error.message);
 					}, options);
-				},7000);
+				},7000);*/
             }
            
         }); 
