@@ -57,7 +57,8 @@
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
 				var postmsg = {phoneNo:"" + emergencyContactDetails[i].number,msg:msg};
 				contactDetails.push("" + emergencyContactDetails[i].number);
-				sosService.sendSms(postmsg).then(function(){});
+				// uncomment before build
+				//sosService.sendSms(postmsg).then(function(){});
 			}
 			var details = JSON.parse(localStorage.userDetails);
 			localStorage.stopListening = true;
