@@ -45,12 +45,11 @@
 			$scope.onstart = false;
 			$scope.sosInit = false;
 			$(".sos-logo").css("top","32%");
-			if(TTS){
+			if(typeof TTS != "undefined"){
 				TTS
-				.speak('hello, world!', function () {
-					//$scope.audio.play();
+				.speak("Don't panic.our ambulance on the way.", function () {
+					$scope.audio.play();
 				}, function (reason) {
-					alert(reason);
 				});
 			} else {
 				$scope.audio.play();
