@@ -37,6 +37,7 @@
 		});
 		$scope.sosInit = true;
 		$scope.onstart = true;
+		$scope.cancelsosBtn = true;
 		var timerClk = setTimeout(function(){
 			$scope.stopTime();
 		},16000);
@@ -87,11 +88,29 @@
 				});
 			}
 		};
+		$rootScope.$on("ambulanceReachedContr", function(controller,data){
+			$scope.cancelsosBtn = false;
+			$scope.audio.pause();
+			if(typeof TTS != "undefined"){
+				TTS
+				.speak("Our ambulance Reached you sos point. We will take care", function () {
+					$scope.audio.play();
+				}, function (reason) {
+				});
+			} 
+		});
 		$scope.cancelsos = function(){
 			$scope.sosInit = true;
 			$scope.onstart = false;
 			$scope.audio.pause();
 			$scope.contactEmergency(false);
+		};
+		$scope.completedsos = function(){
+			$scope.sosInit = true;
+			$scope.onstart = false;
+			$scope.audio.pause();
+			
+			
 		};
 		$scope.canceltimer = function(){
 			clearInterval(timerClk);
