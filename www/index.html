@@ -219,14 +219,14 @@
        
         </md-list-item>
 		<md-divider ></md-divider>
-		<md-list-item  style="padding-left: 8px;" ng-click="track();">
+		<md-list-item  style="padding-left: 8px;" ng-hide="isUser" ng-click="track();">
          
           
             <p>Track</p>
            
        
         </md-list-item>
-		<md-divider ></md-divider>
+		<md-divider ng-hide="isUser" ></md-divider>
 		<md-list-item  style="padding-left: 8px;" ng-click="signout();">
          
           
