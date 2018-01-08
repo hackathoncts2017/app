@@ -50,8 +50,10 @@
 		$scope.submitRegister = function(){
 			$scope.userDetails ={"personalDetails":$scope.personal,"emergencyDetails":$scope.emergency};
 			console.log("$scope.userDetails",$scope.userDetails);
+			
 			localStorage.userDetails = JSON.stringify($scope.userDetails);
 			console.log("localStorage.userDetails",localStorage.userDetails);
+			$scope.$emit('localStorageChanged',{})
 			location.href = "#sos";
 		}
 		

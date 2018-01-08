@@ -60,7 +60,9 @@
 		$scope.unexplorePatient = function(){
 			$scope.explorePatient = false;
 		}
-
+		$rootScope.$on('localStorageChanged', function(event, message) {
+			$scope.userDetails = JSON.parse(localStorage.userDetails);
+		});
 		$scope.exploreDriver = false;
 		$scope.toggleexploreDriver = function(){
 			if($scope.exploreDriver){
@@ -128,6 +130,7 @@
     };
 	
 	$scope.profile = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#register";
 	  
 		$scope.close();
@@ -135,6 +138,7 @@
 		 $rootScope.userId = null;
     };
 	$scope.firstaid = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#firstaid";
 	  $scope.close();
 	  $scope.enableSpeech = true;
@@ -144,6 +148,7 @@
     };
 	
 	$scope.home = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#sos";
 	  $scope.close();
 	  $scope.enableSpeech = false;
@@ -154,6 +159,7 @@
     };
 	
 	$scope.track = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#map";
 	  $scope.close();
 	   $scope.enableSpeech = false;
@@ -162,6 +168,7 @@
     };
 	
 	$scope.signout = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#register";
 	  $scope.close();
 	   $scope.enableSpeech = false;
