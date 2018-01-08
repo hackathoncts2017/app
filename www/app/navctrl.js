@@ -7,9 +7,21 @@
 		$scope.toggleRight = buildToggler('right');
 		$scope.navbar =true;
 		$scope.registerbar = true;
+		// var url =window.location.href;
+		// url = url.split('#');
+		// url = url[1];
+		// console.log(url);
+
+		// if(url == '/landing'){
+		// 	$scope.navbar =false;
+		// $scope.registerbar = false;
+		// }
+		
+		
 		$scope.enableSpeech = false;
 		
     $scope.isOpenRight = function(){
+
       return $mdSidenav('right').isOpen();
     };
 	$scope.contactEmergency = function(isEmergency){
@@ -35,6 +47,31 @@
 			
 			
 			
+		}
+		$scope.explorePatient = false;
+		$scope.toggleexplorePatient = function(){
+			if($scope.explorePatient){
+            $scope.explorePatient = false;
+			} 
+			else{
+			$scope.explorePatient = true;
+			}
+		}
+		$scope.unexplorePatient = function(){
+			$scope.explorePatient = false;
+		}
+
+		$scope.exploreDriver = false;
+		$scope.toggleexploreDriver = function(){
+			if($scope.exploreDriver){
+            $scope.exploreDriver = false;
+			} 
+			else{
+			$scope.exploreDriver = true;
+			}
+		}
+		$scope.unexploreDriver = function(){
+			$scope.exploreDriver = false;
 		}
 	 /**
      * Supplies a function that will continue to operate until the
@@ -65,6 +102,7 @@
           .toggle()
           .then(function () {
             $log.debug("toggle " + navID + " is done");
+            
           });
       }, 200);
     }
@@ -76,6 +114,7 @@
           .toggle()
           .then(function () {
             $log.debug("toggle " + navID + " is done");
+            
           });
       };
     }
@@ -100,6 +139,7 @@
 	  $scope.close();
 	  $scope.enableSpeech = true;
 	  $rootScope.userId = null;
+	   $scope.map = false;
 	  
     };
 	
@@ -108,6 +148,7 @@
 	  $scope.close();
 	  $scope.enableSpeech = false;
 	  $rootScope.userId = null;
+	   $scope.map = false;
 	  
 	  
     };
@@ -116,6 +157,7 @@
       location.href= "#map";
 	  $scope.close();
 	   $scope.enableSpeech = false;
+	   $scope.map = true;
 	  
     };
 	

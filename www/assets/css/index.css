@@ -671,3 +671,33 @@ md-input-container.md-default-theme.md-input-invalid .md-input, md-input-contain
 .hidden{
 	visibility: hidden;
 }
+.carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+   height:100%;
+}
+.carousel-caption{position:static;padding-top: 200px;}
+.carousel-control{display:none;}
+.carousel {
+   height:100%;
+}
+.carousel-indicators {
+    position: absolute;
+    bottom: 10%;
+    }
+    .carousel-indicators .active {
+    width: 20px;
+    height: 20px;
+   
+    margin-right:10px;
+    background-color: #fff;
+}
+
+.carousel-indicators li {
+   
+    width: 18px;
+    height: 18px;
+    margin-right:10px;
+
+    }

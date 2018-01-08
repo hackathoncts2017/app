@@ -11,6 +11,7 @@
     
 
     <link rel="stylesheet" type="text/css" href="assets/css/angular-material.min.css">
+     <link rel="stylesheet" href="assets/css/ui-bootstrap.css" />
 	<link rel="stylesheet" type="text/css" href="assets/css/index.css">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,700">
     <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
     <link href="assets/css/flipclock.css" rel="stylesheet">
-	
+	  
 
   
 	
@@ -42,6 +43,10 @@
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script type="text/javascript" src="assets/lib/highcharts-ng.js"></script>
     <script type="text/javascript" src="assets/lib/flipclock.min.js"></script>
+   
+   
+    <script src="assets/lib/ui-bootstrap.min.js"></script>
+     
 	<script type="text/javascript" src="assets/lib/moment.js"></script>
     <!-- Modules -->
     <script type="text/javascript" src="app/app.js"></script>
@@ -84,19 +89,29 @@
     <title>Hackathon</title>
 </head>
 
-<body style="     background-position: center center;width:100%;height:100%;" ng-cloak ng-controller="navCtrl">
+<body style="     background-position: center center;width:100%;height:100%;" ng-cloak ng-controller="navCtrl" ng-init="setnavbar();">
 <md-toolbar class="md-hue-2" ng-if="navbar" style="position:fixed;top:0px;z-index:1000;">
-      <div class="md-toolbar-tools">
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()"
+      <div class="md-toolbar-tools" >
+        <md-button class="md-icon-button" aria-label="Settings"  ng-click="toggleRight()"
             ng-hide="isOpenRight()">
           <i class="material-icons">reorder</i>
         </md-button>
 		<div class="centerflex" ng-if="userId == 2" style="width:100%;position: relative;
     left: -20px;">
+    <i class="material-icons" style="color:#fff;font-size: 25px;
+    position: absolute;
+    left: 15px;" ng-click="toggleexplorePatient();" >info</i>
 		<md-button class="md-raised md-warn" aria-label="" ng-click="contactEmergency();" style="background-color:#fff;color:rgb(255,87,34);">
             <i class="material-icons" style="    position: relative;
     top: 6px;">check_circle</i> Reached
         </md-button>
+</div>
+<div class="" ng-if="userId != 2 && map" style="width:100%;position: relative;
+    left: -20px;">
+    <i class="material-icons" style="color:#fff;font-size: 25px;
+    position: absolute;
+    left: 15px;top:-12px;" ng-click="toggleexploreDriver();" >info</i>
+    
 </div>
         
 
@@ -108,6 +123,73 @@
         </md-button>
       </div>
     </md-toolbar>
+
+     <div ng-show="exploreDriver" style="background-color:rgba(0,0,0,0.75);height:100%;position:fixed;top: 0px;
+    width: 100%;
+    z-index: 1000;">
+     <i class="material-icons" style="color:#fff;font-size: 25px;
+    position: absolute;
+    right: 15px;top:15px;z-index:1000;" ng-click="unexploreDriver();">highlight_off</i>
+    <div  style="margin-top:60px;">
+       <h3 style="color:rgba(255,255,255,1);margin-left:20px;margin-bottom:0px;">Driver Details</h3>
+        <md-list-item class="noright">
+  
+  
+    <div style="margin-left:20px;">
+     <h4 style="color:rgba(255,255,255,0.87);">Saravanan</h4>
+     <p style="position:relative;top:-10px;color:#f58233;">8903639221</p>
+     </div>
+     <a href="tel:8903639221" style="color:#fff;position: absolute;
+    right: 15px;"><i class="material-icons" style="color: #0f9d58;
+    font-size: 32px;">phone</i></a>
+    
+   
+    
+  </md-list-item>
+   
+    </div>
+    </div>
+     <div ng-show="explorePatient" style="background-color:rgba(0,0,0,0.75);height:100%;position:fixed;top: 0px;
+    width: 100%;
+    z-index: 1000;">
+        
+    <i class="material-icons" style="color:#fff;font-size: 25px;
+    position: absolute;
+    right: 15px;top:15px;z-index:1000;" ng-click="unexplorePatient();">highlight_off</i>
+    <div ng-if="userDetails" style="margin-top:60px;">
+       <h3 style="color:rgba(255,255,255,1);margin-left:20px;margin-bottom:0px;">Patient Details</h3>
+        <md-list-item class="noright">
+  
+  
+    <div style="margin-left:20px;">
+     <h4 style="color:rgba(255,255,255,0.87);">{{userDetails.personalDetails.name}}</h4>
+     <p style="position:relative;top:-10px;color:#f58233;">{{userDetails.personalDetails.number}}</p>
+     </div>
+     <a href="tel:{{userDetails.personalDetails.number}}" style="color:#fff;position: absolute;
+    right: 15px;"><i class="material-icons" style="color: #0f9d58;
+    font-size: 32px;">phone</i></a>
+    
+   
+    
+  </md-list-item>
+   <h3 style="color:rgba(255,255,255,1);margin-left:20px;margin-bottom:0px;">Emergency Contact</h3>
+    <md-list-item class="noright" ng-repeat ="emr in userDetails.emergencyDetails" >
+  
+  
+    <div style="margin-left:20px;">
+     <h4 style="color:rgba(255,255,255,0.87);">{{emr.name}}</h4>
+     <p style="position:relative;top:-10px;color:#f58233;">{{emr.number}}</p>
+     </div>
+     <a href="tel:{{emr.number}}" style="color:#fff;position: absolute;
+    right: 15px;"><i class="material-icons" style="color: #0f9d58;
+    font-size: 32px;">phone</i></a>
+    
+   
+    
+  </md-list-item>
+    </div>
+
+      </div>
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="right" style="    z-index: 1001;">
 
       
@@ -155,6 +237,7 @@
         <md-divider ></md-divider>
         
       </md-content>
+     
 
     </md-sidenav>
     <Header style="height: 65px;    margin-bottom: 20px;"></Header>

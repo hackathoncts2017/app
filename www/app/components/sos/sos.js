@@ -8,6 +8,8 @@
 		$scope.sosTime = timeObject.toString();
 		$scope.registerbar = false;
 		$scope.navbar =true;
+		
+		$scope.header = "header.html";
 		$scope.currentAddress = "";
 		$scope.audio = new Audio('sossound.mp3');
 		$scope.stopTime= function(){

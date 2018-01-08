@@ -1,5 +1,24 @@
-<div class="centerflex" style="background-color:rgb(198,40,40);color:#fff;width:100%;height:100%;    position: absolute;
+
+<div class="" style="background-color:rgb(198,40,40);color:#fff;width:100%;height:100%;    position: absolute;
     top: 0px;">
 
-<h2 style=""><i class="material-icons" style="font-size:600%;">games</i> <br/> <span style="position:relative;left:10px;top:10px;font-size:50px;">Aider</span></h2>
-</div>
+    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+      <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+       
+        <div class="carousel-caption">
+         <div ng-if="slide.id == 0" style="position:relative;top:15%;">
+         <i class="material-icons" style="font-size:600%;">games</i> <br/>
+          <h4 style="color:#fff;font-size:50px;">{{slide.heading}}</h4>
+          </div>
+          <div ng-if="slide.id != 0" style="position:relative;top:15%;">
+          <h4 style="color:#fff;font-size:30px;">{{slide.heading}}</h4>
+          <p style="color:#fff;">{{slide.text}}</p>
+          </div>
+          
+          <md-button ng-if ="$last" class="md-raised md-warn" aria-label="" ng-click="register();" style="background-color:#fff;color:rgb(255,87,34);">
+             Register
+        </md-button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,4 +1,4 @@
-hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "ngStorage","ngMap","highcharts-ng"])
+hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "ngStorage","ngMap","highcharts-ng","ui.bootstrap"])
 // ngTouch is No Longer Supported by Angular-Material
 
 .run(function($rootScope, $cordovaDevice, $cordovaStatusbar){

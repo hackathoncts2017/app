@@ -2,6 +2,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 	$scope.locations = [];
     $scope.feedbackflag = false;
     $scope.starFlag = false;
+    		
     $scope.jobDetails = {}
     $scope.jobIdMapping = {};
     $scope.jobMapping = {};

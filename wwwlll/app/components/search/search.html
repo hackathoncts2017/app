@@ -1,0 +1,23 @@
+<div style="height: 100%;
+    background-color: rgba(0,0,0,0.5);">
+	<div class="flexbox-parent" ng-if="!isSearch">
+		<div layout="row" layout-align="center center"  style="min-height: 500px">
+		        <p style="font-size: 22px;text-align: center;">Press <i class="icon-microphone"> </i> to get details on First aid</p>
+		 </div>
+	</div>
+	<div class="flexbox-parent" ng-if="isLoading">
+		<div layout="row" layout-align="center center"  style="min-height: 500px">
+			  <md-progress-circular md-mode="indeterminate" ></md-progress-circular>
+		</div>
+	</div>
+	<div ng-if="queryVideo" class="query-page">
+		<iframe id="video" allowfullscreen style="width: 100%;height: 300px;" frameborder="0"></iframe>
+		<div class ="title-youtube">
+			{{queryVideo.title}}
+		</div>
+		<div class ="desc-youtube">
+			{{queryVideo.desc}}
+		</div>
+		<div>{{urlData()}}</div>
+	</div>
+</div>
