@@ -26,6 +26,7 @@
 		{{currentAddress}}
 	</div>
 	<div class="btn-container" ng-hide="sosInit">
-		<md-button class="md-raised" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="cancelsos()">Cancel  </button>
+		<md-button class="md-raised" ng-show="cancelsosBtn" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="cancelsos()">Cancel  </button>
+		<md-button class="md-raised" ng-hide="cancelsosBtn" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="completedsos()">completed  </button>
   </div>
 </div>

@@ -254,11 +254,15 @@
 	//9940054516
     socket.emit('registerId', { deviceId: "9940054516",isAmbulance:false,id:socket.id });
   });
-  function callrootscope(iskey) {
+  function callrootscope(iskey,iscompleted) {
   var $body = angular.element(document.body);   // 1
   var $rootScope = $body.scope().$root;         // 2
   $rootScope.$apply(function () {               // 3
-    $rootScope.$emit("loadDataPoints", {location:iskey});
+	if(!iscompleted){
+		$rootScope.$emit("loadDataPoints", {location:iskey});
+	} else {
+		$rootScope.$emit("ambulanceReachedContr",{});
+	}
   });
 }
   socket.on('emergency',function(data){
@@ -315,11 +319,13 @@
 			cordova.plugins.notification.local.schedule({
 				id: 9,
 				title: "Ambulance has reached in SOS point."
-			});
-			
+			});			
 		}
 		callrootscope(false);
-  })  
+  });
+   socket.on('reachedDetailsSource',function(data){
+		callrootscope(false,true);
+	});
   
   
 </script> 

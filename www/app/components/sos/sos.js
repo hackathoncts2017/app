@@ -37,6 +37,7 @@
 		});
 		$scope.sosInit = true;
 		$scope.onstart = true;
+		$scope.cancelsosBtn = true;
 		var timerClk = setTimeout(function(){
 			$scope.stopTime();
 		},16000);
@@ -45,7 +46,15 @@
 			$scope.onstart = false;
 			$scope.sosInit = false;
 			$(".sos-logo").css("top","32%");
-			// uncomment before build
+			if(typeof TTS != "undefined"){
+				TTS
+				.speak("Don't panic our ambulance on the way ", function () {
+					$scope.audio.play();
+				}, function (reason) {
+				});
+			} else {
+				$scope.audio.play();
+			}
 			//$scope.audio.play();
 			$scope.contactEmergency(true);
 		};
@@ -59,8 +68,7 @@
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
 				var postmsg = {phoneNo:"" + emergencyContactDetails[i].number,msg:msg};
 				contactDetails.push("" + emergencyContactDetails[i].number);
-				// uncomment before build
-				//sosService.sendSms(postmsg).then(function(){});
+				sosService.sendSms(postmsg).then(function(){});
 			}
 			var details = JSON.parse(localStorage.userDetails);
 			localStorage.stopListening = true;
@@ -80,11 +88,29 @@
 				});
 			}
 		};
+		$rootScope.$on("ambulanceReachedContr", function(controller,data){
+			$scope.cancelsosBtn = false;
+			$scope.audio.pause();
+			if(typeof TTS != "undefined"){
+				TTS
+				.speak("Our ambulance Reached you sos point. We will take care", function () {
+					$scope.audio.play();
+				}, function (reason) {
+				});
+			} 
+		});
 		$scope.cancelsos = function(){
 			$scope.sosInit = true;
 			$scope.onstart = false;
 			$scope.audio.pause();
 			$scope.contactEmergency(false);
+		};
+		$scope.completedsos = function(){
+			$scope.sosInit = true;
+			$scope.onstart = false;
+			$scope.audio.pause();
+			
+			
 		};
 		$scope.canceltimer = function(){
 			clearInterval(timerClk);
@@ -92,7 +118,6 @@
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 		};
-		$rootScope.speechReg();
   	}]);
  
    
