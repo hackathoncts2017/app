@@ -13,7 +13,8 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
     $scope.currentTimeTaken = 0;
     $scope.origin = "12.92,80.20";
     $scope.hospitals = ["12.91477592,80.22984445","12.93362997,80.2336961","12.9414305,80.23584187"];
-    $scope.locateHospital = true;
+    $scope.locateHospital = false;
+    $scope.showPath = true;
     $scope.numberMapping = {
         "one": 1,
         "two" : 2,
@@ -41,6 +42,9 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
 		   $rootScope.loadMap()
     });	
 	$scope.locations = [];
+	$scope.showDetail = function() {
+		$scope.showPath = true;
+	}
     $rootScope.loadMap = function() {
         
         $rootScope.jobId = 1;
@@ -51,10 +55,10 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
         $scope.prevPosition = '';
 	$scope.timeTaken1 = 0;
 	//uncomment before build
-	 //if(localStorage.userId != 2) {
+	 if(localStorage.userId != 2) {
 		$scope.locations.push({"locationVal" : "12.9127111, 80.2191472", "image" : "", isEng : true});
 		   
-	 //}
+	 }
        NgMap.getMap().then(function(map) {
             
             $rootScope.mapDetails = map; 
@@ -64,7 +68,7 @@ hackathon.controller("MapController", function(shared, $state, $scope, $mdSidena
            
 			$rootScope.isCustomer = localStorage.userId ;
 			
-            if($scope.locations.length > 0){
+            if($scope.locations.length > 0 && $scope.showPath){
 				$rootScope.allDirections = $rootScope.mapDetails.directionsRenderers;
 					 setTimeout(function(){
 					$scope.timeTaken1 = $rootScope.allDirections[0].directions.routes[0].legs[0].duration.text.replace('mins','').replace('min','');

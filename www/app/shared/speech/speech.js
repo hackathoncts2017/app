@@ -134,6 +134,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 		}					
 	}
 	$rootScope.speechReg = function(){
+		$scope.speechRecognition = window.plugins && window.plugins.speechRecognition ? window.plugins.speechRecognition : false; 
 		if($scope.speechRecognition) {
 			$scope.speechRecognition.isRecognitionAvailable($scope.regconitaionCb);
 			$scope.regconitaionCb = function(isAvaliable) {

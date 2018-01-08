@@ -48,7 +48,7 @@
 			$(".sos-logo").css("top","32%");
 			if(typeof TTS != "undefined"){
 				TTS
-				.speak("Don't panic our ambulance on the way ", function () {
+				.speak("Don't panic our ambulance is on the way ", function () {
 					$scope.audio.play();
 				}, function (reason) {
 				});
@@ -118,6 +118,7 @@
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 		};
+		$rootScope.speechReg();
   	}]);
  
    
