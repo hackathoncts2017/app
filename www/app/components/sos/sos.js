@@ -45,7 +45,16 @@
 			$scope.onstart = false;
 			$scope.sosInit = false;
 			$(".sos-logo").css("top","32%");
-			// uncomment before build
+			if(TTS){
+				TTS
+				.speak('hello, world!', function () {
+					//$scope.audio.play();
+				}, function (reason) {
+					alert(reason);
+				});
+			} else {
+				$scope.audio.play();
+			}
 			//$scope.audio.play();
 			$scope.contactEmergency(true);
 		};
@@ -59,8 +68,7 @@
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
 				var postmsg = {phoneNo:"" + emergencyContactDetails[i].number,msg:msg};
 				contactDetails.push("" + emergencyContactDetails[i].number);
-				// uncomment before build
-				//sosService.sendSms(postmsg).then(function(){});
+				sosService.sendSms(postmsg).then(function(){});
 			}
 			var details = JSON.parse(localStorage.userDetails);
 			localStorage.stopListening = true;
@@ -92,7 +100,6 @@
 			$(".timer").hide();			
 			$(".sos-logo").css("top","32%");
 		};
-		$rootScope.speechReg();
   	}]);
  
    

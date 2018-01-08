@@ -15,6 +15,18 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
 			$rootScope.speeckToUser({"text":"please Check your keyword"})
 		}*/
     }
+	var introMsg = "";
+	if(TTS){
+		TTS
+		.speak(introMsg, function () {
+			setTimeout(function(){
+				$scope.audio.play();
+			},1000);
+		}, function (reason) {
+			alert(reason);
+		});
+	} 
+			
 	$scope.loadVideo = function() {
 		$scope.callSearch("First aid for fracture");
 	}
