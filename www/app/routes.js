@@ -3,7 +3,7 @@
 angular.module("ngapp").config(["$stateProvider", "$urlRouterProvider", function($stateProvider, $urlRouterProvider){
 	localStorage.isNotSOS = true;
 	if(localStorage.isNotSOS) {
-		localStorage.userId = 1;
+		localStorage.userId = 2;
 		$urlRouterProvider.otherwise("/map");
 	} else if(!localStorage.userDetails){
 		$urlRouterProvider.otherwise("/register");

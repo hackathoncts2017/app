@@ -1,5 +1,8 @@
-<div class="full-screen-width" style="background-color: rgba(0,0,0,0.5);color:rgba(255,255,255,0.67);">
-	<div class="timer" ng-show="sosInit && onstart">
+
+
+
+<div class="full-screen-width"  style="background-color: rgba(0,0,0,0.5);color:rgba(255,255,255,0.67);">
+	<div class="timer" ng-show="sosInit && onstart && appInitLoad">
 		<div style="font-size: 20px;margin-bottom:15px;">
 			Automatic SOS triggered in
 		</div>
@@ -23,6 +26,7 @@
 		{{currentAddress}}
 	</div>
 	<div class="btn-container" ng-hide="sosInit">
-		<md-button class="md-raised" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="cancelsos()">Cancel  </button>
+		<md-button class="md-raised" ng-show="cancelsosBtn" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="cancelsos()">Cancel  </button>
+		<md-button class="md-raised" ng-hide="cancelsosBtn" style="background-color:rgb(198,40,40);color:#fff;" type="submit" name="action" ng-click="completedsos()">completed  </button>
   </div>
 </div>

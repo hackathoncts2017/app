@@ -1,7 +1,8 @@
-hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "ngStorage","ngMap","highcharts-ng"])
+hackathon = angular.module("ngapp", [ "ui.router", "ngMaterial", "ngCordova", "ngStorage","ngMap","highcharts-ng","ui.bootstrap"])
 // ngTouch is No Longer Supported by Angular-Material
 
 .run(function($rootScope, $cordovaDevice, $cordovaStatusbar){
+	$rootScope.appInitLoad = true;
   document.addEventListener("deviceready", function () {
     $cordovaStatusbar.overlaysWebView(false); // Always Show Status Bar
     $cordovaStatusbar.styleHex('#E53935'); // Status Bar With Red Color, Using Angular-Material Style

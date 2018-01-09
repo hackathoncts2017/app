@@ -1,19 +1,20 @@
+
 <div style="height: 100%;
     background-color: rgba(0,0,0,0.5);">
 <div ng-init="loadMap()" >
 	<div map-lazy-load="https://maps.google.com/maps/api/js?key=" style="height:{{widthChart+ 'px'}};margin-top: 57px">
-	  <ng-map center="current-location" style="height:{{widthChart + 'px'}};">
+	  <ng-map center={{origin}} style="height:{{widthChart + 'px'}};">
 	  <traffic-layer></traffic-layer>
-		  <div ng-if="locations.length > 0">
+		  <div ng-if="locations.length > 0 && !locateHospital">
 		  	<div ng-repeat="loc in locations">
 		  			<directions
 			          travel-mode="DRIVING"
-			          origin="12.9673,80.1527"
+			          origin={{origin}}
 			          destination={{loc.locationVal}}>
 			        </directions>
 					<div ng-if="indexVal == $index && isCustomer == 1">
 					<custom-marker id="start"
-			          position="12.9673,80.1527">
+			          position={{origin}}>
 					  <div style="width: 40px;height: 40px;border: 5px solid green;border-radius: 50px;background-color: black;margin-top: -55px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
 			          	<img src="assets/img/ambulance_small.png"  style="width:30px;height:30px;position: relative;
     top: 6px;"/>
@@ -26,8 +27,48 @@
 			          	<div style = "padding-top: 3px;" > {{timeTaken1}} <br/> min</div>
 			          </div>
 			        </custom-marker>
-				
+					
 		      </div>
+			</div>
+			<div ng-if="locations.length > 0 && locateHospital && !showPath">
+				<div ng-repeat="loc in locations">
+					<custom-marker id="start"
+				          position={{loc.locationVal}}>
+						  <div style="width: 40px;height: 40px;border: 5px solid green;border-radius: 50px;background-color: black;margin-top: -55px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
+				          	<img src="assets/img/ambulance_small.png"  style="width:30px;height:30px;position: relative;
+	    top: 6px;"/>
+				          </div>
+				        </custom-marker>
+					<marker position="12.91477592,80.22984445" on-click="showDetail(12.91477592,80.22984445)">
+					<marker position="12.93362997,80.2336961" on-click="showDetail(12.93362997,80.2336961)">
+					<marker position="12.9414305,80.23584187" on-click="showDetail(12.9414305,80.23584187)">
+				</div>
+			</div>
+			<div ng-if="locations.length > 0 && locateHospital && showPath">
+				<div ng-repeat="loc in locations">
+					<directions
+			          travel-mode="DRIVING"
+			          origin={{loc.locationVal}}
+			          destination={{selectedHospital}}>
+			        </directions>
+					<custom-marker id="start"
+				          position={{loc.locationVal}}>
+						  <div style="width: 40px;height: 40px;border: 5px solid green;border-radius: 50px;background-color: black;margin-top: -55px;margin-left: -5px;color: white;text-align: center;vertical-align: middle;font-size: 14px;padding: 0px;">
+				          	<img src="assets/img/ambulance_small.png"  style="width:30px;height:30px;position: relative;
+	    top: 6px;"/>
+				          </div>
+				    </custom-marker>
+
+				    <div ng-if="selectedHospitalIndex != 1">
+						<marker position="12.91477592,80.22984445" on-click="showDetail(12.91477592,80.22984445,1)">
+					</div>
+					 <div ng-if="selectedHospitalIndex != 2">
+						<marker position="12.93362997,80.2336961" on-click="showDetail(12.93362997,80.2336961,2)">
+					</div>
+					 <div ng-if="selectedHospitalIndex != 3">
+						<marker position="12.9414305,80.23584187" on-click="showDetail(12.9414305,80.23584187,3)">
+					</div>
+				</div>
 			</div>
 		</ng-map>
 	</div>

@@ -7,34 +7,71 @@
 		$scope.toggleRight = buildToggler('right');
 		$scope.navbar =true;
 		$scope.registerbar = true;
+		// var url =window.location.href;
+		// url = url.split('#');
+		// url = url[1];
+		// console.log(url);
+
+		// if(url == '/landing'){
+		// 	$scope.navbar =false;
+		// $scope.registerbar = false;
+		// }
+		
+		
 		$scope.enableSpeech = false;
 		
     $scope.isOpenRight = function(){
+
       return $mdSidenav('right').isOpen();
     };
 	$scope.contactEmergency = function(isEmergency){
 			var msg = "Reached Location. On the way to hospital.";
-			
+			$rootScope.$emit("switchHospitalView",{});
 			var emergencyContactDetails = JSON.parse(localStorage.data).contact;;
 			for(var i = 0; i < emergencyContactDetails.length; i++) {
 				var postmsg = {phoneNo:"" + emergencyContactDetails[i],msg:msg};
 				sosService.sendSms(postmsg).then(function(){});
 			}
 			socket.emit('reachedEmit',{ data:JSON.parse(localStorage.data),id:socket.id });
-			
+			$rootScope.$emit("switchHospitalView",{});
 			
 			//sosService.sendSms(postmsg).then(function(){
 				//alert("dd");
 			//})
 		};
 	var userDetails = localStorage.userDetails;
-		
+		$scope.isUser = localStorage.userId?false:true;
 		if(userDetails){
+			$scope.userDetails = JSON.parse(localStorage.userDetails);		
+			
+			
+		}
+		$scope.explorePatient = false;
+		$scope.toggleexplorePatient = function(){
+			if($scope.explorePatient){
+            $scope.explorePatient = false;
+			} 
+			else{
+			$scope.explorePatient = true;
+			}
+		}
+		$scope.unexplorePatient = function(){
+			$scope.explorePatient = false;
+		}
+		$rootScope.$on('localStorageChanged', function(event, message) {
 			$scope.userDetails = JSON.parse(localStorage.userDetails);
-			
-			
-			
-			
+		});
+		$scope.exploreDriver = false;
+		$scope.toggleexploreDriver = function(){
+			if($scope.exploreDriver){
+            $scope.exploreDriver = false;
+			} 
+			else{
+			$scope.exploreDriver = true;
+			}
+		}
+		$scope.unexploreDriver = function(){
+			$scope.exploreDriver = false;
 		}
 	 /**
      * Supplies a function that will continue to operate until the
@@ -65,6 +102,7 @@
           .toggle()
           .then(function () {
             $log.debug("toggle " + navID + " is done");
+            
           });
       }, 200);
     }
@@ -76,6 +114,7 @@
           .toggle()
           .then(function () {
             $log.debug("toggle " + navID + " is done");
+            
           });
       };
     }
@@ -89,6 +128,7 @@
     };
 	
 	$scope.profile = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#register";
 	  
 		$scope.close();
@@ -96,30 +136,37 @@
 		 $rootScope.userId = null;
     };
 	$scope.firstaid = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#firstaid";
 	  $scope.close();
 	  $scope.enableSpeech = true;
 	  $rootScope.userId = null;
+	   $scope.map = false;
 	  
     };
 	
 	$scope.home = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#sos";
 	  $scope.close();
 	  $scope.enableSpeech = false;
 	  $rootScope.userId = null;
+	   $scope.map = false;
 	  
 	  
     };
 	
 	$scope.track = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#map";
 	  $scope.close();
 	   $scope.enableSpeech = false;
+	   $scope.map = true;
 	  
     };
 	
 	$scope.signout = function(){
+		$rootScope.appInitLoad = false;
       location.href= "#register";
 	  $scope.close();
 	   $scope.enableSpeech = false;
