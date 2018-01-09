@@ -3,7 +3,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 	$scope.audioinput = function(){
 		$scope.speechRecognition = window.plugins && window.plugins.speechRecognition ? window.plugins.speechRecognition : false; 
 		//$scope.callcomponent();
-		$rootScope.speechReg();
+		$scope.speechReg();
 	}
 	$scope.showaudio = true;
 	//$scope.enableSpeech = true;
@@ -26,16 +26,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
     });
 	$scope.callcomponent = function(audiotext){
 		//console.log($rootScope.selectedComponent)
-		if(window.location.hash.search("sos") !== -1) {
-			if(audiotext == "help") {
-				$rootScope.$emit("triggerSOS", {"text":audiotext});
-			} else {
-				$rootScope.speechReg();
-			}
-		} else {
-			$rootScope.$emit("questionSpeech", {"text":audiotext});
-		}
-		
+		$rootScope.$emit("questionSpeech", {"text":audiotext});
 		
 	}
 	$scope.textinput =function() {
@@ -133,8 +124,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 			$scope.callcomponent(audioTxt);
 		}					
 	}
-	$rootScope.speechReg = function(){
-		$scope.speechRecognition = window.plugins && window.plugins.speechRecognition ? window.plugins.speechRecognition : false; 
+	$scope.speechReg = function(){
 		if($scope.speechRecognition) {
 			$scope.speechRecognition.isRecognitionAvailable($scope.regconitaionCb);
 			$scope.regconitaionCb = function(isAvaliable) {
@@ -159,7 +149,7 @@ hackathon.controller("SpeechController", function(shared, $state, $scope, $mdSid
 				  language:"en-US",
 				  matches:1,
 				  prompt:"",
-				  showPopup:false,
+				  showPopup:true,
 				  showPartial:true
 				}
 				$scope.speechRecognition.startListening($scope.successCb,$scope.onError,options)	

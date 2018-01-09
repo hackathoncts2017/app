@@ -15,15 +15,6 @@ hackathon.controller("searchController", function(shared, $state, $scope, $mdSid
 			$rootScope.speeckToUser({"text":"please Check your keyword"})
 		}*/
     }
-	var intro = "";
-	if(typeof TTS != "undefined"){
-		TTS
-		.speak(intro, function () {
-			
-		}, function (reason) {
-			//alert(reason);
-		});
-	} 
 	$scope.loadVideo = function() {
 		$scope.callSearch("First aid for fracture");
 	}
